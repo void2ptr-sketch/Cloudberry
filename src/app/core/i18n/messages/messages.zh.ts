@@ -26,6 +26,7 @@ export const MESSAGES_ZH: Record<string, string> = {
   'nav.costs': '费用',
   'shell.profile': '个人资料',
   'shell.navAria': '主导航',
+  'shell.brandLogoAlt': 'Cloudberry',
   'shell.tagline': 'Cloud accounting for clouds',
   'shell.footerMeta': 'Cloud accounting for clouds · FinOps',
   'locale.switcherAria': '界面语言',

@@ -5,6 +5,7 @@ describe('App smoke', () => {
     const smoke = await createSmokeFixture();
     const root = await navigateSmoke(smoke, '/');
 
+    expect(root.querySelector('.shell__brand-logo')).not.toBeNull();
     expect(root.querySelector('.shell__brand')?.textContent).toContain('Cloudberry');
     expect(smoke.router.url).toContain('/dashboard');
     expect(shellContent(root).textContent).toContain('Расходы за период');

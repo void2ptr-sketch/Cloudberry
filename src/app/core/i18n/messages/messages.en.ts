@@ -26,6 +26,7 @@ export const MESSAGES_EN: Record<string, string> = {
   'nav.costs': 'Costs',
   'shell.profile': 'Profile',
   'shell.navAria': 'Main navigation',
+  'shell.brandLogoAlt': 'Cloudberry',
   'shell.tagline': 'Cloud accounting for clouds',
   'shell.footerMeta': 'Cloud accounting for clouds · FinOps',
   'locale.switcherAria': 'Interface language',

@@ -26,6 +26,7 @@ export const MESSAGES_RU: Record<string, string> = {
   'nav.costs': 'Расходы',
   'shell.profile': 'Профиль',
   'shell.navAria': 'Основная навигация',
+  'shell.brandLogoAlt': 'Cloudberry',
   'shell.tagline': 'Cloud accounting for clouds',
   'shell.footerMeta': 'Cloud accounting for clouds · FinOps',
   'locale.switcherAria': 'Язык интерфейса',
