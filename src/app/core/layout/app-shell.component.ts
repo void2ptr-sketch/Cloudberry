@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -22,7 +21,6 @@ import { AppRoutePath } from '../routing/app-route-paths';
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
-    MatButtonModule,
     MatChipsModule,
     LocaleSwitcherComponent,
   ],

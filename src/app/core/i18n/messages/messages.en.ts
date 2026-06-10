@@ -18,6 +18,7 @@ export const MESSAGES_EN: Record<string, string> = {
   'http.error.server': 'Server error',
   'http.error.unknown': 'Request failed',
   'nav.dashboard': 'Dashboard',
+  'route.dashboard.title': 'Dashboard · Cloudberry',
   'nav.connections': 'Connections',
   'nav.budgets': 'Budgets',
   'nav.reports': 'Reports',

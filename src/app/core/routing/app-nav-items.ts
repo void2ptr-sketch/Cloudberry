@@ -9,7 +9,7 @@ export const APP_NAV_ITEMS: AppNavItem[] = [
   {
     path: AppRoutePath.dashboard,
     get label() {
-      return $localize`:@@nav.dashboard:Dashboard`;
+      return $localize`:@@nav.dashboard:Обзор`;
     },
   },
   {

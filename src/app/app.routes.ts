@@ -15,7 +15,7 @@ export const routes: Routes = [
       },
       {
         path: AppRoutePath.dashboard,
-        title: 'Dashboard · Cloudberry',
+        title: $localize`:@@route.dashboard.title:Обзор · Cloudberry`,
         loadComponent: () =>
           import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
       },

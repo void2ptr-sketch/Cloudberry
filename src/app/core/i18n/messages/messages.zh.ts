@@ -18,6 +18,7 @@ export const MESSAGES_ZH: Record<string, string> = {
   'http.error.server': '服务器错误',
   'http.error.unknown': '请求失败',
   'nav.dashboard': '仪表盘',
+  'route.dashboard.title': '仪表盘 · Cloudberry',
   'nav.connections': '连接',
   'nav.budgets': '预算',
   'nav.reports': '报告',

@@ -1,14 +1,13 @@
 <div class="shell">
   <header class="shell__header">
     <mat-toolbar class="shell__toolbar">
-      <a mat-button class="shell__brand" [routerLink]="homeLink">
+      <a class="shell__brand" [routerLink]="homeLink">
         <span class="shell__brand-name">Cloudberry</span>
         <span class="shell__tagline" i18n="@@shell.tagline">Cloud accounting for clouds</span>
       </a>
       <span class="spacer"></span>
       <app-locale-switcher />
       <a
-        mat-stroked-button
         class="shell__profile"
         [routerLink]="profileLink"
         routerLinkActive="shell__profile--active"
