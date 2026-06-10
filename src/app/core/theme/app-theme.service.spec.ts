@@ -34,4 +34,11 @@ describe('AppThemeService', () => {
 
     expect(document.body.classList.contains('theme-lt')).toBeTrue();
   });
+
+  it('applies PREPROD dark theme class', () => {
+    const service = TestBed.inject(AppThemeService);
+    service.apply('preprod');
+
+    expect(document.body.classList.contains('theme-preprod')).toBeTrue();
+  });
 });

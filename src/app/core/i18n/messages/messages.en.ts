@@ -48,6 +48,7 @@ export const MESSAGES_EN: Record<string, string> = {
   'profile.theme.dev': 'DEV — orange',
   'profile.theme.test': 'TEST — green',
   'profile.theme.lt': 'LT — dark blue',
+  'profile.theme.preprod': 'PREPROD — dark green',
   'profile.defaultCurrency': 'Default currency',
   'profile.currencyRequired': 'Enter a currency code',
   'profile.currencyInvalid': 'Three uppercase letters (ISO 4217)',

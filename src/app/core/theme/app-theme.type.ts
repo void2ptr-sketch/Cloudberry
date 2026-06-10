@@ -1,1 +1,1 @@
-export type AppTheme = 'prod' | 'dev' | 'test' | 'lt';
+export type AppTheme = 'prod' | 'dev' | 'test' | 'lt' | 'preprod';

@@ -3,12 +3,14 @@
 @use 'themes/theme-dev' as dev;
 @use 'themes/theme-test' as test;
 @use 'themes/theme-lt' as lt;
+@use 'themes/theme-preprod' as preprod;
 
 @include prod.all-components();
 @include prod.shell();
 @include dev.shell();
 @include test.shell();
 @include lt.shell();
+@include preprod.shell();
 
 body.theme-dev {
   @include dev.component-colors();
@@ -20,4 +22,8 @@ body.theme-test {
 
 body.theme-lt {
   @include lt.component-colors();
+}
+
+body.theme-preprod {
+  @include preprod.component-colors();
 }

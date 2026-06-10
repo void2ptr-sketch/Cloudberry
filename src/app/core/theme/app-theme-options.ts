@@ -32,4 +32,10 @@ export const APP_THEME_OPTIONS: AppThemeOption[] = [
       return $localize`:@@profile.theme.lt:LT — тёмно-синяя`;
     },
   },
+  {
+    id: 'preprod',
+    get label() {
+      return $localize`:@@profile.theme.preprod:PREPROD — тёмно-зелёная`;
+    },
+  },
 ];
