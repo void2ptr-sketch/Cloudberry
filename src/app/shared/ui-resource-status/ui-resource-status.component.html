@@ -1,0 +1,14 @@
+@if (state().status === 'loading') {
+  <p class="resource-status" role="status">{{ loadingKey() | uiT }}</p>
+}
+
+@if (state().status === 'error') {
+  <div class="resource-status resource-status--error" role="alert">
+    <p>{{ state().error ?? ('common.errorLoad' | uiT) }}</p>
+    @if (retryable()) {
+      <button type="button" class="btn btn--ghost btn--small" (click)="retry.emit()">
+        {{ 'common.retry' | uiT }}
+      </button>
+    }
+  </div>
+}

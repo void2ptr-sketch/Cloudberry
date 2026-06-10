@@ -11,6 +11,7 @@ export const UI_MESSAGES_EN: UiMessageCatalog = {
   'common.reset': 'Reset',
   'common.loading': 'Loading data…',
   'common.errorLoad': 'Failed to load data',
+  'common.retry': 'Retry',
   'http.error.network': 'Unable to reach the server',
   'http.error.unauthorized': 'Authentication required',
   'http.error.forbidden': 'Access denied',

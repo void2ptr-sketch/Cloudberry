@@ -11,6 +11,7 @@ export const UI_MESSAGES_RU: UiMessageCatalog = {
   'common.reset': 'Сбросить',
   'common.loading': 'Загрузка данных…',
   'common.errorLoad': 'Ошибка загрузки данных',
+  'common.retry': 'Повторить',
   'http.error.network': 'Нет соединения с сервером',
   'http.error.unauthorized': 'Требуется авторизация',
   'http.error.forbidden': 'Доступ запрещён',

@@ -6,13 +6,14 @@ import {
   type CloudConnectionInput,
 } from '../../core/domain';
 import { AppStore } from '../../core/state';
+import { UiResourceStatusComponent } from '../../shared/ui-resource-status';
 import { UiTranslatePipe, UiTranslateService } from '../../shared/ui-locale';
 import { ConnectionFormComponent } from './connection-form.component';
 
 @Component({
   selector: 'app-connections',
   standalone: true,
-  imports: [ConnectionFormComponent, UiTranslatePipe],
+  imports: [ConnectionFormComponent, UiResourceStatusComponent, UiTranslatePipe],
   templateUrl: './connections.component.html',
   styleUrl: './connections.component.scss',
 })
@@ -21,6 +22,7 @@ export class ConnectionsComponent implements OnInit {
   private readonly translate = inject(UiTranslateService);
 
   readonly connections = this.store.connections;
+  readonly connectionsState = this.store.connectionsState;
   readonly selectedConnectionId = this.store.selectedConnectionId;
 
   readonly showForm = signal(false);
@@ -30,6 +32,10 @@ export class ConnectionsComponent implements OnInit {
 
   ngOnInit(): void {
     void this.store.loadConnections();
+  }
+
+  retryConnectionsLoad(): void {
+    this.store.retryConnectionsLoad();
   }
 
   openCreateForm(): void {

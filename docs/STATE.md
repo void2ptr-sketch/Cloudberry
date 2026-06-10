@@ -28,14 +28,29 @@ HttpClient (Observable)
 ## Загрузка данных
 
 - **DEV/TEST** (`enableDebug: true`) — mock в `AppStore`, без HTTP.
-- **PROD** — `AppStore.loadBillingData()` вызывает API и пишет в signals.
+- **PROD** — `loadBillingData()`, `loadConnections()`, `loadBudgets()` вызывают API и пишут в signals.
+
+### Состояния ресурсов (signals)
+
+Для каждого HTTP-ресурса в `AppState.resources`:
+
+| Ключ | Метод загрузки | Computed в store |
+| --- | --- | --- |
+| `billing` | `loadBillingData()` | `billingState` |
+| `connections` | `loadConnections()` | `connectionsState` |
+| `budgets` | `loadBudgets()` | `budgetsState` |
+
+Тип `ResourceState`: `status` (`idle` \| `loading` \| `ready` \| `error`) + `error: string | null`.
 
 В компонентах:
 
 ```typescript
 private readonly store = inject(AppStore);
+readonly billingState = this.store.billingState;
 readonly costSummary = this.store.costSummary;
 ```
+
+UI: `shared/ui-resource-status` — индикатор загрузки, ошибка и кнопка «Повторить».
 
 Не:
 

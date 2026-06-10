@@ -14,6 +14,8 @@
   </section>
 }
 
+<app-resource-status [state]="budgetsState()" (retry)="retryBudgetsLoad()" />
+
 <div class="budgets-toolbar">
   @if (!showForm()) {
     <button type="button" class="btn btn--primary" (click)="openCreateForm()">
@@ -30,7 +32,12 @@
   />
 }
 
-@if (budgets().length === 0 && !showForm()) {
+@if (
+  budgetsState().status !== 'loading' &&
+  budgetsState().status !== 'error' &&
+  budgets().length === 0 &&
+  !showForm()
+) {
   <div class="budgets-empty">
     <p>{{ 'budgets.empty' | uiT }}</p>
     <button type="button" class="btn btn--primary" (click)="openCreateForm()">
@@ -39,7 +46,7 @@
   </div>
 }
 
-@if (budgets().length > 0) {
+@if (budgetsState().status !== 'loading' && budgetsState().status !== 'error' && budgets().length > 0) {
   <ul class="budgets-list">
     @for (budget of budgets(); track budget.id) {
       <li class="budgets-list__item">

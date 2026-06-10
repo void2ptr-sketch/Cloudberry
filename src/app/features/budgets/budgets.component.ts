@@ -4,13 +4,14 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ORG_SCOPE_ID, type Budget, type BudgetInput } from '../../core/domain';
 import { AppStore } from '../../core/state';
 import type { BudgetUsageStatus } from '../../core/state/budget-usage.type';
+import { UiResourceStatusComponent } from '../../shared/ui-resource-status';
 import { UiTranslatePipe, UiTranslateService } from '../../shared/ui-locale';
 import { BudgetFormComponent } from './budget-form.component';
 
 @Component({
   selector: 'app-budgets',
   standalone: true,
-  imports: [BudgetFormComponent, DecimalPipe, UiTranslatePipe],
+  imports: [BudgetFormComponent, DecimalPipe, UiResourceStatusComponent, UiTranslatePipe],
   templateUrl: './budgets.component.html',
   styleUrl: './budgets.component.scss',
 })
@@ -19,6 +20,7 @@ export class BudgetsComponent implements OnInit {
   private readonly translate = inject(UiTranslateService);
 
   readonly budgets = this.store.budgets;
+  readonly budgetsState = this.store.budgetsState;
   readonly budgetUsageStatuses = this.store.budgetUsageStatuses;
   readonly activeBudgetAlerts = this.store.activeBudgetAlerts;
   readonly costCenters = this.store.costCenters;
@@ -28,6 +30,10 @@ export class BudgetsComponent implements OnInit {
 
   ngOnInit(): void {
     void this.store.loadBudgets();
+  }
+
+  retryBudgetsLoad(): void {
+    this.store.retryBudgetsLoad();
   }
 
   openCreateForm(): void {

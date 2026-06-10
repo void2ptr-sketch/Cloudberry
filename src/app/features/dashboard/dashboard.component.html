@@ -6,13 +6,9 @@
   }}
 </p>
 
-@if (status() === 'loading') {
-  <p class="dashboard-status" role="status">{{ 'common.loading' | uiT }}</p>
-}
-@if (status() === 'error') {
-  <p class="dashboard-status dashboard-status--error" role="alert">{{ 'common.errorLoad' | uiT }}</p>
-}
+<app-resource-status [state]="billingState()" (retry)="retryBillingLoad()" />
 
+@if (billingState().status !== 'loading' && billingState().status !== 'error') {
 <dl class="dashboard-stats">
   <div class="dashboard-stats__item">
     <dt>{{ 'dashboard.spend' | uiT }}</dt>
@@ -123,3 +119,4 @@
     </ul>
   }
 </section>
+}

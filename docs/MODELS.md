@@ -29,7 +29,9 @@ import type { CostRecord, Budget } from '../core/domain';
 | Тип | Описание |
 | --- | --- |
 | `AppState` | Полный снимок глобального store |
-| `AppStatus` | `idle` \| `loading` \| `ready` \| `error` |
+| `AppResources` | Состояния загрузки `billing`, `connections`, `budgets` |
+| `ResourceState` | `status` + `error` для одного ресурса |
+| `ResourceStatus` | `idle` \| `loading` \| `ready` \| `error` |
 | `ReportingPeriod` | Период для фильтрации затрат |
 | `CostSummary` | Агрегат по отфильтрованным `CostRecord` |
 

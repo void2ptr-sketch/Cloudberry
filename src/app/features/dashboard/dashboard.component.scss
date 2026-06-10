@@ -3,16 +3,6 @@
   color: #444;
 }
 
-.dashboard-status {
-  margin: 0 0 1rem;
-  font-size: 0.875rem;
-  color: #666;
-}
-
-.dashboard-status--error {
-  color: #b91c1c;
-}
-
 .dashboard-stats {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));

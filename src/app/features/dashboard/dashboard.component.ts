@@ -6,12 +6,13 @@ import { CLOUD_PROVIDER_LABELS, type CloudProviderId } from '../../core/domain';
 import { AppRoutePath } from '../../core/routing/app-route-paths';
 import { AppStore } from '../../core/state';
 import type { BudgetUsageStatus } from '../../core/state/budget-usage.type';
+import { UiResourceStatusComponent } from '../../shared/ui-resource-status';
 import { UiTranslatePipe, UiTranslateService } from '../../shared/ui-locale';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [DecimalPipe, RouterLink, UiTranslatePipe],
+  imports: [DecimalPipe, RouterLink, UiResourceStatusComponent, UiTranslatePipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -27,13 +28,17 @@ export class DashboardComponent implements OnInit {
   readonly budgets = this.store.budgets;
   readonly budgetUsageStatuses = this.store.budgetUsageStatuses;
   readonly activeBudgetAlerts = this.store.activeBudgetAlerts;
-  readonly status = this.store.status;
+  readonly billingState = this.store.billingState;
   readonly connectionsPath = ['/', AppRoutePath.connections];
   readonly budgetsPath = ['/', AppRoutePath.budgets];
   readonly providerLabels = CLOUD_PROVIDER_LABELS;
 
   ngOnInit(): void {
     void this.store.loadBillingData();
+  }
+
+  retryBillingLoad(): void {
+    this.store.retryBillingLoad();
   }
 
   providerLabel(provider: CloudProviderId): string {

@@ -18,9 +18,15 @@ import { resolveErrorMessage } from '../http';
 import { UiTranslateService } from '../../shared/ui-locale';
 import { createInitialAppState } from './app-state.initial';
 import { createMockAppState } from './app-state.mock';
-import type { AppState, AppStatus, CostSummary, ReportingPeriod } from './app-state.model';
+import type { AppState, CostSummary, ReportingPeriod } from './app-state.model';
 import { calculateAllBudgetUsage } from './budget-usage';
 import { isDateWithinPeriod } from './reporting-period';
+import {
+  errorResourceState,
+  loadingResourceState,
+  readyResourceState,
+} from './resource-state';
+import type { AppResourceKey } from './resource-state.type';
 
 @Injectable({ providedIn: 'root' })
 export class AppStore {
@@ -33,8 +39,13 @@ export class AppStore {
   private readonly translate = inject(UiTranslateService);
   private readonly state = signal<AppState>(this.buildInitialState());
 
-  readonly status = computed(() => this.state().status);
-  readonly error = computed(() => this.state().error);
+  readonly billingState = computed(() => this.state().resources.billing);
+  readonly connectionsState = computed(() => this.state().resources.connections);
+  readonly budgetsState = computed(() => this.state().resources.budgets);
+
+  readonly status = computed(() => this.billingState().status);
+  readonly error = computed(() => this.billingState().error);
+
   readonly reportingPeriod = computed(() => this.state().reportingPeriod);
   readonly selectedConnectionId = computed(() => this.state().selectedConnectionId);
   readonly connections = computed(() => this.state().connections);
@@ -93,10 +104,6 @@ export class AppStore {
       }));
     }),
   );
-
-  setStatus(status: AppStatus, error: string | null = null): void {
-    this.state.update((current) => ({ ...current, status, error }));
-  }
 
   setReportingPeriod(period: ReportingPeriod): void {
     this.state.update((current) => ({ ...current, reportingPeriod: period }));
@@ -211,20 +218,42 @@ export class AppStore {
     }
   }
 
+  retryBillingLoad(): void {
+    void this.loadBillingData();
+  }
+
+  retryConnectionsLoad(): void {
+    void this.loadConnections();
+  }
+
+  retryBudgetsLoad(): void {
+    void this.loadBudgets();
+  }
+
   /** Loads budgets from API (PROD) or keeps local/mock data (DEV). */
   async loadBudgets(): Promise<void> {
     if (this.env.enableDebug) {
       return;
     }
 
+    this.setResourceState('budgets', loadingResourceState());
+
     try {
       const budgets = await this.budgetsApi.list();
       this.setBudgets(budgets);
-    } catch {
+      this.setResourceState('budgets', readyResourceState());
+    } catch (error) {
       const stored = this.budgetsStorage.load();
       if (stored.length > 0) {
         this.state.update((current) => ({ ...current, budgets: stored }));
+        this.setResourceState('budgets', readyResourceState());
+        return;
       }
+
+      this.setResourceState(
+        'budgets',
+        errorResourceState(resolveErrorMessage(error, this.translate, 'common.errorLoad')),
+      );
     }
   }
 
@@ -234,14 +263,24 @@ export class AppStore {
       return;
     }
 
+    this.setResourceState('connections', loadingResourceState());
+
     try {
       const connections = await this.connectionsApi.list();
       this.setConnections(connections);
-    } catch {
+      this.setResourceState('connections', readyResourceState());
+    } catch (error) {
       const stored = this.connectionsStorage.load();
       if (stored.length > 0) {
         this.state.update((current) => ({ ...current, connections: stored }));
+        this.setResourceState('connections', readyResourceState());
+        return;
       }
+
+      this.setResourceState(
+        'connections',
+        errorResourceState(resolveErrorMessage(error, this.translate, 'common.errorLoad')),
+      );
     }
   }
 
@@ -251,7 +290,7 @@ export class AppStore {
       return;
     }
 
-    this.setStatus('loading');
+    this.setResourceState('billing', loadingResourceState());
 
     try {
       const snapshot = await this.billingApi.getSnapshot(this.reportingPeriod());
@@ -260,13 +299,26 @@ export class AppStore {
         costCenters: snapshot.costCenters,
         costRecords: snapshot.costRecords,
         budgets: snapshot.budgets,
-        status: 'ready',
-        error: null,
       });
       this.persistConnections();
+      this.persistBudgets();
+      this.setResourceState('billing', readyResourceState());
     } catch (error) {
-      this.setStatus('error', resolveErrorMessage(error, this.translate, 'common.errorLoad'));
+      this.setResourceState(
+        'billing',
+        errorResourceState(resolveErrorMessage(error, this.translate, 'common.errorLoad')),
+      );
     }
+  }
+
+  private setResourceState(key: AppResourceKey, resourceState: AppState['resources'][AppResourceKey]): void {
+    this.state.update((current) => ({
+      ...current,
+      resources: {
+        ...current.resources,
+        [key]: resourceState,
+      },
+    }));
   }
 
   private buildInitialState(): AppState {

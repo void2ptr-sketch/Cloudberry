@@ -1,5 +1,6 @@
 import type { AppState } from './app-state.model';
 import { createInitialAppState } from './app-state.initial';
+import { createReadyResources } from './resource-state';
 
 /** Seed data for DEV/TEST when `environment.enableDebug` is true. */
 export function createMockAppState(): AppState {
@@ -7,7 +8,7 @@ export function createMockAppState(): AppState {
 
   return {
     ...base,
-    status: 'ready',
+    resources: createReadyResources(),
     selectedConnectionId: 'conn-aws-1',
     connections: [
       {

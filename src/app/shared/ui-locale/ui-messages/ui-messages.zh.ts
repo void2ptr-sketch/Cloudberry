@@ -11,6 +11,7 @@ export const UI_MESSAGES_ZH: UiMessageCatalog = {
   'common.reset': '重置',
   'common.loading': '正在加载数据…',
   'common.errorLoad': '数据加载失败',
+  'common.retry': '重试',
   'http.error.network': '无法连接服务器',
   'http.error.unauthorized': '需要登录',
   'http.error.forbidden': '访问被拒绝',

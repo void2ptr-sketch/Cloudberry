@@ -74,7 +74,6 @@ describe('AppStore', () => {
     const store = TestBed.inject(AppStore);
     store.patchState({
       ...createInitialAppState(),
-      status: 'ready',
       reportingPeriod: { start: '2026-06-01', end: '2026-06-30' },
       selectedConnectionId: 'conn-1',
       costRecords: [
@@ -112,8 +111,107 @@ describe('AppStore', () => {
   it('loadBillingData writes API snapshot into state', async () => {
     const store = TestBed.inject(AppStore);
     await store.loadBillingData();
-    expect(store.status()).toBe('ready');
+    expect(store.billingState().status).toBe('ready');
     expect(store.connections()).toEqual([]);
+  });
+
+  it('loadBillingData sets error state when API fails', async () => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        UiLocaleService,
+        UiTranslateService,
+        AppStore,
+        { provide: ConnectionsStorageService, useValue: connectionsStorage },
+        { provide: BudgetsStorageService, useValue: budgetsStorage },
+        {
+          provide: APP_ENVIRONMENT,
+          useValue: { production: false, name: 'dev', apiUrl: '', enableDebug: false },
+        },
+        {
+          provide: BillingApiService,
+          useValue: {
+            getSnapshot: () => Promise.reject({ kind: 'api-http', status: 503, message: 'Ошибка сервера', url: '' }),
+          },
+        },
+        {
+          provide: ConnectionsApiService,
+          useValue: {
+            list: () => Promise.resolve([]),
+            create: () => Promise.resolve(),
+            update: () => Promise.resolve(),
+            delete: () => Promise.resolve(),
+          },
+        },
+        {
+          provide: BudgetsApiService,
+          useValue: {
+            list: () => Promise.resolve([]),
+            create: () => Promise.resolve(),
+            update: () => Promise.resolve(),
+            delete: () => Promise.resolve(),
+          },
+        },
+      ],
+    });
+
+    const store = TestBed.inject(AppStore);
+    await store.loadBillingData();
+    expect(store.billingState().status).toBe('error');
+    expect(store.billingState().error).toBe('Ошибка сервера');
+  });
+
+  it('loadConnections falls back to storage without error when API fails', async () => {
+    connectionsStorage.save([
+      {
+        id: 'stored-1',
+        name: 'Stored',
+        provider: 'aws',
+        externalAccountId: '111',
+      },
+    ]);
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        UiLocaleService,
+        UiTranslateService,
+        AppStore,
+        { provide: ConnectionsStorageService, useValue: connectionsStorage },
+        { provide: BudgetsStorageService, useValue: budgetsStorage },
+        {
+          provide: APP_ENVIRONMENT,
+          useValue: { production: false, name: 'dev', apiUrl: '', enableDebug: false },
+        },
+        {
+          provide: BillingApiService,
+          useValue: { getSnapshot: () => Promise.resolve({ connections: [], costCenters: [], costRecords: [], budgets: [] }) },
+        },
+        {
+          provide: ConnectionsApiService,
+          useValue: {
+            list: () => Promise.reject(new Error('offline')),
+            create: () => Promise.resolve(),
+            update: () => Promise.resolve(),
+            delete: () => Promise.resolve(),
+          },
+        },
+        {
+          provide: BudgetsApiService,
+          useValue: {
+            list: () => Promise.resolve([]),
+            create: () => Promise.resolve(),
+            update: () => Promise.resolve(),
+            delete: () => Promise.resolve(),
+          },
+        },
+      ],
+    });
+
+    const store = TestBed.inject(AppStore);
+    await store.loadConnections();
+    expect(store.connectionsState().status).toBe('ready');
+    expect(store.connections().length).toBe(1);
   });
 
   it('addConnection persists to storage', () => {
@@ -131,7 +229,6 @@ describe('AppStore', () => {
     const store = TestBed.inject(AppStore);
     store.patchState({
       ...createInitialAppState(),
-      status: 'ready',
       reportingPeriod: { start: '2026-06-01', end: '2026-06-30' },
       costRecords: [
         {

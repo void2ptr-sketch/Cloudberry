@@ -6,6 +6,7 @@ import { BudgetsApiService } from '../../core/api/budgets-api.service';
 import { ConnectionsApiService } from '../../core/api/connections-api.service';
 import { APP_ENVIRONMENT } from '../../core/config/environment.token';
 import { AppStore } from '../../core/state';
+import { UiLocaleService, UiTranslateService } from '../../shared/ui-locale';
 import { ConnectionsComponent } from './connections.component';
 
 describe('ConnectionsComponent', () => {
@@ -15,6 +16,8 @@ describe('ConnectionsComponent', () => {
       imports: [ConnectionsComponent],
       providers: [
         provideRouter([]),
+        UiLocaleService,
+        UiTranslateService,
         AppStore,
         {
           provide: APP_ENVIRONMENT,
@@ -36,8 +39,10 @@ describe('ConnectionsComponent', () => {
     }).compileComponents();
   });
 
-  it('should create and show empty state', () => {
+  it('should create and show empty state', async () => {
     const fixture = TestBed.createComponent(ConnectionsComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.textContent).toContain('Подключений пока нет');

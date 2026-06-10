@@ -9,6 +9,7 @@ export type UiMessageKey =
   | 'common.reset'
   | 'common.loading'
   | 'common.errorLoad'
+  | 'common.retry'
   | 'http.error.network'
   | 'http.error.unauthorized'
   | 'http.error.forbidden'

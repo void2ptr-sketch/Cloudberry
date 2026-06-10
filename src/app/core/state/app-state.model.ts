@@ -1,15 +1,14 @@
 import type { Budget, CloudConnection, CostCenter, CostRecord } from '../domain';
 
+import type { AppResources } from './resource-state.type';
+
 export type ReportingPeriod = {
   start: string;
   end: string;
 };
 
-export type AppStatus = 'idle' | 'loading' | 'ready' | 'error';
-
 export type AppState = {
-  status: AppStatus;
-  error: string | null;
+  resources: AppResources;
   reportingPeriod: ReportingPeriod;
   selectedConnectionId: string | null;
   connections: CloudConnection[];

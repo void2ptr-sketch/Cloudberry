@@ -14,6 +14,8 @@
   }
 </div>
 
+<app-resource-status [state]="connectionsState()" (retry)="retryConnectionsLoad()" />
+
 @if (showForm()) {
   <app-connection-form
     [connection]="editingConnection()"
@@ -22,7 +24,12 @@
   />
 }
 
-@if (connections().length === 0 && !showForm()) {
+@if (
+  connectionsState().status !== 'loading' &&
+  connectionsState().status !== 'error' &&
+  connections().length === 0 &&
+  !showForm()
+) {
   <div class="connections-empty">
     <p>{{ 'connections.empty' | uiT }}</p>
     <button type="button" class="btn btn--primary" (click)="openCreateForm()">
@@ -31,7 +38,11 @@
   </div>
 }
 
-@if (connections().length > 0) {
+@if (
+  connectionsState().status !== 'loading' &&
+  connectionsState().status !== 'error' &&
+  connections().length > 0
+) {
   <ul class="connections-list">
     @for (connection of connections(); track connection.id) {
       <li class="connections-list__item" [class.connections-list__item--active]="isSelected(connection)">
