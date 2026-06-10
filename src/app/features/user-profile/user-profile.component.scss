@@ -2,3 +2,39 @@
   margin-bottom: 1rem;
   background: #e8f5e9;
 }
+
+.profile-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 0.25rem;
+
+  .form-field {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .form-field--currency input {
+    max-width: 5rem;
+  }
+
+  .form-field--email:not(:focus-within),
+  .form-field--locale:not(:focus-within) {
+    mat-hint,
+    .mat-mdc-form-field-hint-wrapper {
+      display: none;
+    }
+  }
+
+  .mat-mdc-form-field-hint-wrapper {
+    justify-content: flex-start;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+}
