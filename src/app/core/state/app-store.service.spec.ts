@@ -103,6 +103,8 @@ describe('AppStore', () => {
 
     expect(store.filteredCostRecords().map((r) => r.id)).toEqual(['1']);
     expect(store.costSummary().totalAmount).toBe(100);
+    expect(store.dashboardOverview().totalAmount).toBe(150);
+    expect(store.dashboardOverview().recordCount).toBe(2);
   });
 
   it('loadBillingData writes API snapshot into state', async () => {

@@ -19,6 +19,7 @@ import { resolveErrorMessage } from '../http';
 import { createInitialAppState } from './app-state.initial';
 import { createMockAppState } from './app-state.mock';
 import type { AppState, CostSummary, ReportingPeriod } from './app-state.model';
+import { buildDashboardOverview } from './dashboard-overview';
 import { calculateAllBudgetUsage } from './budget-usage';
 import { isDateWithinPeriod } from './reporting-period';
 import {
@@ -52,6 +53,11 @@ export class AppStore {
   readonly budgets = computed(() => this.state().budgets);
 
   readonly costRecords = computed(() => this.state().costRecords);
+
+  readonly periodCostRecords = computed(() => {
+    const period = this.reportingPeriod();
+    return this.costRecords().filter((record) => isDateWithinPeriod(record.usageDate, period));
+  });
 
   readonly filteredCostRecords = computed(() => {
     const period = this.reportingPeriod();
@@ -101,6 +107,18 @@ export class AppStore {
         limitAmount: status.limitAmount,
         currency: status.currency,
       }));
+    }),
+  );
+
+  readonly dashboardOverview = computed(() =>
+    buildDashboardOverview({
+      period: this.reportingPeriod(),
+      connections: this.connections(),
+      costCenters: this.costCenters(),
+      costRecords: this.costRecords(),
+      budgets: this.budgets(),
+      budgetUsageStatuses: this.budgetUsageStatuses(),
+      activeAlertCount: this.activeBudgetAlerts().length,
     }),
   );
 

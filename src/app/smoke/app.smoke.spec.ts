@@ -14,9 +14,11 @@ describe('App smoke', () => {
     const smoke = await createSmokeFixture();
     const content = shellContent(await navigateSmoke(smoke, '/dashboard'));
 
+    expect(content.textContent).toContain('Общая статистика');
     expect(content.textContent).toContain('AWS Production');
     expect(content.textContent).toContain('Organization monthly');
     expect(content.textContent).toContain('Platform team');
+    expect(content.textContent).toContain('Amazon EC2');
   });
 
   it('navigates to connections and lists mock connections', async () => {

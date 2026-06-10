@@ -34,10 +34,8 @@ export class DashboardComponent implements OnInit {
   private readonly store = inject(AppStore);
 
   readonly reportingPeriod = this.store.reportingPeriod;
-  readonly costSummary = this.store.costSummary;
+  readonly overview = this.store.dashboardOverview;
   readonly connections = this.store.connections;
-  readonly connectionCount = this.store.connectionCount;
-  readonly budgetCount = this.store.budgetCount;
   readonly budgets = this.store.budgets;
   readonly budgetUsageStatuses = this.store.budgetUsageStatuses;
   readonly activeBudgetAlerts = this.store.activeBudgetAlerts;

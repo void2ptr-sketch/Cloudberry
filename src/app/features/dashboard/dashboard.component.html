@@ -6,126 +6,210 @@
 <app-resource-status [state]="billingState()" (retry)="retryBillingLoad()" />
 
 @if (billingState().status !== 'loading' && billingState().status !== 'error') {
-<div class="dashboard-stats">
-  <mat-card class="dashboard-stats__item">
-    <mat-card-content>
-      <div class="dashboard-stats__label" i18n="@@dashboard.spend">Расход за период</div>
-      <div class="dashboard-stats__value">
-        {{ costSummary().totalAmount | number: '1.2-2' }} {{ costSummary().currency }}
-      </div>
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="dashboard-stats__item">
-    <mat-card-content>
-      <div class="dashboard-stats__label" i18n="@@dashboard.records">Строк затрат</div>
-      <div class="dashboard-stats__value">{{ costSummary().recordCount }}</div>
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="dashboard-stats__item">
-    <mat-card-content>
-      <div class="dashboard-stats__label" i18n="@@dashboard.connectionsCount">Подключения</div>
-      <div class="dashboard-stats__value">{{ connectionCount() }}</div>
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="dashboard-stats__item">
-    <mat-card-content>
-      <div class="dashboard-stats__label" i18n="@@dashboard.budgetsCount">Бюджеты</div>
-      <div class="dashboard-stats__value">{{ budgetCount() }}</div>
-    </mat-card-content>
-  </mat-card>
-</div>
+  <mat-card class="dashboard-section dashboard-overview">
+    <mat-card-header>
+      <mat-card-title i18n="@@dashboard.overviewTitle">Общая статистика</mat-card-title>
+    </mat-card-header>
 
-<mat-card class="dashboard-section">
-  <mat-card-header>
-    <mat-card-title i18n="@@dashboard.budgetsSection">Состояние бюджетов</mat-card-title>
-    <button mat-button [routerLink]="budgetsPath" i18n="@@common.manage">Управление</button>
-  </mat-card-header>
-
-  <mat-card-content>
-    @if (activeBudgetAlerts().length > 0) {
-      <mat-list
-        class="dashboard-budgets__alerts"
-        i18n-aria-label="@@dashboard.budgetsAlertsAria"
-        aria-label="Активные алерты бюджета"
-      >
-        @for (alert of activeBudgetAlerts(); track alert.budgetId + '-' + alert.threshold) {
-          <mat-list-item [class]="'dashboard-budgets__alert ' + alertClass(alert.threshold)">
-            {{ alertMessage(alert) }}
-          </mat-list-item>
-        }
-      </mat-list>
-    }
-
-    @if (budgets().length === 0) {
-      <p class="dashboard-budgets__empty">
-        <span i18n="@@dashboard.budgetsEmpty">Бюджетов нет.</span>
-        <a mat-button [routerLink]="budgetsPath" i18n="@@dashboard.budgetsSetup">Настроить лимиты</a>
-      </p>
-    } @else {
-      <div class="list-stack">
-        @for (budget of budgets(); track budget.id) {
-          <div class="dashboard-budgets__item">
-            <div class="dashboard-budgets__item-header">
-              <strong>{{ budget.name }}</strong>
-              @if (usageFor(budget.id); as usage) {
-                @if (usage.triggeredThresholds.length > 0) {
-                  <mat-chip-set>
-                    @for (threshold of usage.triggeredThresholds; track threshold) {
-                      <mat-chip [class]="alertClass(threshold)">{{ threshold }}%</mat-chip>
-                    }
-                  </mat-chip-set>
-                }
+    <mat-card-content>
+      <div class="dashboard-stats">
+        <mat-card class="dashboard-stats__item">
+          <mat-card-content>
+            <div class="dashboard-stats__label" i18n="@@dashboard.spend">Расход за период</div>
+            <div class="dashboard-stats__value">
+              {{ overview().totalAmount | number: '1.2-2' }} {{ overview().currency }}
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="dashboard-stats__item">
+          <mat-card-content>
+            <div class="dashboard-stats__label" i18n="@@dashboard.records">Строк затрат</div>
+            <div class="dashboard-stats__value">{{ overview().recordCount }}</div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="dashboard-stats__item">
+          <mat-card-content>
+            <div class="dashboard-stats__label" i18n="@@dashboard.avgDailySpend">Средний расход в день</div>
+            <div class="dashboard-stats__value">
+              {{ overview().averageDailySpend | number: '1.2-2' }} {{ overview().currency }}
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="dashboard-stats__item">
+          <mat-card-content>
+            <div class="dashboard-stats__label" i18n="@@dashboard.activeAlerts">Активные алерты</div>
+            <div class="dashboard-stats__value">{{ overview().activeAlertCount }}</div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="dashboard-stats__item">
+          <mat-card-content>
+            <div class="dashboard-stats__label" i18n="@@dashboard.connectionsCount">Подключения</div>
+            <div class="dashboard-stats__value">{{ overview().connectionCount }}</div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="dashboard-stats__item">
+          <mat-card-content>
+            <div class="dashboard-stats__label" i18n="@@dashboard.budgetsCount">Бюджеты</div>
+            <div class="dashboard-stats__value">{{ overview().budgetCount }}</div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="dashboard-stats__item">
+          <mat-card-content>
+            <div class="dashboard-stats__label" i18n="@@dashboard.budgetsUsage">Использование бюджетов</div>
+            <div class="dashboard-stats__value">
+              @if (overview().budgetCount > 0) {
+                {{ overview().budgetsUsagePercent | number: '1.0-1' }}%
+              } @else {
+                <span i18n="@@dashboard.budgetsUsageEmpty">—</span>
               }
             </div>
-
-            @if (usageFor(budget.id); as usage) {
-              <mat-progress-bar
-                mode="determinate"
-                [value]="usage.usagePercent > 100 ? 100 : usage.usagePercent"
-                [color]="progressColor(usage.usagePercent)"
-              />
-              <p class="dashboard-budgets__amounts">
-                {{ usage.spentAmount | number: '1.2-2' }} / {{ usage.limitAmount | number: '1.2-2' }}
-                {{ usage.currency }}
-                ({{ usage.usagePercent | number: '1.0-1' }}%)
-              </p>
-              <p class="dashboard-budgets__thresholds" i18n="@@dashboard.budgetsThresholds">
-                Пороги: 80% · 100%
-              </p>
-            }
-          </div>
-        }
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="dashboard-stats__item">
+          <mat-card-content>
+            <div class="dashboard-stats__label" i18n="@@dashboard.costCentersCount">Центры затрат</div>
+            <div class="dashboard-stats__value">{{ overview().costCenterCount }}</div>
+          </mat-card-content>
+        </mat-card>
       </div>
-    }
-  </mat-card-content>
-</mat-card>
 
-<mat-card class="dashboard-section">
-  <mat-card-header>
-    <mat-card-title i18n="@@dashboard.connectionsSection">Настроенные подключения</mat-card-title>
-    <button mat-button [routerLink]="connectionsPath" i18n="@@common.manage">Управление</button>
-  </mat-card-header>
+      <div class="dashboard-overview__panels">
+        <section class="dashboard-overview__panel">
+          <h3 class="dashboard-overview__panel-title" i18n="@@dashboard.spendByConnection">
+            Расход по подключениям
+          </h3>
+          @if (overview().spendByConnection.length === 0) {
+            <p class="dashboard-overview__empty" i18n="@@dashboard.spendByConnectionEmpty">
+              Нет данных за период.
+            </p>
+          } @else {
+            <mat-list>
+              @for (item of overview().spendByConnection; track item.connectionId) {
+                <mat-list-item>
+                  <span matListItemTitle>{{ item.connectionName }}</span>
+                  <span matListItemMeta class="dashboard-overview__amount">
+                    {{ item.amount | number: '1.2-2' }} {{ overview().currency }}
+                  </span>
+                </mat-list-item>
+              }
+            </mat-list>
+          }
+        </section>
 
-  <mat-card-content>
-    @if (connections().length === 0) {
-      <p class="dashboard-connections__empty">
-        <span i18n="@@dashboard.connectionsEmpty">Подключений нет.</span>
-        <a mat-button [routerLink]="connectionsPath" i18n="@@dashboard.connectionsAdd">
-          Добавить подключение к облаку
-        </a>
-      </p>
-    } @else {
-      <mat-list>
-        @for (connection of connections(); track connection.id) {
-          <mat-list-item>
-            <span matListItemTitle>{{ connection.name }}</span>
-            <span matListItemLine>
-              {{ providerLabel(connection.provider) }} · {{ connection.externalAccountId }}
-            </span>
-          </mat-list-item>
-        }
-      </mat-list>
-    }
-  </mat-card-content>
-</mat-card>
+        <section class="dashboard-overview__panel">
+          <h3 class="dashboard-overview__panel-title" i18n="@@dashboard.topServices">Топ сервисов</h3>
+          @if (overview().topServices.length === 0) {
+            <p class="dashboard-overview__empty" i18n="@@dashboard.topServicesEmpty">
+              Нет данных за период.
+            </p>
+          } @else {
+            <mat-list>
+              @for (item of overview().topServices; track item.service) {
+                <mat-list-item>
+                  <span matListItemTitle>{{ item.service }}</span>
+                  <span matListItemMeta class="dashboard-overview__amount">
+                    {{ item.amount | number: '1.2-2' }} {{ overview().currency }}
+                  </span>
+                </mat-list-item>
+              }
+            </mat-list>
+          }
+        </section>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="dashboard-section">
+    <mat-card-header>
+      <mat-card-title i18n="@@dashboard.budgetsSection">Состояние бюджетов</mat-card-title>
+      <button mat-button [routerLink]="budgetsPath" i18n="@@common.manage">Управление</button>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (activeBudgetAlerts().length > 0) {
+        <mat-list
+          class="dashboard-budgets__alerts"
+          i18n-aria-label="@@dashboard.budgetsAlertsAria"
+          aria-label="Активные алерты бюджета"
+        >
+          @for (alert of activeBudgetAlerts(); track alert.budgetId + '-' + alert.threshold) {
+            <mat-list-item [class]="'dashboard-budgets__alert ' + alertClass(alert.threshold)">
+              {{ alertMessage(alert) }}
+            </mat-list-item>
+          }
+        </mat-list>
+      }
+
+      @if (budgets().length === 0) {
+        <p class="dashboard-budgets__empty">
+          <span i18n="@@dashboard.budgetsEmpty">Бюджетов нет.</span>
+          <a mat-button [routerLink]="budgetsPath" i18n="@@dashboard.budgetsSetup">Настроить лимиты</a>
+        </p>
+      } @else {
+        <div class="list-stack">
+          @for (budget of budgets(); track budget.id) {
+            <div class="dashboard-budgets__item">
+              <div class="dashboard-budgets__item-header">
+                <strong>{{ budget.name }}</strong>
+                @if (usageFor(budget.id); as usage) {
+                  @if (usage.triggeredThresholds.length > 0) {
+                    <mat-chip-set>
+                      @for (threshold of usage.triggeredThresholds; track threshold) {
+                        <mat-chip [class]="alertClass(threshold)">{{ threshold }}%</mat-chip>
+                      }
+                    </mat-chip-set>
+                  }
+                }
+              </div>
+
+              @if (usageFor(budget.id); as usage) {
+                <mat-progress-bar
+                  mode="determinate"
+                  [value]="usage.usagePercent > 100 ? 100 : usage.usagePercent"
+                  [color]="progressColor(usage.usagePercent)"
+                />
+                <p class="dashboard-budgets__amounts">
+                  {{ usage.spentAmount | number: '1.2-2' }} / {{ usage.limitAmount | number: '1.2-2' }}
+                  {{ usage.currency }}
+                  ({{ usage.usagePercent | number: '1.0-1' }}%)
+                </p>
+                <p class="dashboard-budgets__thresholds" i18n="@@dashboard.budgetsThresholds">
+                  Пороги: 80% · 100%
+                </p>
+              }
+            </div>
+          }
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="dashboard-section">
+    <mat-card-header>
+      <mat-card-title i18n="@@dashboard.connectionsSection">Настроенные подключения</mat-card-title>
+      <button mat-button [routerLink]="connectionsPath" i18n="@@common.manage">Управление</button>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (connections().length === 0) {
+        <p class="dashboard-connections__empty">
+          <span i18n="@@dashboard.connectionsEmpty">Подключений нет.</span>
+          <a mat-button [routerLink]="connectionsPath" i18n="@@dashboard.connectionsAdd">
+            Добавить подключение к облаку
+          </a>
+        </p>
+      } @else {
+        <mat-list>
+          @for (connection of connections(); track connection.id) {
+            <mat-list-item>
+              <span matListItemTitle>{{ connection.name }}</span>
+              <span matListItemLine>
+                {{ providerLabel(connection.provider) }} · {{ connection.externalAccountId }}
+              </span>
+            </mat-list-item>
+          }
+        </mat-list>
+      }
+    </mat-card-content>
+  </mat-card>
 }

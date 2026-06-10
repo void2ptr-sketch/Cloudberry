@@ -1,8 +1,34 @@
+.dashboard-overview .dashboard-stats {
+  margin-bottom: 1.5rem;
+}
+
 .dashboard-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   gap: 1rem;
-  margin-bottom: 1.5rem;
+}
+
+.dashboard-overview__panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboard-overview__panel-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.dashboard-overview__empty {
+  margin: 0;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.dashboard-overview__amount {
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .dashboard-stats__label {
