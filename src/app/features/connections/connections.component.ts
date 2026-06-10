@@ -1,4 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 
 import {
   CLOUD_PROVIDER_LABELS,
@@ -12,7 +15,13 @@ import { ConnectionFormComponent } from './connection-form.component';
 @Component({
   selector: 'app-connections',
   standalone: true,
-  imports: [ConnectionFormComponent, UiResourceStatusComponent],
+  imports: [
+    ConnectionFormComponent,
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    UiResourceStatusComponent,
+  ],
   templateUrl: './connections.component.html',
   styleUrl: './connections.component.scss',
 })

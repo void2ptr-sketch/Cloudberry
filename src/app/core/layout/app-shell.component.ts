@@ -1,4 +1,9 @@
 import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { LocaleSwitcherComponent } from '../i18n';
@@ -10,7 +15,17 @@ import { AppRoutePath } from '../routing/app-route-paths';
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, LocaleSwitcherComponent],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatButtonModule,
+    MatChipsModule,
+    LocaleSwitcherComponent,
+  ],
   templateUrl: './app-shell.component.html',
   styleUrl: './app-shell.component.scss',
 })

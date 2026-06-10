@@ -3,19 +3,14 @@
   Настройте привязку к billing-аккаунтам AWS, Azure, GCP и других провайдеров.
 </p>
 
-<div class="connections-toolbar">
+<div class="page-toolbar">
   @if (!showForm()) {
-    <button type="button" class="btn btn--primary" (click)="openCreateForm()" i18n="@@connections.add">
+    <button mat-flat-button color="primary" type="button" (click)="openCreateForm()" i18n="@@connections.add">
       Добавить подключение
     </button>
   }
   @if (selectedConnectionId()) {
-    <button
-      type="button"
-      class="btn btn--ghost btn--small"
-      (click)="clearSelection()"
-      i18n="@@connections.clearSelection"
-    >
+    <button mat-stroked-button type="button" (click)="clearSelection()" i18n="@@connections.clearSelection">
       Сбросить выбор
     </button>
   }
@@ -37,12 +32,14 @@
   connections().length === 0 &&
   !showForm()
 ) {
-  <div class="connections-empty">
-    <p i18n="@@connections.empty">Подключений пока нет.</p>
-    <button type="button" class="btn btn--primary" (click)="openCreateForm()" i18n="@@connections.createFirst">
-      Создать первое подключение
-    </button>
-  </div>
+  <mat-card class="connections-empty">
+    <mat-card-content>
+      <p i18n="@@connections.empty">Подключений пока нет.</p>
+      <button mat-flat-button color="primary" type="button" (click)="openCreateForm()" i18n="@@connections.createFirst">
+        Создать первое подключение
+      </button>
+    </mat-card-content>
+  </mat-card>
 }
 
 @if (
@@ -50,46 +47,34 @@
   connectionsState().status !== 'error' &&
   connections().length > 0
 ) {
-  <ul class="connections-list">
+  <div class="list-stack">
     @for (connection of connections(); track connection.id) {
-      <li class="connections-list__item" [class.connections-list__item--active]="isSelected(connection)">
-        <div class="connections-list__main">
-          <h3 class="connections-list__name">{{ connection.name }}</h3>
-          <p class="connections-list__meta">
-            <span class="connections-list__provider">{{ providerLabel(connection.provider) }}</span>
-            <span class="connections-list__account">{{ connection.externalAccountId }}</span>
-          </p>
+      <mat-card [class.connections-list__item--active]="isSelected(connection)">
+        <mat-card-header>
+          <mat-card-title>{{ connection.name }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ providerLabel(connection.provider) }} · {{ connection.externalAccountId }}
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
           @if (isSelected(connection)) {
-            <span class="connections-list__badge" i18n="@@connections.activeBadge">Активное для фильтра</span>
+            <mat-chip i18n="@@connections.activeBadge">Активное для фильтра</mat-chip>
           }
-        </div>
-        <div class="connections-list__actions">
-          <button
-            type="button"
-            class="btn btn--ghost btn--small"
-            (click)="selectConnection(connection)"
-            i18n="@@common.select"
-          >
+        </mat-card-content>
+
+        <mat-card-actions align="end">
+          <button mat-stroked-button type="button" (click)="selectConnection(connection)" i18n="@@common.select">
             Выбрать
           </button>
-          <button
-            type="button"
-            class="btn btn--ghost btn--small"
-            (click)="openEditForm(connection)"
-            i18n="@@common.edit"
-          >
+          <button mat-stroked-button type="button" (click)="openEditForm(connection)" i18n="@@common.edit">
             Изменить
           </button>
-          <button
-            type="button"
-            class="btn btn--danger btn--small"
-            (click)="removeConnection(connection)"
-            i18n="@@common.delete"
-          >
+          <button mat-stroked-button color="warn" type="button" (click)="removeConnection(connection)" i18n="@@common.delete">
             Удалить
           </button>
-        </div>
-      </li>
+        </mat-card-actions>
+      </mat-card>
     }
-  </ul>
+  </div>
 }

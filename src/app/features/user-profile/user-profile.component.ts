@@ -1,5 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { APP_LOCALE_OPTIONS, type AppLocale } from '../../core/i18n';
 import { noUnsafeMarkupValidator } from '../../shared/sanitize';
@@ -10,7 +15,14 @@ import type { UserProfileInput } from './user-profile-input.type';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+  ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
 })

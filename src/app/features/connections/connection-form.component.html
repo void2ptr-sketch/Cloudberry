@@ -1,81 +1,81 @@
-<form class="connection-form" [formGroup]="form" (ngSubmit)="submit()">
-  @if (isEditMode) {
-    <h3 class="connection-form__title" i18n="@@connection.form.titleEdit">Редактировать подключение</h3>
-  } @else {
-    <h3 class="connection-form__title" i18n="@@connection.form.titleCreate">Новое подключение</h3>
-  }
-
-  <label class="connection-form__field">
-    <span i18n="@@connection.form.name">Название</span>
-    <input
-      type="text"
-      formControlName="name"
-      i18n-placeholder="@@connection.form.namePlaceholder"
-      placeholder="Например, AWS Production"
-    />
-    @if (form.controls.name.touched && form.controls.name.hasError('required')) {
-      <span class="connection-form__error" i18n="@@connection.form.nameRequired">Укажите название</span>
-    }
-    @if (form.controls.name.touched && form.controls.name.hasError('unsafeMarkup')) {
-      <span class="connection-form__error" i18n="@@common.unsafeInput">
-        Недопустимые символы или разметка в поле
-      </span>
-    }
-  </label>
-
-  <label class="connection-form__field">
-    <span i18n="@@connection.form.provider">Облачный провайдер</span>
-    <select formControlName="provider">
-      @for (option of providerOptions; track option.id) {
-        <option [value]="option.id">{{ option.label }}</option>
-      }
-    </select>
-  </label>
-
-  <label class="connection-form__field">
-    <span i18n="@@connection.form.accountId">ID аккаунта / подписки</span>
-    <input
-      type="text"
-      formControlName="externalAccountId"
-      i18n-placeholder="@@connection.form.accountIdPlaceholder"
-      placeholder="AWS Account ID, Azure Subscription ID, …"
-    />
-    @if (
-      form.controls.externalAccountId.touched &&
-      form.controls.externalAccountId.hasError('required')
-    ) {
-      <span class="connection-form__error" i18n="@@connection.form.accountIdRequired">
-        Укажите идентификатор аккаунта
-      </span>
-    }
-    @if (
-      form.controls.externalAccountId.touched &&
-      form.controls.externalAccountId.hasError('unsafeMarkup')
-    ) {
-      <span class="connection-form__error" i18n="@@common.unsafeInput">
-        Недопустимые символы или разметка в поле
-      </span>
-    }
-    @if (
-      form.controls.externalAccountId.touched &&
-      form.controls.externalAccountId.hasError('accountIdFormat')
-    ) {
-      <span class="connection-form__error" i18n="@@connection.form.accountIdInvalid">
-        Идентификатор содержит недопустимые символы
-      </span>
-    }
-  </label>
-
-  <p class="connection-form__hint" i18n="@@connection.form.hint">
-    Учётные данные для billing export настраиваются отдельно (IAM role, service principal).
-  </p>
-
-  <div class="connection-form__actions">
+<mat-card class="form-card">
+  <mat-card-header>
     @if (isEditMode) {
-      <button type="submit" class="btn btn--primary" i18n="@@common.save">Сохранить</button>
+      <mat-card-title i18n="@@connection.form.titleEdit">Редактировать подключение</mat-card-title>
     } @else {
-      <button type="submit" class="btn btn--primary" i18n="@@common.add">Добавить</button>
+      <mat-card-title i18n="@@connection.form.titleCreate">Новое подключение</mat-card-title>
     }
-    <button type="button" class="btn btn--ghost" (click)="cancel()" i18n="@@common.cancel">Отмена</button>
-  </div>
-</form>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form class="connection-form" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label i18n="@@connection.form.name">Название</mat-label>
+        <input
+          matInput
+          formControlName="name"
+          i18n-placeholder="@@connection.form.namePlaceholder"
+          placeholder="Например, AWS Production"
+        />
+        @if (form.controls.name.touched && form.controls.name.hasError('required')) {
+          <mat-error i18n="@@connection.form.nameRequired">Укажите название</mat-error>
+        }
+        @if (form.controls.name.touched && form.controls.name.hasError('unsafeMarkup')) {
+          <mat-error i18n="@@common.unsafeInput">Недопустимые символы или разметка в поле</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label i18n="@@connection.form.provider">Облачный провайдер</mat-label>
+        <mat-select formControlName="provider">
+          @for (option of providerOptions; track option.id) {
+            <mat-option [value]="option.id">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label i18n="@@connection.form.accountId">ID аккаунта / подписки</mat-label>
+        <input
+          matInput
+          formControlName="externalAccountId"
+          i18n-placeholder="@@connection.form.accountIdPlaceholder"
+          placeholder="AWS Account ID, Azure Subscription ID, …"
+        />
+        @if (
+          form.controls.externalAccountId.touched &&
+          form.controls.externalAccountId.hasError('required')
+        ) {
+          <mat-error i18n="@@connection.form.accountIdRequired">Укажите идентификатор аккаунта</mat-error>
+        }
+        @if (
+          form.controls.externalAccountId.touched &&
+          form.controls.externalAccountId.hasError('unsafeMarkup')
+        ) {
+          <mat-error i18n="@@common.unsafeInput">Недопустимые символы или разметка в поле</mat-error>
+        }
+        @if (
+          form.controls.externalAccountId.touched &&
+          form.controls.externalAccountId.hasError('accountIdFormat')
+        ) {
+          <mat-error i18n="@@connection.form.accountIdInvalid">
+            Идентификатор содержит недопустимые символы
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <p class="connection-form__hint" i18n="@@connection.form.hint">
+        Учётные данные для billing export настраиваются отдельно (IAM role, service principal).
+      </p>
+
+      <div class="form-actions">
+        @if (isEditMode) {
+          <button mat-flat-button color="primary" type="submit" i18n="@@common.save">Сохранить</button>
+        } @else {
+          <button mat-flat-button color="primary" type="submit" i18n="@@common.add">Добавить</button>
+        }
+        <button mat-stroked-button type="button" (click)="cancel()" i18n="@@common.cancel">Отмена</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

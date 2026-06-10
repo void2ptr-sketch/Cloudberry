@@ -1,5 +1,11 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ThemePalette } from '@angular/material/core';
 import { RouterLink } from '@angular/router';
 
 import { CLOUD_PROVIDER_LABELS, type CloudProviderId } from '../../core/domain';
@@ -11,7 +17,16 @@ import { UiResourceStatusComponent } from '../../shared/ui-resource-status';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [DecimalPipe, RouterLink, UiResourceStatusComponent],
+  imports: [
+    DecimalPipe,
+    RouterLink,
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatListModule,
+    MatProgressBarModule,
+    UiResourceStatusComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -58,14 +73,14 @@ export class DashboardComponent implements OnInit {
     return this.budgetUsageStatuses().find((status) => status.budgetId === budgetId);
   }
 
-  progressClass(usagePercent: number): string {
+  progressColor(usagePercent: number): ThemePalette {
     if (usagePercent >= 100) {
-      return 'dashboard-budgets__bar--critical';
+      return 'warn';
     }
     if (usagePercent >= 80) {
-      return 'dashboard-budgets__bar--warning';
+      return 'accent';
     }
-    return 'dashboard-budgets__bar--ok';
+    return 'primary';
   }
 
   alertClass(threshold: 80 | 100): string {

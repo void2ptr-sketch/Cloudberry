@@ -4,27 +4,31 @@
 </p>
 
 @if (activeBudgetAlerts().length > 0) {
-  <section
+  <mat-card
     class="budgets-alerts"
     i18n-aria-label="@@budgets.alertsAria"
     aria-label="Активные алерты бюджета"
   >
-    <h3 class="budgets-alerts__title" i18n="@@budgets.alertsTitle">Активные алерты</h3>
-    <ul class="budgets-alerts__list">
-      @for (alert of activeBudgetAlerts(); track alert.budgetId + '-' + alert.threshold) {
-        <li [class]="'budgets-alert ' + alertClass(alert.threshold)">
-          {{ alertMessage(alert) }}
-        </li>
-      }
-    </ul>
-  </section>
+    <mat-card-header>
+      <mat-card-title i18n="@@budgets.alertsTitle">Активные алерты</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        @for (alert of activeBudgetAlerts(); track alert.budgetId + '-' + alert.threshold) {
+          <mat-list-item [class]="'budgets-alert ' + alertClass(alert.threshold)">
+            {{ alertMessage(alert) }}
+          </mat-list-item>
+        }
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
 }
 
 <app-resource-status [state]="budgetsState()" (retry)="retryBudgetsLoad()" />
 
-<div class="budgets-toolbar">
+<div class="page-toolbar">
   @if (!showForm()) {
-    <button type="button" class="btn btn--primary" (click)="openCreateForm()" i18n="@@budgets.add">
+    <button mat-flat-button color="primary" type="button" (click)="openCreateForm()" i18n="@@budgets.add">
       Добавить бюджет
     </button>
   }
@@ -44,62 +48,61 @@
   budgets().length === 0 &&
   !showForm()
 ) {
-  <div class="budgets-empty">
-    <p i18n="@@budgets.empty">Бюджетов пока нет.</p>
-    <button type="button" class="btn btn--primary" (click)="openCreateForm()" i18n="@@budgets.createFirst">
-      Создать первый бюджет
-    </button>
-  </div>
+  <mat-card class="budgets-empty">
+    <mat-card-content>
+      <p i18n="@@budgets.empty">Бюджетов пока нет.</p>
+      <button mat-flat-button color="primary" type="button" (click)="openCreateForm()" i18n="@@budgets.createFirst">
+        Создать первый бюджет
+      </button>
+    </mat-card-content>
+  </mat-card>
 }
 
 @if (budgetsState().status !== 'loading' && budgetsState().status !== 'error' && budgets().length > 0) {
-  <ul class="budgets-list">
+  <div class="list-stack">
     @for (budget of budgets(); track budget.id) {
-      <li class="budgets-list__item">
-        <div class="budgets-list__main">
-          <h3 class="budgets-list__name">{{ budget.name }}</h3>
-          <p class="budgets-list__meta">
-            <span>{{ formatPeriod(budget.periodStart, budget.periodEnd) }}</span>
-            <span>{{ scopeLabel(budget.scopeId) }}</span>
-            <span>{{ limitLabel(budget.limitAmount, budget.currency) }}</span>
-          </p>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ budget.name }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ formatPeriod(budget.periodStart, budget.periodEnd) }} ·
+            {{ scopeLabel(budget.scopeId) }} ·
+            {{ limitLabel(budget.limitAmount, budget.currency) }}
+          </mat-card-subtitle>
+        </mat-card-header>
 
+        <mat-card-content>
           @if (usageFor(budget.id); as usage) {
-            <div class="budgets-progress">
-              <div class="budgets-progress__track">
-                <div
-                  [class]="'budgets-progress__bar ' + progressClass(usage.usagePercent)"
-                  [style.width.%]="usage.usagePercent > 100 ? 100 : usage.usagePercent"
-                ></div>
-              </div>
-              <p class="budgets-progress__label">
-                {{ usage.spentAmount | number: '1.2-2' }} / {{ usage.limitAmount | number: '1.2-2' }}
-                {{ usage.currency }}
-                ({{ usage.usagePercent | number: '1.0-1' }}%)
-              </p>
-            </div>
+            <mat-progress-bar
+              mode="determinate"
+              [value]="usage.usagePercent > 100 ? 100 : usage.usagePercent"
+              [color]="progressColor(usage.usagePercent)"
+            />
+            <p class="budgets-progress__label">
+              {{ usage.spentAmount | number: '1.2-2' }} / {{ usage.limitAmount | number: '1.2-2' }}
+              {{ usage.currency }}
+              ({{ usage.usagePercent | number: '1.0-1' }}%)
+            </p>
 
             @if (usage.triggeredThresholds.length > 0) {
-              <div class="budgets-list__badges">
+              <mat-chip-set>
                 @for (threshold of usage.triggeredThresholds; track threshold) {
-                  <span [class]="'budgets-list__badge ' + alertClass(threshold)">
-                    {{ threshold }}%
-                  </span>
+                  <mat-chip [class]="alertClass(threshold)">{{ threshold }}%</mat-chip>
                 }
-              </div>
+              </mat-chip-set>
             }
           }
-        </div>
+        </mat-card-content>
 
-        <div class="budgets-list__actions">
-          <button type="button" class="btn btn--ghost btn--small" (click)="openEditForm(budget)" i18n="@@common.edit">
+        <mat-card-actions align="end">
+          <button mat-stroked-button type="button" (click)="openEditForm(budget)" i18n="@@common.edit">
             Изменить
           </button>
-          <button type="button" class="btn btn--danger btn--small" (click)="removeBudget(budget)" i18n="@@common.delete">
+          <button mat-stroked-button color="warn" type="button" (click)="removeBudget(budget)" i18n="@@common.delete">
             Удалить
           </button>
-        </div>
-      </li>
+        </mat-card-actions>
+      </mat-card>
     }
-  </ul>
+  </div>
 }

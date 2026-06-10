@@ -1,3 +1,9 @@
-<h2 i18n="@@notFound.title">Страница не найдена</h2>
-<p class="page-lead" i18n="@@notFound.lead">Запрошенный адрес не существует.</p>
-<a [routerLink]="dashboardPath" i18n="@@notFound.home">На главную</a>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title i18n="@@notFound.title">Страница не найдена</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p class="page-lead" i18n="@@notFound.lead">Запрошенный адрес не существует.</p>
+    <a mat-flat-button color="primary" [routerLink]="dashboardPath" i18n="@@notFound.home">На главную</a>
+  </mat-card-content>
+</mat-card>

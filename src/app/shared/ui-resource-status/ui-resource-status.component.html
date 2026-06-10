@@ -1,14 +1,19 @@
 @if (state().status === 'loading') {
-  <p class="resource-status" role="status" i18n="@@common.loading">Загрузка данных…</p>
+  <div class="resource-status" role="status">
+    <mat-spinner diameter="32" />
+    <span i18n="@@common.loading">Загрузка данных…</span>
+  </div>
 }
 
 @if (state().status === 'error') {
-  <div class="resource-status resource-status--error" role="alert">
-    <p>{{ state().error ?? commonErrorLoad }}</p>
-    @if (retryable()) {
-      <button type="button" class="btn btn--ghost btn--small" (click)="retry.emit()" i18n="@@common.retry">
-        Повторить
-      </button>
-    }
-  </div>
+  <mat-card class="resource-status resource-status--error" role="alert">
+    <mat-card-content>
+      <p>{{ state().error ?? commonErrorLoad }}</p>
+      @if (retryable()) {
+        <button mat-stroked-button type="button" (click)="retry.emit()" i18n="@@common.retry">
+          Повторить
+        </button>
+      }
+    </mat-card-content>
+  </mat-card>
 }

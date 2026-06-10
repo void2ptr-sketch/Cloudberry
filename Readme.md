@@ -13,12 +13,14 @@
 | Состояние | [Signals](https://angular.dev/guide/signals) — `AppStore` (`signal` + `computed`) |
 | HTTP | `HttpClient` + functional interceptors (auth, ошибки); RxJS только в `core/api/` |
 | Формы | Reactive Forms |
-| Стили | SCSS, без UI-библиотек |
+| Стили | SCSS + [Angular Material 17](https://material.angular.io) |
 | i18n | `@angular/localize` — `i18n` / `$localize`, runtime `loadTranslations` (ru / en / zh) |
 | Тесты | Karma, Jasmine; smoke-тесты в `src/app/smoke/` |
 | Качество | ESLint (`angular-eslint`), Prettier |
 
 Бэкенд в репозитории не входит; REST API ожидается на `environment.apiUrl` (по умолчанию `http://localhost:3000/api`).
+
+Тема Material зависит от окружения: **серая** (prod), **оранжевая** (dev), **зелёная** (test) — класс `theme-{name}` на `<body>`.
 
 ## Быстрый старт
 

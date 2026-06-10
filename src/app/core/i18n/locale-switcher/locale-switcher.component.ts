@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { APP_LOCALE_OPTIONS } from '../app-locale-options';
 import { AppLocaleService } from '../app-locale.service';
@@ -7,6 +8,7 @@ import type { AppLocale } from '../app-locale.type';
 @Component({
   selector: 'app-locale-switcher',
   standalone: true,
+  imports: [MatButtonToggleModule],
   templateUrl: './locale-switcher.component.html',
   styleUrl: './locale-switcher.component.scss',
 })
@@ -19,7 +21,9 @@ export class LocaleSwitcherComponent {
     return this.appLocale.currentLocale();
   }
 
-  selectLocale(locale: AppLocale): void {
-    this.appLocale.switchLocale(locale);
+  onLocaleChange(locale: AppLocale | null): void {
+    if (locale) {
+      this.appLocale.switchLocale(locale);
+    }
   }
 }

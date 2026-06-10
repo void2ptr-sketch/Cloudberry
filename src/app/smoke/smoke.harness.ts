@@ -2,6 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, Router } from '@angular/router';
 
 import { environment } from '../../environments/environment.test';
@@ -35,6 +36,7 @@ export async function createSmokeFixture(options: SmokeFixtureOptions = {}): Pro
   await TestBed.configureTestingModule({
     imports: [AppComponent],
     providers: [
+      provideNoopAnimations(),
       provideRouter(routes),
       provideHttpClient(),
       provideHttpClientTesting(),

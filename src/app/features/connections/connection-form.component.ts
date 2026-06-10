@@ -1,5 +1,10 @@
 import { Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import {
   CLOUD_PROVIDER_OPTIONS,
@@ -13,7 +18,14 @@ import { externalAccountIdValidator, noUnsafeMarkupValidator } from '../../share
 @Component({
   selector: 'app-connection-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+  ],
   templateUrl: './connection-form.component.html',
   styleUrl: './connection-form.component.scss',
 })

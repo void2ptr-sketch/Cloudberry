@@ -1,5 +1,11 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ThemePalette } from '@angular/material/core';
 
 import { ORG_SCOPE_ID, type Budget, type BudgetInput } from '../../core/domain';
 import { AppStore } from '../../core/state';
@@ -10,7 +16,16 @@ import { BudgetFormComponent } from './budget-form.component';
 @Component({
   selector: 'app-budgets',
   standalone: true,
-  imports: [BudgetFormComponent, DecimalPipe, UiResourceStatusComponent],
+  imports: [
+    BudgetFormComponent,
+    DecimalPipe,
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatListModule,
+    MatProgressBarModule,
+    UiResourceStatusComponent,
+  ],
   templateUrl: './budgets.component.html',
   styleUrl: './budgets.component.scss',
 })
@@ -109,14 +124,14 @@ export class BudgetsComponent implements OnInit {
     return `${start} — ${end}`;
   }
 
-  progressClass(usagePercent: number): string {
+  progressColor(usagePercent: number): ThemePalette {
     if (usagePercent >= 100) {
-      return 'budgets-progress__bar--critical';
+      return 'warn';
     }
     if (usagePercent >= 80) {
-      return 'budgets-progress__bar--warning';
+      return 'accent';
     }
-    return 'budgets-progress__bar--ok';
+    return 'primary';
   }
 
   alertClass(threshold: 80 | 100): string {

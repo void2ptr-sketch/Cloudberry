@@ -1,0 +1,58 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$prod-primary: mat.define-palette(mat.$blue-grey-palette, 700);
+$prod-accent: mat.define-palette(mat.$blue-grey-palette, 500);
+$prod-warn: mat.define-palette(mat.$red-palette);
+$prod-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $prod-primary,
+      accent: $prod-accent,
+      warn: $prod-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
+
+$dev-primary: mat.define-palette(mat.$orange-palette, 700);
+$dev-accent: mat.define-palette(mat.$deep-orange-palette, A400);
+$dev-warn: mat.define-palette(mat.$red-palette);
+$dev-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $dev-primary,
+      accent: $dev-accent,
+      warn: $dev-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
+
+$test-primary: mat.define-palette(mat.$green-palette, 700);
+$test-accent: mat.define-palette(mat.$light-green-palette, A700);
+$test-warn: mat.define-palette(mat.$red-palette);
+$test-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $test-primary,
+      accent: $test-accent,
+      warn: $test-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
+
+@include mat.all-component-themes($prod-theme);
+
+body.theme-dev {
+  @include mat.all-component-colors($dev-theme);
+}
+
+body.theme-test {
+  @include mat.all-component-colors($test-theme);
+}

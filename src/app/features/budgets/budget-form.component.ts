@@ -1,5 +1,10 @@
 import { Component, computed, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import {
   ORG_SCOPE_ID,
@@ -14,7 +19,14 @@ import { noUnsafeMarkupValidator } from '../../shared/sanitize';
 @Component({
   selector: 'app-budget-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+  ],
   templateUrl: './budget-form.component.html',
   styleUrl: './budget-form.component.scss',
 })

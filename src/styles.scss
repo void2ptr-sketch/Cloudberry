@@ -1,23 +1,74 @@
+@use 'styles/material-theme';
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
-  font-family:
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    sans-serif;
-  color: #1a1a1a;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  color: rgba(0, 0, 0, 0.87);
   background: #fafafa;
 }
 
 h2 {
   margin: 0 0 0.75rem;
   font-size: 1.375rem;
-  font-weight: 600;
+  font-weight: 500;
+}
+
+.page-lead {
+  margin: 0 0 1.5rem;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1.5;
+}
+
+.page-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.form-card {
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+}
+
+.form-field {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.form-field--narrow {
+  flex: 0 1 6rem;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.list-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.spacer {
+  flex: 1 1 auto;
 }

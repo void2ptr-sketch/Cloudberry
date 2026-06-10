@@ -57,7 +57,7 @@ describe('App smoke', () => {
     const smoke = await createSmokeFixture({ locale: 'en' });
     const root = await navigateSmoke(smoke, '/dashboard');
 
-    const connectionsLink = root.querySelector('a.shell__nav-link[href="/connections"]');
+    const connectionsLink = root.querySelector('a[href="/connections"]');
     expect(connectionsLink?.textContent?.trim()).toBe('Connections');
   });
 
@@ -66,10 +66,11 @@ describe('App smoke', () => {
     const root = await navigateSmoke(smoke, '/dashboard');
 
     const enButton = root.querySelector(
-      '.ui-locale-switcher__btn[aria-label="English"]',
+      '.ui-locale-switcher mat-button-toggle:nth-child(2) button',
     ) as HTMLButtonElement | null;
     expect(enButton).not.toBeNull();
     enButton?.click();
+    smoke.fixture.detectChanges();
 
     const stored = JSON.parse(localStorage.getItem('cloudberry.user-profile') ?? '{}') as {
       locale?: string;

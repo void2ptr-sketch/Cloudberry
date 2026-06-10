@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import { AppLocaleService } from '../app-locale.service';
 import { LocaleSwitcherComponent } from './locale-switcher.component';
@@ -13,23 +14,23 @@ describe('LocaleSwitcherComponent', () => {
   it('renders locale buttons', () => {
     TestBed.configureTestingModule({
       imports: [LocaleSwitcherComponent],
-      providers: [AppLocaleService],
+      providers: [provideNoopAnimations(), AppLocaleService],
     });
 
     const fixture = TestBed.createComponent(LocaleSwitcherComponent);
     fixture.detectChanges();
 
-    const buttons = fixture.nativeElement.querySelectorAll(
-      '.ui-locale-switcher__btn',
-    ) as NodeListOf<HTMLButtonElement>;
-    expect(buttons.length).toBe(3);
-    expect(buttons[1]?.getAttribute('aria-label')).toBe('English');
+    const toggles = fixture.nativeElement.querySelectorAll(
+      '.ui-locale-switcher mat-button-toggle',
+    );
+    expect(toggles.length).toBe(3);
+    expect(toggles[1]?.textContent?.trim()).toBe('EN');
   });
 
   it('persists locale on selection', () => {
     TestBed.configureTestingModule({
       imports: [LocaleSwitcherComponent],
-      providers: [AppLocaleService],
+      providers: [provideNoopAnimations(), AppLocaleService],
     });
 
     const appLocale = TestBed.inject(AppLocaleService);
@@ -49,10 +50,11 @@ describe('LocaleSwitcherComponent', () => {
     const fixture = TestBed.createComponent(LocaleSwitcherComponent);
     fixture.detectChanges();
 
-    const buttons = fixture.nativeElement.querySelectorAll(
-      '.ui-locale-switcher__btn',
-    ) as NodeListOf<HTMLButtonElement>;
-    buttons[2]?.click();
+    const zhButton = fixture.nativeElement.querySelector(
+      '.ui-locale-switcher mat-button-toggle:nth-child(3) button',
+    ) as HTMLButtonElement | null;
+    zhButton?.click();
+    fixture.detectChanges();
 
     const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}') as {
       locale?: string;
