@@ -16,7 +16,7 @@ describe('App smoke', () => {
 
     expect(content.textContent).toContain('AWS Production');
     expect(content.textContent).toContain('Organization monthly');
-    expect(content.textContent).toContain('Состояние бюджетов');
+    expect(content.textContent).toContain('Platform team');
   });
 
   it('navigates to connections and lists mock connections', async () => {
@@ -26,6 +26,15 @@ describe('App smoke', () => {
     expect(content.textContent).toContain('Подключения к облакам');
     expect(content.textContent).toContain('AWS Production');
     expect(content.textContent).toContain('Azure Shared');
+  });
+
+  it('navigates to costs and lists mock cost records', async () => {
+    const smoke = await createSmokeFixture();
+    const content = shellContent(await navigateSmoke(smoke, '/costs'));
+
+    expect(content.textContent).toContain('Расходы');
+    expect(content.textContent).toContain('Amazon EC2');
+    expect(content.textContent).toContain('Amazon S3');
   });
 
   it('navigates to budgets and lists mock budgets', async () => {

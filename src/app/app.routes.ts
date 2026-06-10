@@ -41,7 +41,7 @@ export const routes: Routes = [
       },
       {
         path: AppRoutePath.costs,
-        title: 'Cost details · Cloudberry',
+        title: $localize`:@@route.costs.title:Расходы · Cloudberry`,
         loadComponent: () =>
           import('./features/costs/costs.component').then((m) => m.CostsComponent),
       },

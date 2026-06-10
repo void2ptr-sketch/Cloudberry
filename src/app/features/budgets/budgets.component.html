@@ -60,7 +60,7 @@
 
 @if (budgetsState().status !== 'loading' && budgetsState().status !== 'error' && budgets().length > 0) {
   <div class="list-stack">
-    @for (budget of budgets(); track budget.id) {
+    @for (budget of paginatedBudgets(); track budget.id) {
       <mat-card>
         <mat-card-header>
           <mat-card-title>{{ budget.name }}</mat-card-title>
@@ -105,4 +105,12 @@
       </mat-card>
     }
   </div>
+
+  <app-pagination
+    [length]="budgets().length"
+    [pageIndex]="pageIndex()"
+    [pageSize]="pageSize()"
+    [pageSizeOptions]="pageSizeOptions"
+    (pageChange)="onPageChange($event)"
+  />
 }

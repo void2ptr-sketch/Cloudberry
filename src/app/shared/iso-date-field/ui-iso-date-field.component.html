@@ -1,0 +1,15 @@
+<mat-form-field appearance="outline" class="ui-iso-date-field">
+  <mat-label>{{ label() }}</mat-label>
+  <input
+    matInput
+    [formControl]="dateControl"
+    [matDatepicker]="picker"
+    [min]="minDate()"
+    [max]="maxDate()"
+    readonly
+    (dateChange)="onDateChange($event)"
+  />
+  <mat-datepicker-toggle matIconSuffix [for]="picker" />
+  <mat-datepicker #picker />
+  <ng-content />
+</mat-form-field>

@@ -44,18 +44,24 @@
       </div>
 
       <div class="form-row">
-        <mat-form-field appearance="outline" class="form-field">
-          <mat-label i18n="@@budget.form.periodStart">Начало периода</mat-label>
-          <input matInput type="date" formControlName="periodStart" />
-        </mat-form-field>
+        <app-iso-date-field
+          class="form-field"
+          formControlName="periodStart"
+          i18n-label="@@budget.form.periodStart"
+          label="Начало периода"
+        />
 
-        <mat-form-field appearance="outline" class="form-field">
-          <mat-label i18n="@@budget.form.periodEnd">Конец периода</mat-label>
-          <input matInput type="date" formControlName="periodEnd" />
+        <app-iso-date-field
+          class="form-field"
+          formControlName="periodEnd"
+          i18n-label="@@budget.form.periodEnd"
+          label="Конец периода"
+          [min]="form.controls.periodStart.value"
+        >
           @if (form.controls.periodEnd.touched && form.controls.periodEnd.hasError('periodOrder')) {
             <mat-error i18n="@@budget.form.periodOrder">Конец периода не может быть раньше начала</mat-error>
           }
-        </mat-form-field>
+        </app-iso-date-field>
       </div>
 
       <mat-form-field appearance="outline" class="form-field">

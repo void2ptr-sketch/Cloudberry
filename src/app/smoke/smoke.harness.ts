@@ -9,7 +9,11 @@ import { environment } from '../../environments/environment.test';
 import { AppComponent } from '../app.component';
 import { routes } from '../app.routes';
 import { APP_ENVIRONMENT } from '../core/config/environment.token';
+import { APP_DATE_LOCALE_PROVIDER } from '../core/i18n/app-date-locale';
+import { AppPaginatorIntl } from '../core/i18n/app-paginator-intl';
 import { prepareAppLocale, type AppLocale } from '../core/i18n';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { createDefaultUserProfile } from '../features/user-profile/user-profile-defaults';
 
 const STORAGE_KEY = 'cloudberry.user-profile';
@@ -44,6 +48,9 @@ export async function createSmokeFixture(options: SmokeFixtureOptions = {}): Pro
       provideHttpClient(),
       provideHttpClientTesting(),
       { provide: APP_ENVIRONMENT, useValue: environment },
+      { provide: MatPaginatorIntl, useClass: AppPaginatorIntl },
+      APP_DATE_LOCALE_PROVIDER,
+      provideNativeDateAdapter(),
     ],
   }).compileComponents();
 

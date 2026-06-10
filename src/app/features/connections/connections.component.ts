@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -9,6 +9,7 @@ import {
   type CloudConnectionInput,
 } from '../../core/domain';
 import { AppStore } from '../../core/state';
+import { createPaginationState, UiPaginationComponent } from '../../shared/pagination';
 import { UiResourceStatusComponent } from '../../shared/ui-resource-status';
 import { ConnectionFormComponent } from './connection-form.component';
 
@@ -20,6 +21,7 @@ import { ConnectionFormComponent } from './connection-form.component';
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
+    UiPaginationComponent,
     UiResourceStatusComponent,
   ],
   templateUrl: './connections.component.html',
@@ -27,6 +29,10 @@ import { ConnectionFormComponent } from './connection-form.component';
 })
 export class ConnectionsComponent implements OnInit {
   private readonly store = inject(AppStore);
+  private readonly pagination = createPaginationState({
+    initialPageSize: 5,
+    pageSizeOptions: [5, 10, 25],
+  });
 
   readonly connections = this.store.connections;
   readonly connectionsState = this.store.connectionsState;
@@ -35,7 +41,17 @@ export class ConnectionsComponent implements OnInit {
   readonly showForm = signal(false);
   readonly editingConnection = signal<CloudConnection | null>(null);
 
+  readonly paginatedConnections = this.pagination.createSlice(this.connections);
+  readonly pageIndex = this.pagination.pageIndex;
+  readonly pageSize = this.pagination.pageSize;
+  readonly pageSizeOptions = this.pagination.pageSizeOptions;
+  readonly onPageChange = this.pagination.onPageChange;
+
   readonly providerLabels = CLOUD_PROVIDER_LABELS;
+
+  constructor() {
+    this.pagination.bindItemCount(computed(() => this.connections().length));
+  }
 
   ngOnInit(): void {
     void this.store.loadConnections();

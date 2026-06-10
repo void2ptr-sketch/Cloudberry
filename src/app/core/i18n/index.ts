@@ -6,5 +6,6 @@ export {
 } from './app-locale-options';
 export { APP_LOCALE_RELOAD } from './app-locale-reload.token';
 export { AppLocaleService } from './app-locale.service';
+export { AppPaginatorIntl } from './app-paginator-intl';
 export { prepareAppLocale } from './load-app-locale';
 export { LocaleSwitcherComponent } from './locale-switcher';

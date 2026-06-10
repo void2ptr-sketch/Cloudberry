@@ -1,5 +1,5 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -10,6 +10,7 @@ import { ThemePalette } from '@angular/material/core';
 import { ORG_SCOPE_ID, type Budget, type BudgetInput } from '../../core/domain';
 import { AppStore } from '../../core/state';
 import type { BudgetUsageStatus } from '../../core/state/budget-usage.type';
+import { createPaginationState, UiPaginationComponent } from '../../shared/pagination';
 import { UiResourceStatusComponent } from '../../shared/ui-resource-status';
 import { BudgetFormComponent } from './budget-form.component';
 
@@ -24,6 +25,7 @@ import { BudgetFormComponent } from './budget-form.component';
     MatChipsModule,
     MatListModule,
     MatProgressBarModule,
+    UiPaginationComponent,
     UiResourceStatusComponent,
   ],
   templateUrl: './budgets.component.html',
@@ -31,8 +33,17 @@ import { BudgetFormComponent } from './budget-form.component';
 })
 export class BudgetsComponent implements OnInit {
   private readonly store = inject(AppStore);
+  private readonly pagination = createPaginationState({
+    initialPageSize: 5,
+    pageSizeOptions: [5, 10, 25],
+  });
 
   readonly budgets = this.store.budgets;
+  readonly paginatedBudgets = this.pagination.createSlice(this.budgets);
+  readonly pageIndex = this.pagination.pageIndex;
+  readonly pageSize = this.pagination.pageSize;
+  readonly pageSizeOptions = this.pagination.pageSizeOptions;
+  readonly onPageChange = this.pagination.onPageChange;
   readonly budgetsState = this.store.budgetsState;
   readonly budgetUsageStatuses = this.store.budgetUsageStatuses;
   readonly activeBudgetAlerts = this.store.activeBudgetAlerts;
@@ -40,6 +51,10 @@ export class BudgetsComponent implements OnInit {
 
   readonly showForm = signal(false);
   readonly editingBudget = signal<Budget | null>(null);
+
+  constructor() {
+    this.pagination.bindItemCount(computed(() => this.budgets().length));
+  }
 
   ngOnInit(): void {
     void this.store.loadBudgets();

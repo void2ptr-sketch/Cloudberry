@@ -48,7 +48,7 @@
   connections().length > 0
 ) {
   <div class="list-stack">
-    @for (connection of connections(); track connection.id) {
+    @for (connection of paginatedConnections(); track connection.id) {
       <mat-card [class.connections-list__item--active]="isSelected(connection)">
         <mat-card-header>
           <mat-card-title>{{ connection.name }}</mat-card-title>
@@ -77,4 +77,12 @@
       </mat-card>
     }
   </div>
+
+  <app-pagination
+    [length]="connections().length"
+    [pageIndex]="pageIndex()"
+    [pageSize]="pageSize()"
+    [pageSizeOptions]="pageSizeOptions"
+    (pageChange)="onPageChange($event)"
+  />
 }

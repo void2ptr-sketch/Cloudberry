@@ -1,10 +1,92 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title i18n="@@costs.title">Расходы</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <p class="page-lead" i18n="@@costs.lead">
-      Детализация расходов с фильтрами по периоду и окружению.
-    </p>
-  </mat-card-content>
-</mat-card>
+<h2 i18n="@@costs.title">Расходы</h2>
+<p class="page-lead" i18n="@@costs.lead">
+  Детализация расходов с фильтрами по периоду и окружению.
+</p>
+<app-resource-status [state]="billingState()" (retry)="retryBillingLoad()" />
+
+@if (billingState().status !== 'loading' && billingState().status !== 'error') {
+  <form class="costs-filters" [formGroup]="periodForm">
+    <mat-form-field appearance="outline" class="costs-filters__field">
+      <mat-label i18n="@@costs.filterConnection">Подключение</mat-label>
+      <mat-select [value]="connectionFilterValue()" (selectionChange)="onConnectionFilter($event)">
+        <mat-option value="" i18n="@@costs.filterAll">Все подключения</mat-option>
+        @for (connection of connections(); track trackConnection($index, connection)) {
+          <mat-option [value]="connection.id">{{ connection.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <app-iso-date-field
+      class="costs-filters__field"
+      formControlName="periodStart"
+      i18n-label="@@costs.filterPeriodStart"
+      label="Начало периода"
+      (dateSelected)="applyPeriodFilter()"
+    />
+
+    <app-iso-date-field
+      class="costs-filters__field"
+      formControlName="periodEnd"
+      i18n-label="@@costs.filterPeriodEnd"
+      label="Конец периода"
+      [min]="periodForm.controls.periodStart.value"
+      (dateSelected)="applyPeriodFilter()"
+    >
+      @if (
+        periodForm.controls.periodEnd.touched &&
+        periodForm.controls.periodEnd.hasError('periodOrder')
+      ) {
+        <mat-error i18n="@@costs.periodOrder">Конец периода не может быть раньше начала</mat-error>
+      }
+    </app-iso-date-field>
+  </form>
+
+  <div class="costs-summary">
+    <mat-card class="costs-summary__item">
+      <mat-card-content>
+        <div class="costs-summary__label" i18n="@@costs.summaryTotal">Итого за период</div>
+        <div class="costs-summary__value">
+          {{ costSummary().totalAmount | number: '1.2-2' }} {{ costSummary().currency }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="costs-summary__item">
+      <mat-card-content>
+        <div class="costs-summary__label" i18n="@@costs.summaryCount">Строк затрат</div>
+        <div class="costs-summary__value">{{ costSummary().recordCount }}</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  @if (costRecords().length === 0) {
+    <mat-card class="costs-empty">
+      <mat-card-content i18n="@@costs.empty">Строк затрат нет.</mat-card-content>
+    </mat-card>
+  } @else {
+    <mat-card>
+      <mat-list>
+        @for (record of paginatedCostRecords(); track trackRecord($index, record)) {
+          <mat-list-item class="costs-record">
+            <span matListItemTitle>{{ record.service }}</span>
+            <span matListItemLine>
+              <span i18n="@@costs.connection">Подключение</span>: {{ connectionName(record.connectionId) }}
+              · <span i18n="@@costs.costCenter">Центр затрат</span>: {{ costCenterName(record) }}
+            </span>
+            <span matListItemMeta class="costs-record__amount">
+              {{ record.amount | number: '1.2-2' }} {{ record.currency }}
+              <span class="costs-record__date">{{ record.usageDate }}</span>
+            </span>
+          </mat-list-item>
+        }
+      </mat-list>
+    </mat-card>
+
+    <app-pagination
+      [length]="costRecords().length"
+      [pageIndex]="pageIndex()"
+      [pageSize]="pageSize()"
+      [pageSizeOptions]="pageSizeOptions"
+      (pageChange)="onPageChange($event)"
+    />
+  }
+}

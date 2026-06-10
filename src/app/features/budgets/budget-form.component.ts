@@ -14,6 +14,7 @@ import {
 } from '../../core/domain';
 import { sanitizeBudgetInput } from '../../core/sanitize';
 import { AppStore } from '../../core/state';
+import { UiIsoDateFieldComponent } from '../../shared/iso-date-field';
 import { noUnsafeMarkupValidator } from '../../shared/sanitize';
 
 @Component({
@@ -26,6 +27,7 @@ import { noUnsafeMarkupValidator } from '../../shared/sanitize';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    UiIsoDateFieldComponent,
   ],
   templateUrl: './budget-form.component.html',
   styleUrl: './budget-form.component.scss',
