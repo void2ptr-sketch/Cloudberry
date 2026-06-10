@@ -1,0 +1,132 @@
+.page-lead {
+  margin: 0 0 1.25rem;
+  color: #444;
+}
+
+.connections-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.connections-empty {
+  padding: 2rem;
+  text-align: center;
+  border: 1px dashed #d1d5db;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+
+.connections-empty p {
+  margin: 0 0 1rem;
+  color: #666;
+}
+
+.connections-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.connections-list__item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+
+.connections-list__item--active {
+  border-color: #93c5fd;
+  background: #f8fafc;
+}
+
+.connections-list__name {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.connections-list__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 0;
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.connections-list__provider {
+  font-weight: 500;
+  color: #333;
+}
+
+.connections-list__account {
+  font-family: ui-monospace, monospace;
+  font-size: 0.8125rem;
+}
+
+.connections-list__badge {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #1d4ed8;
+  background: #eff6ff;
+}
+
+.connections-list__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn--primary {
+  color: #fff;
+  background: #2563eb;
+}
+
+.btn--primary:hover {
+  background: #1d4ed8;
+}
+
+.btn--ghost {
+  color: #333;
+  background: transparent;
+  border-color: #d1d5db;
+}
+
+.btn--ghost:hover {
+  background: #f3f4f6;
+}
+
+.btn--danger {
+  color: #b91c1c;
+  background: transparent;
+  border-color: #fecaca;
+}
+
+.btn--danger:hover {
+  background: #fef2f2;
+}
+
+.btn--small {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.8125rem;
+}

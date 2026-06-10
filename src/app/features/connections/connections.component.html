@@ -1,0 +1,74 @@
+<h2>{{ 'connections.title' | uiT }}</h2>
+<p class="page-lead">{{ 'connections.lead' | uiT }}</p>
+
+<div class="connections-toolbar">
+  @if (!showForm()) {
+    <button type="button" class="btn btn--primary" (click)="openCreateForm()">
+      {{ 'connections.add' | uiT }}
+    </button>
+  }
+  @if (selectedConnectionId()) {
+    <button type="button" class="btn btn--ghost btn--small" (click)="clearSelection()">
+      {{ 'connections.clearSelection' | uiT }}
+    </button>
+  }
+</div>
+
+@if (showForm()) {
+  <app-connection-form
+    [connection]="editingConnection()"
+    (saved)="onFormSaved($event)"
+    (cancelled)="closeForm()"
+  />
+}
+
+@if (connections().length === 0 && !showForm()) {
+  <div class="connections-empty">
+    <p>{{ 'connections.empty' | uiT }}</p>
+    <button type="button" class="btn btn--primary" (click)="openCreateForm()">
+      {{ 'connections.createFirst' | uiT }}
+    </button>
+  </div>
+}
+
+@if (connections().length > 0) {
+  <ul class="connections-list">
+    @for (connection of connections(); track connection.id) {
+      <li class="connections-list__item" [class.connections-list__item--active]="isSelected(connection)">
+        <div class="connections-list__main">
+          <h3 class="connections-list__name">{{ connection.name }}</h3>
+          <p class="connections-list__meta">
+            <span class="connections-list__provider">{{ providerLabel(connection.provider) }}</span>
+            <span class="connections-list__account">{{ connection.externalAccountId }}</span>
+          </p>
+          @if (isSelected(connection)) {
+            <span class="connections-list__badge">{{ 'connections.activeBadge' | uiT }}</span>
+          }
+        </div>
+        <div class="connections-list__actions">
+          <button
+            type="button"
+            class="btn btn--ghost btn--small"
+            (click)="selectConnection(connection)"
+          >
+            {{ 'common.select' | uiT }}
+          </button>
+          <button
+            type="button"
+            class="btn btn--ghost btn--small"
+            (click)="openEditForm(connection)"
+          >
+            {{ 'common.edit' | uiT }}
+          </button>
+          <button
+            type="button"
+            class="btn btn--danger btn--small"
+            (click)="removeConnection(connection)"
+          >
+            {{ 'common.delete' | uiT }}
+          </button>
+        </div>
+      </li>
+    }
+  </ul>
+}

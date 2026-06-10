@@ -1,0 +1,48 @@
+<div class="shell">
+  <header class="shell__header">
+    <div class="shell__header-main">
+      <a class="shell__brand" [routerLink]="homeLink">Cloudberry</a>
+      <p class="shell__tagline">{{ 'shell.tagline' | uiT }}</p>
+    </div>
+    <div class="shell__header-actions">
+      <app-ui-locale-switcher />
+      <a class="shell__profile" [routerLink]="profileLink" routerLinkActive="shell__profile--active">
+        <span class="shell__profile-label">{{ displayName() }}</span>
+        <span class="shell__profile-hint">{{ 'shell.profile' | uiT }}</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="shell__body">
+    <nav class="shell__nav" [attr.aria-label]="'shell.navAria' | uiT">
+      <ul class="shell__nav-list">
+        @for (item of navItems; track item.path) {
+          <li>
+            <a
+              class="shell__nav-link"
+              [routerLink]="['/', item.path]"
+              routerLinkActive="shell__nav-link--active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              {{ item.labelKey | uiT }}
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <main class="shell__content">
+      <router-outlet />
+    </main>
+  </div>
+
+  <footer class="shell__footer">
+    <p class="shell__footer-copy">
+      © {{ year }} Cloudberry
+      @if (showEnvBadge) {
+        <span class="shell__env-badge">{{ envLabel }}</span>
+      }
+    </p>
+    <p class="shell__footer-meta">{{ 'shell.footerMeta' | uiT }}</p>
+  </footer>
+</div>

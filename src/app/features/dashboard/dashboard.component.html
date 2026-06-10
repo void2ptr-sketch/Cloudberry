@@ -1,0 +1,125 @@
+<h2>{{ 'dashboard.title' | uiT }}</h2>
+<p class="page-lead">
+  {{
+    'dashboard.lead'
+      | uiT: { start: reportingPeriod().start, end: reportingPeriod().end }
+  }}
+</p>
+
+@if (status() === 'loading') {
+  <p class="dashboard-status" role="status">{{ 'common.loading' | uiT }}</p>
+}
+@if (status() === 'error') {
+  <p class="dashboard-status dashboard-status--error" role="alert">{{ 'common.errorLoad' | uiT }}</p>
+}
+
+<dl class="dashboard-stats">
+  <div class="dashboard-stats__item">
+    <dt>{{ 'dashboard.spend' | uiT }}</dt>
+    <dd>
+      {{ costSummary().totalAmount | number: '1.2-2' }}
+      {{ costSummary().currency }}
+    </dd>
+  </div>
+  <div class="dashboard-stats__item">
+    <dt>{{ 'dashboard.records' | uiT }}</dt>
+    <dd>{{ costSummary().recordCount }}</dd>
+  </div>
+  <div class="dashboard-stats__item">
+    <dt>{{ 'dashboard.connectionsCount' | uiT }}</dt>
+    <dd>{{ connectionCount() }}</dd>
+  </div>
+  <div class="dashboard-stats__item">
+    <dt>{{ 'dashboard.budgetsCount' | uiT }}</dt>
+    <dd>{{ budgetCount() }}</dd>
+  </div>
+</dl>
+
+<section class="dashboard-budgets">
+  <div class="dashboard-budgets__header">
+    <h3>{{ 'dashboard.budgetsSection' | uiT }}</h3>
+    <a [routerLink]="budgetsPath">{{ 'common.manage' | uiT }}</a>
+  </div>
+
+  @if (activeBudgetAlerts().length > 0) {
+    <ul class="dashboard-budgets__alerts" [attr.aria-label]="'dashboard.budgetsAlertsAria' | uiT">
+      @for (alert of activeBudgetAlerts(); track alert.budgetId + '-' + alert.threshold) {
+        <li [class]="'dashboard-budgets__alert ' + alertClass(alert.threshold)">
+          {{ alertMessage(alert) }}
+        </li>
+      }
+    </ul>
+  }
+
+  @if (budgets().length === 0) {
+    <p class="dashboard-budgets__empty">
+      {{ 'dashboard.budgetsEmpty' | uiT }}
+      <a [routerLink]="budgetsPath">{{ 'dashboard.budgetsSetup' | uiT }}</a>
+    </p>
+  } @else {
+    <ul class="dashboard-budgets__list">
+      @for (budget of budgets(); track budget.id) {
+        <li class="dashboard-budgets__item">
+          <div class="dashboard-budgets__item-header">
+            <span class="dashboard-budgets__name">{{ budget.name }}</span>
+            @if (usageFor(budget.id); as usage) {
+              @if (usage.triggeredThresholds.length > 0) {
+                <span class="dashboard-budgets__badges">
+                  @for (threshold of usage.triggeredThresholds; track threshold) {
+                    <span [class]="'dashboard-budgets__badge ' + alertClass(threshold)">
+                      {{ threshold }}%
+                    </span>
+                  }
+                </span>
+              }
+            }
+          </div>
+
+          @if (usageFor(budget.id); as usage) {
+            <div class="dashboard-budgets__progress">
+              <div class="dashboard-budgets__track" aria-hidden="true">
+                <span class="dashboard-budgets__marker dashboard-budgets__marker--80"></span>
+                <span class="dashboard-budgets__marker dashboard-budgets__marker--100"></span>
+                <div
+                  [class]="'dashboard-budgets__bar ' + progressClass(usage.usagePercent)"
+                  [style.width.%]="usage.usagePercent > 100 ? 100 : usage.usagePercent"
+                ></div>
+              </div>
+              <p class="dashboard-budgets__amounts">
+                {{ usage.spentAmount | number: '1.2-2' }} / {{ usage.limitAmount | number: '1.2-2' }}
+                {{ usage.currency }}
+                <span class="dashboard-budgets__percent">({{ usage.usagePercent | number: '1.0-1' }}%)</span>
+              </p>
+              <p class="dashboard-budgets__thresholds">{{ 'dashboard.budgetsThresholds' | uiT }}</p>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  }
+</section>
+
+<section class="dashboard-connections">
+  <div class="dashboard-connections__header">
+    <h3>{{ 'dashboard.connectionsSection' | uiT }}</h3>
+    <a [routerLink]="connectionsPath">{{ 'common.manage' | uiT }}</a>
+  </div>
+
+  @if (connections().length === 0) {
+    <p class="dashboard-connections__empty">
+      {{ 'dashboard.connectionsEmpty' | uiT }}
+      <a [routerLink]="connectionsPath">{{ 'dashboard.connectionsAdd' | uiT }}</a>
+    </p>
+  } @else {
+    <ul class="dashboard-connections__list">
+      @for (connection of connections(); track connection.id) {
+        <li>
+          <span class="dashboard-connections__name">{{ connection.name }}</span>
+          <span class="dashboard-connections__meta">
+            {{ providerLabel(connection.provider) }} · {{ connection.externalAccountId }}
+          </span>
+        </li>
+      }
+    </ul>
+  }
+</section>

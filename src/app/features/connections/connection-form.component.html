@@ -1,0 +1,50 @@
+<form class="connection-form" [formGroup]="form" (ngSubmit)="submit()">
+  <h3 class="connection-form__title">
+    {{ isEditMode ? ('connection.form.titleEdit' | uiT) : ('connection.form.titleCreate' | uiT) }}
+  </h3>
+
+  <label class="connection-form__field">
+    <span>{{ 'connection.form.name' | uiT }}</span>
+    <input
+      type="text"
+      formControlName="name"
+      [attr.placeholder]="'connection.form.namePlaceholder' | uiT"
+    />
+    @if (form.controls.name.touched && form.controls.name.hasError('required')) {
+      <span class="connection-form__error">{{ 'connection.form.nameRequired' | uiT }}</span>
+    }
+  </label>
+
+  <label class="connection-form__field">
+    <span>{{ 'connection.form.provider' | uiT }}</span>
+    <select formControlName="provider">
+      @for (option of providerOptions; track option.id) {
+        <option [value]="option.id">{{ option.label }}</option>
+      }
+    </select>
+  </label>
+
+  <label class="connection-form__field">
+    <span>{{ 'connection.form.accountId' | uiT }}</span>
+    <input
+      type="text"
+      formControlName="externalAccountId"
+      [attr.placeholder]="'connection.form.accountIdPlaceholder' | uiT"
+    />
+    @if (
+      form.controls.externalAccountId.touched &&
+      form.controls.externalAccountId.hasError('required')
+    ) {
+      <span class="connection-form__error">{{ 'connection.form.accountIdRequired' | uiT }}</span>
+    }
+  </label>
+
+  <p class="connection-form__hint">{{ 'connection.form.hint' | uiT }}</p>
+
+  <div class="connection-form__actions">
+    <button type="submit" class="btn btn--primary">
+      {{ isEditMode ? ('common.save' | uiT) : ('common.add' | uiT) }}
+    </button>
+    <button type="button" class="btn btn--ghost" (click)="cancel()">{{ 'common.cancel' | uiT }}</button>
+  </div>
+</form>

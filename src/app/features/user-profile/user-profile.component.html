@@ -1,0 +1,53 @@
+<h2>{{ 'profile.title' | uiT }}</h2>
+<p class="page-lead">{{ 'profile.lead' | uiT }}</p>
+
+@if (saved()) {
+  <p class="profile-status" role="status">{{ 'profile.saved' | uiT }}</p>
+}
+
+<form class="profile-form" [formGroup]="form" (ngSubmit)="submit()">
+  <label class="profile-form__field">
+    <span>{{ 'profile.displayName' | uiT }}</span>
+    <input
+      type="text"
+      formControlName="displayName"
+      [attr.placeholder]="'profile.displayNamePlaceholder' | uiT"
+    />
+    @if (form.controls.displayName.touched && form.controls.displayName.hasError('required')) {
+      <span class="profile-form__error">{{ 'profile.displayNameRequired' | uiT }}</span>
+    }
+  </label>
+
+  <label class="profile-form__field">
+    <span>{{ 'profile.email' | uiT }}</span>
+    <input type="email" formControlName="email" placeholder="name@company.com" />
+    @if (form.controls.email.touched && form.controls.email.hasError('email')) {
+      <span class="profile-form__error">{{ 'profile.emailInvalid' | uiT }}</span>
+    }
+  </label>
+
+  <label class="profile-form__field">
+    <span>{{ 'profile.locale' | uiT }}</span>
+    <select formControlName="locale">
+      @for (option of localeOptions; track option.id) {
+        <option [value]="option.id">{{ option.label }}</option>
+      }
+    </select>
+    <span class="profile-form__hint">{{ 'profile.localeHint' | uiT }}</span>
+  </label>
+
+  <label class="profile-form__field profile-form__field--narrow">
+    <span>{{ 'profile.defaultCurrency' | uiT }}</span>
+    <input type="text" formControlName="defaultCurrency" maxlength="3" placeholder="USD" />
+    @if (form.controls.defaultCurrency.touched && form.controls.defaultCurrency.hasError('pattern')) {
+      <span class="profile-form__error">{{ 'profile.currencyInvalid' | uiT }}</span>
+    }
+  </label>
+
+  <div class="profile-form__actions">
+    <button type="submit" class="btn btn--primary">{{ 'common.save' | uiT }}</button>
+    <button type="button" class="btn btn--ghost" (click)="resetToDefaults()">
+      {{ 'common.reset' | uiT }}
+    </button>
+  </div>
+</form>

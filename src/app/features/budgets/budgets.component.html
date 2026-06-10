@@ -1,0 +1,92 @@
+<h2>{{ 'budgets.title' | uiT }}</h2>
+<p class="page-lead">{{ 'budgets.lead' | uiT }}</p>
+
+@if (activeBudgetAlerts().length > 0) {
+  <section class="budgets-alerts" [attr.aria-label]="'budgets.alertsAria' | uiT">
+    <h3 class="budgets-alerts__title">{{ 'budgets.alertsTitle' | uiT }}</h3>
+    <ul class="budgets-alerts__list">
+      @for (alert of activeBudgetAlerts(); track alert.budgetId + '-' + alert.threshold) {
+        <li [class]="'budgets-alert ' + alertClass(alert.threshold)">
+          {{ alertMessage(alert) }}
+        </li>
+      }
+    </ul>
+  </section>
+}
+
+<div class="budgets-toolbar">
+  @if (!showForm()) {
+    <button type="button" class="btn btn--primary" (click)="openCreateForm()">
+      {{ 'budgets.add' | uiT }}
+    </button>
+  }
+</div>
+
+@if (showForm()) {
+  <app-budget-form
+    [budget]="editingBudget()"
+    (saved)="onFormSaved($event)"
+    (cancelled)="closeForm()"
+  />
+}
+
+@if (budgets().length === 0 && !showForm()) {
+  <div class="budgets-empty">
+    <p>{{ 'budgets.empty' | uiT }}</p>
+    <button type="button" class="btn btn--primary" (click)="openCreateForm()">
+      {{ 'budgets.createFirst' | uiT }}
+    </button>
+  </div>
+}
+
+@if (budgets().length > 0) {
+  <ul class="budgets-list">
+    @for (budget of budgets(); track budget.id) {
+      <li class="budgets-list__item">
+        <div class="budgets-list__main">
+          <h3 class="budgets-list__name">{{ budget.name }}</h3>
+          <p class="budgets-list__meta">
+            <span>{{ formatPeriod(budget.periodStart, budget.periodEnd) }}</span>
+            <span>{{ scopeLabel(budget.scopeId) }}</span>
+            <span>{{ limitLabel(budget.limitAmount, budget.currency) }}</span>
+          </p>
+
+          @if (usageFor(budget.id); as usage) {
+            <div class="budgets-progress">
+              <div class="budgets-progress__track">
+                <div
+                  [class]="'budgets-progress__bar ' + progressClass(usage.usagePercent)"
+                  [style.width.%]="usage.usagePercent > 100 ? 100 : usage.usagePercent"
+                ></div>
+              </div>
+              <p class="budgets-progress__label">
+                {{ usage.spentAmount | number: '1.2-2' }} / {{ usage.limitAmount | number: '1.2-2' }}
+                {{ usage.currency }}
+                ({{ usage.usagePercent | number: '1.0-1' }}%)
+              </p>
+            </div>
+
+            @if (usage.triggeredThresholds.length > 0) {
+              <div class="budgets-list__badges">
+                @for (threshold of usage.triggeredThresholds; track threshold) {
+                  <span [class]="'budgets-list__badge ' + alertClass(threshold)">
+                    {{ threshold }}%
+                  </span>
+                }
+              </div>
+            }
+          }
+        </div>
+
+        <div class="budgets-list__actions">
+          <button type="button" class="btn btn--ghost btn--small" (click)="openEditForm(budget)">
+            {{ 'common.edit' | uiT }}
+          </button>
+          <button type="button" class="btn btn--danger btn--small" (click)="removeBudget(budget)">
+            {{ 'common.delete' | uiT }}
+          </button>
+        </div>
+      </li>
+    }
+  </ul>
+}
