@@ -60,6 +60,9 @@ import type { CostRecord, Budget } from '../core/domain';
 | `Environment` | `apiUrl`, `production`, `enableDebug`, … |
 | `EnvironmentName` | `dev` \| `test` \| `prod` |
 
+Секреты и локальные переопределения — в `.env` (в git не коммитятся). Шаблон: `.env.example` в корне репозитория.  
+Сборка Angular по-прежнему использует `src/environments/*.ts`; в файлах окружения не хранить реальные ключи и токены.
+
 ## UI / routing
 
 | Тип | Файл |
