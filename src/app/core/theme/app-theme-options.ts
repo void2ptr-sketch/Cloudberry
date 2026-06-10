@@ -15,15 +15,9 @@ export const APP_THEME_OPTIONS: AppThemeOption[] = [
     },
   },
   {
-    id: 'dev',
+    id: 'preprod',
     get label() {
-      return $localize`:@@profile.theme.dev:DEV — оранжевая`;
-    },
-  },
-  {
-    id: 'test',
-    get label() {
-      return $localize`:@@profile.theme.test:TEST — зелёная`;
+      return $localize`:@@profile.theme.preprod:PREPROD — тёмно-зелёная`;
     },
   },
   {
@@ -33,9 +27,15 @@ export const APP_THEME_OPTIONS: AppThemeOption[] = [
     },
   },
   {
-    id: 'preprod',
+    id: 'test',
     get label() {
-      return $localize`:@@profile.theme.preprod:PREPROD — тёмно-зелёная`;
+      return $localize`:@@profile.theme.test:TEST — зелёная`;
+    },
+  },
+  {
+    id: 'dev',
+    get label() {
+      return $localize`:@@profile.theme.dev:DEV — оранжевая`;
     },
   },
 ];
