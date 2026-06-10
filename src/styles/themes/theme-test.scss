@@ -1,0 +1,39 @@
+@use '@angular/material' as mat;
+@use 'theme-build' as build;
+
+$primary: mat.define-palette(mat.$green-palette, 700);
+$accent: mat.define-palette(mat.$light-green-palette, A700);
+$theme: build.light-theme($primary, $accent);
+
+@mixin all-components() {
+  @include mat.all-component-themes($theme);
+}
+
+@mixin component-colors() {
+  @include mat.all-component-colors($theme);
+}
+
+@mixin shell() {
+  body.theme-test {
+    --shell-header-hover-bg: #{rgba(mat.get-color-from-palette($primary, 'A100-contrast'), 0.08)};
+    --shell-header-active-bg: #{rgba(mat.get-color-from-palette($primary, 'A100-contrast'), 0.16)};
+    --shell-header-border-color: #{rgba(mat.get-color-from-palette($primary, 'A100-contrast'), 0.35)};
+    --shell-header-active-border-color: #{rgba(mat.get-color-from-palette($primary, 'A100-contrast'), 0.55)};
+
+    background: #f1f8e9;
+
+    .shell__header .shell__toolbar {
+      background-color: #{mat.get-color-from-palette($primary, 700)};
+      color: #{mat.get-contrast-color-from-palette($primary, 700)};
+    }
+
+    .shell__footer {
+      background: #e8f5e9;
+    }
+
+    .shell__env-badge {
+      --mdc-chip-label-text-color: #{mat.get-color-from-palette($primary, 800)};
+      --mdc-chip-elevated-container-color: #{mat.get-color-from-palette($primary, 50)};
+    }
+  }
+}

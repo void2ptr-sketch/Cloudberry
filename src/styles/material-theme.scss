@@ -1,58 +1,17 @@
-@use '@angular/material' as mat;
+@use 'material-core';
+@use 'themes/theme-prod' as prod;
+@use 'themes/theme-dev' as dev;
+@use 'themes/theme-test' as test;
 
-@include mat.core();
-
-$prod-primary: mat.define-palette(mat.$blue-grey-palette, 700);
-$prod-accent: mat.define-palette(mat.$blue-grey-palette, 500);
-$prod-warn: mat.define-palette(mat.$red-palette);
-$prod-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $prod-primary,
-      accent: $prod-accent,
-      warn: $prod-warn,
-    ),
-    typography: mat.define-typography-config(),
-    density: 0,
-  )
-);
-
-$dev-primary: mat.define-palette(mat.$orange-palette, 700);
-$dev-accent: mat.define-palette(mat.$deep-orange-palette, A400);
-$dev-warn: mat.define-palette(mat.$red-palette);
-$dev-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $dev-primary,
-      accent: $dev-accent,
-      warn: $dev-warn,
-    ),
-    typography: mat.define-typography-config(),
-    density: 0,
-  )
-);
-
-$test-primary: mat.define-palette(mat.$green-palette, 700);
-$test-accent: mat.define-palette(mat.$light-green-palette, A700);
-$test-warn: mat.define-palette(mat.$red-palette);
-$test-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $test-primary,
-      accent: $test-accent,
-      warn: $test-warn,
-    ),
-    typography: mat.define-typography-config(),
-    density: 0,
-  )
-);
-
-@include mat.all-component-themes($prod-theme);
+@include prod.all-components();
+@include prod.shell();
+@include dev.shell();
+@include test.shell();
 
 body.theme-dev {
-  @include mat.all-component-colors($dev-theme);
+  @include dev.component-colors();
 }
 
 body.theme-test {
-  @include mat.all-component-colors($test-theme);
+  @include test.component-colors();
 }

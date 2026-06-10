@@ -42,6 +42,7 @@ describe('LocaleSwitcherComponent', () => {
           displayName: 'User',
           email: '',
           locale,
+          theme: 'prod',
           defaultCurrency: 'USD',
         }),
       );

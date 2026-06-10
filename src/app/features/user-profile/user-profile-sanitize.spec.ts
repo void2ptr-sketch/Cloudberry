@@ -7,12 +7,14 @@ describe('sanitizeUserProfileInput', () => {
         displayName: '<b>Alex</b>',
         email: 'alex@example.com',
         locale: 'ru',
+        theme: 'dev',
         defaultCurrency: 'usd',
       }),
     ).toEqual({
       displayName: 'Alex',
       email: 'alex@example.com',
       locale: 'ru',
+      theme: 'dev',
       defaultCurrency: 'USD',
     });
   });

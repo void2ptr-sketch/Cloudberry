@@ -7,7 +7,7 @@ describe('App smoke', () => {
 
     expect(root.querySelector('.shell__brand')?.textContent).toContain('Cloudberry');
     expect(smoke.router.url).toContain('/dashboard');
-    expect(shellContent(root).textContent).toContain('Обзор');
+    expect(shellContent(root).textContent).toContain('Расходы за период');
   });
 
   it('shows mock billing data on dashboard', async () => {

@@ -19,7 +19,8 @@
   }
 
   .form-field--email:not(:focus-within),
-  .form-field--locale:not(:focus-within) {
+  .form-field--locale:not(:focus-within),
+  .form-field--theme:not(:focus-within) {
     mat-hint,
     .mat-mdc-form-field-hint-wrapper {
       display: none;

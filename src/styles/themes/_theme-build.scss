@@ -1,0 +1,15 @@
+@use '@angular/material' as mat;
+
+@function light-theme($primary, $accent) {
+  @return mat.define-light-theme(
+    (
+      color: (
+        primary: $primary,
+        accent: $accent,
+        warn: mat.define-palette(mat.$red-palette),
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    )
+  );
+}

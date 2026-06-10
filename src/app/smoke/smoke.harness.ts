@@ -27,7 +27,10 @@ export async function createSmokeFixture(options: SmokeFixtureOptions = {}): Pro
   localStorage.clear();
 
   if (options.locale && options.locale !== 'ru') {
-    const profile = { ...createDefaultUserProfile(), locale: options.locale };
+    const profile = {
+      ...createDefaultUserProfile(environment.name),
+      locale: options.locale,
+    };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
   }
 

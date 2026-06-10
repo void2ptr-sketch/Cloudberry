@@ -51,6 +51,18 @@
         </mat-hint>
       </mat-form-field>
 
+      <mat-form-field appearance="outline" class="form-field form-field--theme">
+        <mat-label i18n="@@profile.theme">Тема оформления</mat-label>
+        <mat-select formControlName="theme">
+          @for (option of themeOptions; track option.id) {
+            <mat-option [value]="option.id">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+        <mat-hint align="start" i18n="@@profile.themeHint">
+          Меняется сразу, без перезагрузки страницы.
+        </mat-hint>
+      </mat-form-field>
+
       <mat-form-field appearance="outline" floatLabel="always" class="form-field form-field--currency">
         <mat-label i18n="@@profile.defaultCurrency">Валюта по умолчанию</mat-label>
         <input matInput formControlName="defaultCurrency" maxlength="3" required />

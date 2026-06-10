@@ -7,6 +7,7 @@ import {
   sanitizeText,
 } from '../../shared/sanitize/sanitize-text';
 import type { AppLocale } from '../../core/i18n';
+import { isAppTheme } from '../../core/theme';
 import type { UserProfile } from './user-profile.type';
 import type { UserProfileInput } from './user-profile-input.type';
 
@@ -19,6 +20,7 @@ export function sanitizeUserProfileInput(input: UserProfileInput): UserProfileIn
     displayName: sanitizeText(input.displayName, { maxLength: 80 }),
     email: sanitizeEmail(input.email),
     locale: APP_LOCALES.has(input.locale) ? input.locale : 'ru',
+    theme: isAppTheme(input.theme) ? input.theme : 'prod',
     defaultCurrency: CURRENCY_CODE_PATTERN.test(currency) ? currency : 'USD',
   };
 }

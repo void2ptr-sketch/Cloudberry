@@ -1,6 +1,9 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 
+import { APP_ENVIRONMENT } from '../../core/config/environment.token';
 import { AppLocaleService, APP_LOCALE_RELOAD, type AppLocale } from '../../core/i18n';
+import { AppThemeService, isAppTheme } from '../../core/theme';
+import type { AppTheme } from '../../core/theme';
 import { sanitizeUserProfile, sanitizeUserProfileInput } from './user-profile-sanitize';
 import { createDefaultUserProfile } from './user-profile-defaults';
 import type { UserProfile } from './user-profile.type';
@@ -10,7 +13,9 @@ const STORAGE_KEY = 'cloudberry.user-profile';
 
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
+  private readonly env = inject(APP_ENVIRONMENT);
   private readonly appLocale = inject(AppLocaleService);
+  private readonly appTheme = inject(AppThemeService);
   private readonly reloadPage = inject(APP_LOCALE_RELOAD);
   private readonly profileState = signal<UserProfile>(this.loadFromStorage());
 
@@ -19,6 +24,7 @@ export class UserProfileService {
 
   constructor() {
     this.appLocale.registerProfileSync((locale) => this.syncLocale(locale));
+    this.appTheme.apply(this.profileState().theme);
   }
 
   update(input: UserProfileInput): UserProfile {
@@ -29,6 +35,7 @@ export class UserProfileService {
     };
     this.profileState.set(updated);
     this.persist(updated);
+    this.appTheme.apply(updated.theme);
 
     if (updated.locale !== previousLocale) {
       this.reloadPage();
@@ -37,15 +44,30 @@ export class UserProfileService {
     return updated;
   }
 
+  applyTheme(theme: AppTheme): void {
+    const normalized = isAppTheme(theme) ? theme : this.env.name;
+    this.appTheme.apply(normalized);
+
+    const current = this.profileState();
+    if (current.theme === normalized) {
+      return;
+    }
+
+    const updated: UserProfile = { ...current, theme: normalized };
+    this.profileState.set(updated);
+    this.persist(updated);
+  }
+
   confirmResetMessage(): string {
     return $localize`:@@profile.confirmReset:Сбросить профиль к значениям по умолчанию?`;
   }
 
   reset(): void {
-    const defaults = createDefaultUserProfile();
+    const defaults = createDefaultUserProfile(this.env.name);
     const previousLocale = this.profileState().locale;
     this.profileState.set(defaults);
     this.persist(defaults);
+    this.appTheme.apply(defaults.theme);
 
     if (defaults.locale !== previousLocale) {
       this.reloadPage();
@@ -63,22 +85,27 @@ export class UserProfileService {
   }
 
   private loadFromStorage(): UserProfile {
+    const fallbackTheme = this.env.name;
+
     if (typeof localStorage === 'undefined') {
-      return createDefaultUserProfile();
+      return createDefaultUserProfile(fallbackTheme);
     }
 
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) {
-        return createDefaultUserProfile();
+        return createDefaultUserProfile(fallbackTheme);
       }
       const parsed: unknown = JSON.parse(raw);
       if (!isUserProfile(parsed)) {
-        return createDefaultUserProfile();
+        return createDefaultUserProfile(fallbackTheme);
       }
-      return sanitizeUserProfile(parsed);
+      return sanitizeUserProfile({
+        ...parsed,
+        theme: isAppTheme(parsed.theme) ? parsed.theme : fallbackTheme,
+      });
     } catch {
-      return createDefaultUserProfile();
+      return createDefaultUserProfile(fallbackTheme);
     }
   }
 
