@@ -2,19 +2,23 @@
   <header class="shell__header">
     <div class="shell__header-main">
       <a class="shell__brand" [routerLink]="homeLink">Cloudberry</a>
-      <p class="shell__tagline">{{ 'shell.tagline' | uiT }}</p>
+      <p class="shell__tagline" i18n="@@shell.tagline">Cloud accounting for clouds</p>
     </div>
     <div class="shell__header-actions">
-      <app-ui-locale-switcher />
+      <app-locale-switcher />
       <a class="shell__profile" [routerLink]="profileLink" routerLinkActive="shell__profile--active">
         <span class="shell__profile-label">{{ displayName() }}</span>
-        <span class="shell__profile-hint">{{ 'shell.profile' | uiT }}</span>
+        <span class="shell__profile-hint" i18n="@@shell.profile">Профиль</span>
       </a>
     </div>
   </header>
 
   <div class="shell__body">
-    <nav class="shell__nav" [attr.aria-label]="'shell.navAria' | uiT">
+    <nav
+      class="shell__nav"
+      i18n-aria-label="@@shell.navAria"
+      aria-label="Основная навигация"
+    >
       <ul class="shell__nav-list">
         @for (item of navItems; track item.path) {
           <li>
@@ -24,7 +28,7 @@
               routerLinkActive="shell__nav-link--active"
               [routerLinkActiveOptions]="{ exact: true }"
             >
-              {{ item.labelKey | uiT }}
+              {{ item.label }}
             </a>
           </li>
         }
@@ -43,6 +47,6 @@
         <span class="shell__env-badge">{{ envLabel }}</span>
       }
     </p>
-    <p class="shell__footer-meta">{{ 'shell.footerMeta' | uiT }}</p>
+    <p class="shell__footer-meta" i18n="@@shell.footerMeta">Cloud accounting for clouds · FinOps</p>
   </footer>
 </div>

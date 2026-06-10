@@ -1,3 +1,3 @@
-<h2>{{ 'notFound.title' | uiT }}</h2>
-<p class="page-lead">{{ 'notFound.lead' | uiT }}</p>
-<a [routerLink]="dashboardPath">{{ 'notFound.home' | uiT }}</a>
+<h2 i18n="@@notFound.title">Страница не найдена</h2>
+<p class="page-lead" i18n="@@notFound.lead">Запрошенный адрес не существует.</p>
+<a [routerLink]="dashboardPath" i18n="@@notFound.home">На главную</a>

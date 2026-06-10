@@ -1,56 +1,65 @@
-<h2>{{ 'profile.title' | uiT }}</h2>
-<p class="page-lead">{{ 'profile.lead' | uiT }}</p>
+<h2 i18n="@@profile.title">Профиль пользователя</h2>
+<p class="page-lead" i18n="@@profile.lead">
+  Настройте отображаемое имя, контакт и предпочтения приложения. Данные хранятся локально в браузере.
+</p>
 
 @if (saved()) {
-  <p class="profile-status" role="status">{{ 'profile.saved' | uiT }}</p>
+  <p class="profile-status" role="status" i18n="@@profile.saved">Профиль сохранён.</p>
 }
 
 <form class="profile-form" [formGroup]="form" (ngSubmit)="submit()">
   <label class="profile-form__field">
-    <span>{{ 'profile.displayName' | uiT }}</span>
+    <span i18n="@@profile.displayName">Отображаемое имя</span>
     <input
       type="text"
       formControlName="displayName"
-      [attr.placeholder]="'profile.displayNamePlaceholder' | uiT"
+      i18n-placeholder="@@profile.displayNamePlaceholder"
+      placeholder="Как вас показывать в интерфейсе"
     />
     @if (form.controls.displayName.touched && form.controls.displayName.hasError('required')) {
-      <span class="profile-form__error">{{ 'profile.displayNameRequired' | uiT }}</span>
+      <span class="profile-form__error" i18n="@@profile.displayNameRequired">Укажите имя</span>
     }
     @if (form.controls.displayName.touched && form.controls.displayName.hasError('unsafeMarkup')) {
-      <span class="profile-form__error">{{ 'common.unsafeInput' | uiT }}</span>
+      <span class="profile-form__error" i18n="@@common.unsafeInput">
+        Недопустимые символы или разметка в поле
+      </span>
     }
   </label>
 
   <label class="profile-form__field">
-    <span>{{ 'profile.email' | uiT }}</span>
+    <span i18n="@@profile.email">Email</span>
     <input type="email" formControlName="email" placeholder="name@company.com" />
     @if (form.controls.email.touched && form.controls.email.hasError('email')) {
-      <span class="profile-form__error">{{ 'profile.emailInvalid' | uiT }}</span>
+      <span class="profile-form__error" i18n="@@profile.emailInvalid">Некорректный email</span>
     }
   </label>
 
   <label class="profile-form__field">
-    <span>{{ 'profile.locale' | uiT }}</span>
+    <span i18n="@@profile.locale">Язык интерфейса</span>
     <select formControlName="locale">
       @for (option of localeOptions; track option.id) {
         <option [value]="option.id">{{ option.label }}</option>
       }
     </select>
-    <span class="profile-form__hint">{{ 'profile.localeHint' | uiT }}</span>
+    <span class="profile-form__hint" i18n="@@profile.localeHint">
+      После сохранения приложение перезагрузится с выбранным языком.
+    </span>
   </label>
 
   <label class="profile-form__field profile-form__field--narrow">
-    <span>{{ 'profile.defaultCurrency' | uiT }}</span>
+    <span i18n="@@profile.defaultCurrency">Валюта по умолчанию</span>
     <input type="text" formControlName="defaultCurrency" maxlength="3" placeholder="USD" />
     @if (form.controls.defaultCurrency.touched && form.controls.defaultCurrency.hasError('pattern')) {
-      <span class="profile-form__error">{{ 'profile.currencyInvalid' | uiT }}</span>
+      <span class="profile-form__error" i18n="@@profile.currencyInvalid">
+        Три заглавные буквы (ISO 4217)
+      </span>
     }
   </label>
 
   <div class="profile-form__actions">
-    <button type="submit" class="btn btn--primary">{{ 'common.save' | uiT }}</button>
-    <button type="button" class="btn btn--ghost" (click)="resetToDefaults()">
-      {{ 'common.reset' | uiT }}
+    <button type="submit" class="btn btn--primary" i18n="@@common.save">Сохранить</button>
+    <button type="button" class="btn btn--ghost" (click)="resetToDefaults()" i18n="@@common.reset">
+      Сбросить
     </button>
   </div>
 </form>

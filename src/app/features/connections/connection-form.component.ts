@@ -9,12 +9,11 @@ import {
 } from '../../core/domain';
 import { sanitizeCloudConnectionInput } from '../../core/sanitize';
 import { externalAccountIdValidator, noUnsafeMarkupValidator } from '../../shared/sanitize';
-import { UiTranslatePipe } from '../../shared/ui-locale';
 
 @Component({
   selector: 'app-connection-form',
   standalone: true,
-  imports: [ReactiveFormsModule, UiTranslatePipe],
+  imports: [ReactiveFormsModule],
   templateUrl: './connection-form.component.html',
   styleUrl: './connection-form.component.scss',
 })

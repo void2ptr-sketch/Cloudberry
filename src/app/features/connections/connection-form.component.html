@@ -1,25 +1,30 @@
 <form class="connection-form" [formGroup]="form" (ngSubmit)="submit()">
-  <h3 class="connection-form__title">
-    {{ isEditMode ? ('connection.form.titleEdit' | uiT) : ('connection.form.titleCreate' | uiT) }}
-  </h3>
+  @if (isEditMode) {
+    <h3 class="connection-form__title" i18n="@@connection.form.titleEdit">Редактировать подключение</h3>
+  } @else {
+    <h3 class="connection-form__title" i18n="@@connection.form.titleCreate">Новое подключение</h3>
+  }
 
   <label class="connection-form__field">
-    <span>{{ 'connection.form.name' | uiT }}</span>
+    <span i18n="@@connection.form.name">Название</span>
     <input
       type="text"
       formControlName="name"
-      [attr.placeholder]="'connection.form.namePlaceholder' | uiT"
+      i18n-placeholder="@@connection.form.namePlaceholder"
+      placeholder="Например, AWS Production"
     />
     @if (form.controls.name.touched && form.controls.name.hasError('required')) {
-      <span class="connection-form__error">{{ 'connection.form.nameRequired' | uiT }}</span>
+      <span class="connection-form__error" i18n="@@connection.form.nameRequired">Укажите название</span>
     }
     @if (form.controls.name.touched && form.controls.name.hasError('unsafeMarkup')) {
-      <span class="connection-form__error">{{ 'common.unsafeInput' | uiT }}</span>
+      <span class="connection-form__error" i18n="@@common.unsafeInput">
+        Недопустимые символы или разметка в поле
+      </span>
     }
   </label>
 
   <label class="connection-form__field">
-    <span>{{ 'connection.form.provider' | uiT }}</span>
+    <span i18n="@@connection.form.provider">Облачный провайдер</span>
     <select formControlName="provider">
       @for (option of providerOptions; track option.id) {
         <option [value]="option.id">{{ option.label }}</option>
@@ -28,38 +33,49 @@
   </label>
 
   <label class="connection-form__field">
-    <span>{{ 'connection.form.accountId' | uiT }}</span>
+    <span i18n="@@connection.form.accountId">ID аккаунта / подписки</span>
     <input
       type="text"
       formControlName="externalAccountId"
-      [attr.placeholder]="'connection.form.accountIdPlaceholder' | uiT"
+      i18n-placeholder="@@connection.form.accountIdPlaceholder"
+      placeholder="AWS Account ID, Azure Subscription ID, …"
     />
     @if (
       form.controls.externalAccountId.touched &&
       form.controls.externalAccountId.hasError('required')
     ) {
-      <span class="connection-form__error">{{ 'connection.form.accountIdRequired' | uiT }}</span>
+      <span class="connection-form__error" i18n="@@connection.form.accountIdRequired">
+        Укажите идентификатор аккаунта
+      </span>
     }
     @if (
       form.controls.externalAccountId.touched &&
       form.controls.externalAccountId.hasError('unsafeMarkup')
     ) {
-      <span class="connection-form__error">{{ 'common.unsafeInput' | uiT }}</span>
+      <span class="connection-form__error" i18n="@@common.unsafeInput">
+        Недопустимые символы или разметка в поле
+      </span>
     }
     @if (
       form.controls.externalAccountId.touched &&
       form.controls.externalAccountId.hasError('accountIdFormat')
     ) {
-      <span class="connection-form__error">{{ 'connection.form.accountIdInvalid' | uiT }}</span>
+      <span class="connection-form__error" i18n="@@connection.form.accountIdInvalid">
+        Идентификатор содержит недопустимые символы
+      </span>
     }
   </label>
 
-  <p class="connection-form__hint">{{ 'connection.form.hint' | uiT }}</p>
+  <p class="connection-form__hint" i18n="@@connection.form.hint">
+    Учётные данные для billing export настраиваются отдельно (IAM role, service principal).
+  </p>
 
   <div class="connection-form__actions">
-    <button type="submit" class="btn btn--primary">
-      {{ isEditMode ? ('common.save' | uiT) : ('common.add' | uiT) }}
-    </button>
-    <button type="button" class="btn btn--ghost" (click)="cancel()">{{ 'common.cancel' | uiT }}</button>
+    @if (isEditMode) {
+      <button type="submit" class="btn btn--primary" i18n="@@common.save">Сохранить</button>
+    } @else {
+      <button type="submit" class="btn btn--primary" i18n="@@common.add">Добавить</button>
+    }
+    <button type="button" class="btn btn--ghost" (click)="cancel()" i18n="@@common.cancel">Отмена</button>
   </div>
 </form>

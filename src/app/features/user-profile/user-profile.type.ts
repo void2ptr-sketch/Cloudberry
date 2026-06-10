@@ -1,9 +1,9 @@
-import type { UiLocale } from '../../shared/ui-locale';
+import type { AppLocale } from '../../core/i18n';
 
 export type UserProfile = {
   id: string;
   displayName: string;
   email: string;
-  locale: UiLocale;
+  locale: AppLocale;
   defaultCurrency: string;
 };

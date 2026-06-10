@@ -1,9 +1,6 @@
-<h2>{{ 'dashboard.title' | uiT }}</h2>
-<p class="page-lead">
-  {{
-    'dashboard.lead'
-      | uiT: { start: reportingPeriod().start, end: reportingPeriod().end }
-  }}
+<h2 i18n="@@dashboard.title">Dashboard</h2>
+<p class="page-lead" i18n="@@dashboard.lead">
+  Расходы за период {{ reportingPeriod().start }} — {{ reportingPeriod().end }}.
 </p>
 
 <app-resource-status [state]="billingState()" (retry)="retryBillingLoad()" />
@@ -11,34 +8,38 @@
 @if (billingState().status !== 'loading' && billingState().status !== 'error') {
 <dl class="dashboard-stats">
   <div class="dashboard-stats__item">
-    <dt>{{ 'dashboard.spend' | uiT }}</dt>
+    <dt i18n="@@dashboard.spend">Расход за период</dt>
     <dd>
       {{ costSummary().totalAmount | number: '1.2-2' }}
       {{ costSummary().currency }}
     </dd>
   </div>
   <div class="dashboard-stats__item">
-    <dt>{{ 'dashboard.records' | uiT }}</dt>
+    <dt i18n="@@dashboard.records">Строк затрат</dt>
     <dd>{{ costSummary().recordCount }}</dd>
   </div>
   <div class="dashboard-stats__item">
-    <dt>{{ 'dashboard.connectionsCount' | uiT }}</dt>
+    <dt i18n="@@dashboard.connectionsCount">Подключения</dt>
     <dd>{{ connectionCount() }}</dd>
   </div>
   <div class="dashboard-stats__item">
-    <dt>{{ 'dashboard.budgetsCount' | uiT }}</dt>
+    <dt i18n="@@dashboard.budgetsCount">Бюджеты</dt>
     <dd>{{ budgetCount() }}</dd>
   </div>
 </dl>
 
 <section class="dashboard-budgets">
   <div class="dashboard-budgets__header">
-    <h3>{{ 'dashboard.budgetsSection' | uiT }}</h3>
-    <a [routerLink]="budgetsPath">{{ 'common.manage' | uiT }}</a>
+    <h3 i18n="@@dashboard.budgetsSection">Состояние бюджетов</h3>
+    <a [routerLink]="budgetsPath" i18n="@@common.manage">Управление</a>
   </div>
 
   @if (activeBudgetAlerts().length > 0) {
-    <ul class="dashboard-budgets__alerts" [attr.aria-label]="'dashboard.budgetsAlertsAria' | uiT">
+    <ul
+      class="dashboard-budgets__alerts"
+      i18n-aria-label="@@dashboard.budgetsAlertsAria"
+      aria-label="Активные алерты бюджета"
+    >
       @for (alert of activeBudgetAlerts(); track alert.budgetId + '-' + alert.threshold) {
         <li [class]="'dashboard-budgets__alert ' + alertClass(alert.threshold)">
           {{ alertMessage(alert) }}
@@ -49,8 +50,8 @@
 
   @if (budgets().length === 0) {
     <p class="dashboard-budgets__empty">
-      {{ 'dashboard.budgetsEmpty' | uiT }}
-      <a [routerLink]="budgetsPath">{{ 'dashboard.budgetsSetup' | uiT }}</a>
+      <span i18n="@@dashboard.budgetsEmpty">Бюджетов нет.</span>
+      <a [routerLink]="budgetsPath" i18n="@@dashboard.budgetsSetup">Настроить лимиты</a>
     </p>
   } @else {
     <ul class="dashboard-budgets__list">
@@ -86,7 +87,9 @@
                 {{ usage.currency }}
                 <span class="dashboard-budgets__percent">({{ usage.usagePercent | number: '1.0-1' }}%)</span>
               </p>
-              <p class="dashboard-budgets__thresholds">{{ 'dashboard.budgetsThresholds' | uiT }}</p>
+              <p class="dashboard-budgets__thresholds" i18n="@@dashboard.budgetsThresholds">
+                Пороги: 80% · 100%
+              </p>
             </div>
           }
         </li>
@@ -97,14 +100,14 @@
 
 <section class="dashboard-connections">
   <div class="dashboard-connections__header">
-    <h3>{{ 'dashboard.connectionsSection' | uiT }}</h3>
-    <a [routerLink]="connectionsPath">{{ 'common.manage' | uiT }}</a>
+    <h3 i18n="@@dashboard.connectionsSection">Настроенные подключения</h3>
+    <a [routerLink]="connectionsPath" i18n="@@common.manage">Управление</a>
   </div>
 
   @if (connections().length === 0) {
     <p class="dashboard-connections__empty">
-      {{ 'dashboard.connectionsEmpty' | uiT }}
-      <a [routerLink]="connectionsPath">{{ 'dashboard.connectionsAdd' | uiT }}</a>
+      <span i18n="@@dashboard.connectionsEmpty">Подключений нет.</span>
+      <a [routerLink]="connectionsPath" i18n="@@dashboard.connectionsAdd">Добавить подключение к облаку</a>
     </p>
   } @else {
     <ul class="dashboard-connections__list">

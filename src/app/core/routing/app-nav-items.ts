@@ -1,15 +1,39 @@
-import type { UiMessageKey } from '../../shared/ui-locale';
 import { AppRoutePath } from './app-route-paths';
 
 export type AppNavItem = {
   path: AppRoutePath;
-  labelKey: UiMessageKey;
+  readonly label: string;
 };
 
 export const APP_NAV_ITEMS: AppNavItem[] = [
-  { path: AppRoutePath.dashboard, labelKey: 'nav.dashboard' },
-  { path: AppRoutePath.connections, labelKey: 'nav.connections' },
-  { path: AppRoutePath.budgets, labelKey: 'nav.budgets' },
-  { path: AppRoutePath.reports, labelKey: 'nav.reports' },
-  { path: AppRoutePath.costs, labelKey: 'nav.costs' },
+  {
+    path: AppRoutePath.dashboard,
+    get label() {
+      return $localize`:@@nav.dashboard:Dashboard`;
+    },
+  },
+  {
+    path: AppRoutePath.connections,
+    get label() {
+      return $localize`:@@nav.connections:Подключения`;
+    },
+  },
+  {
+    path: AppRoutePath.budgets,
+    get label() {
+      return $localize`:@@nav.budgets:Бюджеты`;
+    },
+  },
+  {
+    path: AppRoutePath.reports,
+    get label() {
+      return $localize`:@@nav.reports:Отчёты`;
+    },
+  },
+  {
+    path: AppRoutePath.costs,
+    get label() {
+      return $localize`:@@nav.costs:Расходы`;
+    },
+  },
 ];

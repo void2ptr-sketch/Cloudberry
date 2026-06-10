@@ -1,6 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 
-import { UiLocaleService, UiTranslateService, type UiLocale } from '../../shared/ui-locale';
+import { AppLocaleService, APP_LOCALE_RELOAD, type AppLocale } from '../../core/i18n';
 import { sanitizeUserProfile, sanitizeUserProfileInput } from './user-profile-sanitize';
 import { createDefaultUserProfile } from './user-profile-defaults';
 import type { UserProfile } from './user-profile.type';
@@ -10,41 +10,49 @@ const STORAGE_KEY = 'cloudberry.user-profile';
 
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
-  private readonly uiLocale = inject(UiLocaleService);
-  private readonly translate = inject(UiTranslateService);
+  private readonly appLocale = inject(AppLocaleService);
+  private readonly reloadPage = inject(APP_LOCALE_RELOAD);
   private readonly profileState = signal<UserProfile>(this.loadFromStorage());
 
   readonly userProfile = this.profileState.asReadonly();
   readonly displayName = computed(() => this.profileState().displayName);
 
   constructor() {
-    this.uiLocale.registerProfileSync((locale) => this.syncLocale(locale));
-    this.uiLocale.initLocale(this.profileState().locale);
+    this.appLocale.registerProfileSync((locale) => this.syncLocale(locale));
   }
 
   update(input: UserProfileInput): UserProfile {
+    const previousLocale = this.profileState().locale;
     const updated: UserProfile = {
       ...this.profileState(),
       ...sanitizeUserProfileInput(input),
     };
     this.profileState.set(updated);
     this.persist(updated);
-    this.uiLocale.initLocale(updated.locale);
+
+    if (updated.locale !== previousLocale) {
+      this.reloadPage();
+    }
+
     return updated;
   }
 
   confirmResetMessage(): string {
-    return this.translate.t('profile.confirmReset');
+    return $localize`:@@profile.confirmReset:Сбросить профиль к значениям по умолчанию?`;
   }
 
   reset(): void {
     const defaults = createDefaultUserProfile();
+    const previousLocale = this.profileState().locale;
     this.profileState.set(defaults);
     this.persist(defaults);
-    this.uiLocale.initLocale(defaults.locale);
+
+    if (defaults.locale !== previousLocale) {
+      this.reloadPage();
+    }
   }
 
-  private syncLocale(locale: UiLocale): void {
+  private syncLocale(locale: AppLocale): void {
     const current = this.profileState();
     if (current.locale === locale) {
       return;

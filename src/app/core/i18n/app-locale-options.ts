@@ -1,15 +1,15 @@
-import type { UiLocale } from './ui-locale.type';
+import type { AppLocale } from './app-locale.type';
 
-export type UiLocaleOption = {
-  id: UiLocale;
+export type AppLocaleOption = {
+  id: AppLocale;
   label: string;
   shortLabel: string;
 };
 
-export const UI_LOCALE_OPTIONS: UiLocaleOption[] = [
+export const APP_LOCALE_OPTIONS: AppLocaleOption[] = [
   { id: 'ru', label: 'Русский', shortLabel: 'RU' },
   { id: 'en', label: 'English', shortLabel: 'EN' },
   { id: 'zh', label: '中文', shortLabel: '中文' },
 ];
 
-export const DEFAULT_UI_LOCALE: UiLocale = 'ru';
+export const DEFAULT_APP_LOCALE: AppLocale = 'ru';

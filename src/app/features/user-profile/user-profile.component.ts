@@ -1,13 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import {
-  UI_LOCALE_OPTIONS,
-  UiLocaleService,
-  UiTranslatePipe,
-  type UiLocale,
-} from '../../shared/ui-locale';
+import { APP_LOCALE_OPTIONS, type AppLocale } from '../../core/i18n';
 import { noUnsafeMarkupValidator } from '../../shared/sanitize';
 import { sanitizeUserProfileInput } from './user-profile-sanitize';
 import { UserProfileService } from './user-profile.service';
@@ -16,16 +10,15 @@ import type { UserProfileInput } from './user-profile-input.type';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [ReactiveFormsModule, UiTranslatePipe],
+  imports: [ReactiveFormsModule],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent {
   private readonly fb = inject(FormBuilder);
   private readonly userProfileService = inject(UserProfileService);
-  private readonly uiLocale = inject(UiLocaleService);
 
-  readonly localeOptions = UI_LOCALE_OPTIONS;
+  readonly localeOptions = APP_LOCALE_OPTIONS;
   readonly saved = signal(false);
 
   readonly form = this.fb.nonNullable.group({
@@ -39,7 +32,7 @@ export class UserProfileComponent {
       ],
     ],
     email: ['', [Validators.email, Validators.maxLength(120)]],
-    locale: ['ru' as UiLocale, Validators.required],
+    locale: ['ru' as AppLocale, Validators.required],
     defaultCurrency: ['USD', [Validators.required, Validators.pattern(/^[A-Z]{3}$/)]],
   });
 
@@ -50,10 +43,6 @@ export class UserProfileComponent {
       email: profile.email,
       locale: profile.locale,
       defaultCurrency: profile.defaultCurrency,
-    });
-
-    this.form.controls.locale.valueChanges.pipe(takeUntilDestroyed()).subscribe((locale) => {
-      this.uiLocale.initLocale(locale);
     });
   }
 

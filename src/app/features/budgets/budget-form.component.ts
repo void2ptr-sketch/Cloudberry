@@ -10,30 +10,26 @@ import {
 import { sanitizeBudgetInput } from '../../core/sanitize';
 import { AppStore } from '../../core/state';
 import { noUnsafeMarkupValidator } from '../../shared/sanitize';
-import { UiLocaleService, UiTranslatePipe, UiTranslateService } from '../../shared/ui-locale';
 
 @Component({
   selector: 'app-budget-form',
   standalone: true,
-  imports: [ReactiveFormsModule, UiTranslatePipe],
+  imports: [ReactiveFormsModule],
   templateUrl: './budget-form.component.html',
   styleUrl: './budget-form.component.scss',
 })
 export class BudgetFormComponent {
   private readonly fb = inject(FormBuilder);
   private readonly store = inject(AppStore);
-  private readonly translate = inject(UiTranslateService);
-  private readonly uiLocale = inject(UiLocaleService);
 
   readonly budget = input<Budget | null>(null);
   readonly saved = output<BudgetInput>();
   readonly cancelled = output<void>();
 
   readonly scopeOptions = computed((): BudgetScopeOption[] => {
-    this.uiLocale.locale();
     const costCenters = this.store.costCenters();
     return [
-      { id: ORG_SCOPE_ID, label: this.translate.t('budget.scope.org') },
+      { id: ORG_SCOPE_ID, label: $localize`:@@budget.scope.org:Вся организация` },
       ...costCenters.map((center) => ({ id: center.id, label: center.name })),
     ];
   });

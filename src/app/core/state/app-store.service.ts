@@ -16,7 +16,6 @@ import { BudgetsStorageService } from '../storage/budgets-storage.service';
 import { ConnectionsStorageService } from '../storage/connections-storage.service';
 import { sanitizeBudgetInput, sanitizeCloudConnectionInput } from '../sanitize';
 import { resolveErrorMessage } from '../http';
-import { UiTranslateService } from '../../shared/ui-locale';
 import { createInitialAppState } from './app-state.initial';
 import { createMockAppState } from './app-state.mock';
 import type { AppState, CostSummary, ReportingPeriod } from './app-state.model';
@@ -37,7 +36,6 @@ export class AppStore {
   private readonly connectionsApi = inject(ConnectionsApiService);
   private readonly budgetsStorage = inject(BudgetsStorageService);
   private readonly connectionsStorage = inject(ConnectionsStorageService);
-  private readonly translate = inject(UiTranslateService);
   private readonly state = signal<AppState>(this.buildInitialState());
 
   readonly billingState = computed(() => this.state().resources.billing);
@@ -257,7 +255,7 @@ export class AppStore {
 
       this.setResourceState(
         'budgets',
-        errorResourceState(resolveErrorMessage(error, this.translate, 'common.errorLoad')),
+        errorResourceState(resolveErrorMessage(error)),
       );
     }
   }
@@ -284,7 +282,7 @@ export class AppStore {
 
       this.setResourceState(
         'connections',
-        errorResourceState(resolveErrorMessage(error, this.translate, 'common.errorLoad')),
+        errorResourceState(resolveErrorMessage(error)),
       );
     }
   }
@@ -311,7 +309,7 @@ export class AppStore {
     } catch (error) {
       this.setResourceState(
         'billing',
-        errorResourceState(resolveErrorMessage(error, this.translate, 'common.errorLoad')),
+        errorResourceState(resolveErrorMessage(error)),
       );
     }
   }

@@ -2,7 +2,6 @@ import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { UiLocaleService, UiTranslateService } from '../../shared/ui-locale';
 import { APP_ENVIRONMENT } from '../config/environment.token';
 import { isApiHttpError } from './api-http-error.type';
 import { AuthTokenService } from './auth-token.service';
@@ -18,8 +17,6 @@ describe('errorInterceptor', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        UiLocaleService,
-        UiTranslateService,
         AuthTokenService,
         provideHttpClient(withInterceptors([errorInterceptor])),
         provideHttpClientTesting(),

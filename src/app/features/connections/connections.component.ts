@@ -7,19 +7,17 @@ import {
 } from '../../core/domain';
 import { AppStore } from '../../core/state';
 import { UiResourceStatusComponent } from '../../shared/ui-resource-status';
-import { UiTranslatePipe, UiTranslateService } from '../../shared/ui-locale';
 import { ConnectionFormComponent } from './connection-form.component';
 
 @Component({
   selector: 'app-connections',
   standalone: true,
-  imports: [ConnectionFormComponent, UiResourceStatusComponent, UiTranslatePipe],
+  imports: [ConnectionFormComponent, UiResourceStatusComponent],
   templateUrl: './connections.component.html',
   styleUrl: './connections.component.scss',
 })
 export class ConnectionsComponent implements OnInit {
   private readonly store = inject(AppStore);
-  private readonly translate = inject(UiTranslateService);
 
   readonly connections = this.store.connections;
   readonly connectionsState = this.store.connectionsState;
@@ -64,9 +62,8 @@ export class ConnectionsComponent implements OnInit {
   }
 
   removeConnection(connection: CloudConnection): void {
-    const confirmed = confirm(
-      this.translate.t('connections.confirmDelete', { name: connection.name }),
-    );
+    const name = connection.name;
+    const confirmed = confirm($localize`:@@connections.confirmDelete:Удалить подключение «${name}»?`);
     if (!confirmed) {
       return;
     }

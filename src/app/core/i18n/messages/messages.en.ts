@@ -1,6 +1,4 @@
-import type { UiMessageCatalog } from './ui-message-catalog.type';
-
-export const UI_MESSAGES_EN: UiMessageCatalog = {
+export const MESSAGES_EN: Record<string, string> = {
   'common.save': 'Save',
   'common.add': 'Add',
   'common.cancel': 'Cancel',
@@ -39,7 +37,7 @@ export const UI_MESSAGES_EN: UiMessageCatalog = {
   'profile.email': 'Email',
   'profile.emailInvalid': 'Invalid email',
   'profile.locale': 'Interface language',
-  'profile.localeHint': 'Language changes apply to on-screen forms immediately.',
+  'profile.localeHint': 'The app reloads with the selected language after you save.',
   'profile.defaultCurrency': 'Default currency',
   'profile.currencyInvalid': 'Three uppercase letters (ISO 4217)',
   'profile.confirmReset': 'Reset profile to default values?',

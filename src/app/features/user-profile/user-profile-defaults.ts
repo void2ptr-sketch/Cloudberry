@@ -1,4 +1,4 @@
-import { DEFAULT_UI_LOCALE } from '../../shared/ui-locale';
+import { DEFAULT_APP_LOCALE } from '../../core/i18n';
 import type { UserProfile } from './user-profile.type';
 
 export function createDefaultUserProfile(): UserProfile {
@@ -6,7 +6,7 @@ export function createDefaultUserProfile(): UserProfile {
     id: crypto.randomUUID(),
     displayName: 'Пользователь',
     email: '',
-    locale: DEFAULT_UI_LOCALE,
+    locale: DEFAULT_APP_LOCALE,
     defaultCurrency: 'USD',
   };
 }

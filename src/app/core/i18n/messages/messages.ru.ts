@@ -1,6 +1,4 @@
-import type { UiMessageCatalog } from './ui-message-catalog.type';
-
-export const UI_MESSAGES_RU: UiMessageCatalog = {
+export const MESSAGES_RU: Record<string, string> = {
   'common.save': 'Сохранить',
   'common.add': 'Добавить',
   'common.cancel': 'Отмена',
@@ -39,7 +37,7 @@ export const UI_MESSAGES_RU: UiMessageCatalog = {
   'profile.email': 'Email',
   'profile.emailInvalid': 'Некорректный email',
   'profile.locale': 'Язык интерфейса',
-  'profile.localeHint': 'Изменение языка сразу применяется к экранным формам.',
+  'profile.localeHint': 'После сохранения приложение перезагрузится с выбранным языком.',
   'profile.defaultCurrency': 'Валюта по умолчанию',
   'profile.currencyInvalid': 'Три заглавные буквы (ISO 4217)',
   'profile.confirmReset': 'Сбросить профиль к значениям по умолчанию?',

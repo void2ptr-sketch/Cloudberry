@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
+import { LocaleSwitcherComponent } from '../i18n';
 import { UserProfileService } from '../../features/user-profile/user-profile.service';
-import { UiLocaleSwitcherComponent, UiTranslatePipe } from '../../shared/ui-locale';
 import { APP_ENVIRONMENT } from '../config/environment.token';
 import { APP_NAV_ITEMS } from '../routing/app-nav-items';
 import { AppRoutePath } from '../routing/app-route-paths';
@@ -10,7 +10,7 @@ import { AppRoutePath } from '../routing/app-route-paths';
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, UiLocaleSwitcherComponent, UiTranslatePipe],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, LocaleSwitcherComponent],
   templateUrl: './app-shell.component.html',
   styleUrl: './app-shell.component.scss',
 })

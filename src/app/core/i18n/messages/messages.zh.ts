@@ -1,6 +1,4 @@
-import type { UiMessageCatalog } from './ui-message-catalog.type';
-
-export const UI_MESSAGES_ZH: UiMessageCatalog = {
+export const MESSAGES_ZH: Record<string, string> = {
   'common.save': '保存',
   'common.add': '添加',
   'common.cancel': '取消',
@@ -38,7 +36,7 @@ export const UI_MESSAGES_ZH: UiMessageCatalog = {
   'profile.email': '电子邮箱',
   'profile.emailInvalid': '电子邮箱格式无效',
   'profile.locale': '界面语言',
-  'profile.localeHint': '更改语言会立即应用到屏幕表单。',
+  'profile.localeHint': '保存后应用将使用所选语言重新加载。',
   'profile.defaultCurrency': '默认货币',
   'profile.currencyInvalid': '三个大写字母（ISO 4217）',
   'profile.confirmReset': '将资料重置为默认值？',

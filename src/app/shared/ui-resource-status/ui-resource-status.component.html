@@ -1,13 +1,13 @@
 @if (state().status === 'loading') {
-  <p class="resource-status" role="status">{{ loadingKey() | uiT }}</p>
+  <p class="resource-status" role="status" i18n="@@common.loading">Загрузка данных…</p>
 }
 
 @if (state().status === 'error') {
   <div class="resource-status resource-status--error" role="alert">
-    <p>{{ state().error ?? ('common.errorLoad' | uiT) }}</p>
+    <p>{{ state().error ?? commonErrorLoad }}</p>
     @if (retryable()) {
-      <button type="button" class="btn btn--ghost btn--small" (click)="retry.emit()">
-        {{ 'common.retry' | uiT }}
+      <button type="button" class="btn btn--ghost btn--small" (click)="retry.emit()" i18n="@@common.retry">
+        Повторить
       </button>
     }
   </div>

@@ -8,14 +8,29 @@ import { environment } from '../../environments/environment.test';
 import { AppComponent } from '../app.component';
 import { routes } from '../app.routes';
 import { APP_ENVIRONMENT } from '../core/config/environment.token';
+import { prepareAppLocale, type AppLocale } from '../core/i18n';
+import { createDefaultUserProfile } from '../features/user-profile/user-profile-defaults';
+
+const STORAGE_KEY = 'cloudberry.user-profile';
 
 export type SmokeFixture = {
   fixture: ComponentFixture<AppComponent>;
   router: Router;
 };
 
-export async function createSmokeFixture(): Promise<SmokeFixture> {
+export type SmokeFixtureOptions = {
+  locale?: AppLocale;
+};
+
+export async function createSmokeFixture(options: SmokeFixtureOptions = {}): Promise<SmokeFixture> {
   localStorage.clear();
+
+  if (options.locale && options.locale !== 'ru') {
+    const profile = { ...createDefaultUserProfile(), locale: options.locale };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+  }
+
+  prepareAppLocale();
 
   await TestBed.configureTestingModule({
     imports: [AppComponent],

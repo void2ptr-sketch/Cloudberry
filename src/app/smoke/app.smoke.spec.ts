@@ -53,6 +53,14 @@ describe('App smoke', () => {
     expect(content.textContent).toContain('Страница не найдена');
   });
 
+  it('renders English navigation when locale is en', async () => {
+    const smoke = await createSmokeFixture({ locale: 'en' });
+    const root = await navigateSmoke(smoke, '/dashboard');
+
+    const connectionsLink = root.querySelector('a.shell__nav-link[href="/connections"]');
+    expect(connectionsLink?.textContent?.trim()).toBe('Connections');
+  });
+
   it('switches UI locale from header', async () => {
     const smoke = await createSmokeFixture();
     const root = await navigateSmoke(smoke, '/dashboard');
@@ -62,9 +70,10 @@ describe('App smoke', () => {
     ) as HTMLButtonElement | null;
     expect(enButton).not.toBeNull();
     enButton?.click();
-    smoke.fixture.detectChanges();
 
-    const connectionsLink = root.querySelector('a.shell__nav-link[href="/connections"]');
-    expect(connectionsLink?.textContent?.trim()).toBe('Connections');
+    const stored = JSON.parse(localStorage.getItem('cloudberry.user-profile') ?? '{}') as {
+      locale?: string;
+    };
+    expect(stored.locale).toBe('en');
   });
 });

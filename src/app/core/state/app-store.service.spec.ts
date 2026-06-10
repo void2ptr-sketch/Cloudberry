@@ -6,7 +6,6 @@ import { ConnectionsApiService } from '../api/connections-api.service';
 import { APP_ENVIRONMENT } from '../config/environment.token';
 import { BudgetsStorageService } from '../storage/budgets-storage.service';
 import { ConnectionsStorageService } from '../storage/connections-storage.service';
-import { UiLocaleService, UiTranslateService } from '../../shared/ui-locale';
 import { AppStore } from './app-store.service';
 import { createInitialAppState } from './app-state.initial';
 
@@ -21,8 +20,6 @@ describe('AppStore', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        UiLocaleService,
-        UiTranslateService,
         AppStore,
         { provide: ConnectionsStorageService, useValue: connectionsStorage },
         { provide: BudgetsStorageService, useValue: budgetsStorage },
@@ -119,8 +116,6 @@ describe('AppStore', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       providers: [
-        UiLocaleService,
-        UiTranslateService,
         AppStore,
         { provide: ConnectionsStorageService, useValue: connectionsStorage },
         { provide: BudgetsStorageService, useValue: budgetsStorage },
@@ -174,8 +169,6 @@ describe('AppStore', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       providers: [
-        UiLocaleService,
-        UiTranslateService,
         AppStore,
         { provide: ConnectionsStorageService, useValue: connectionsStorage },
         { provide: BudgetsStorageService, useValue: budgetsStorage },
@@ -275,8 +268,6 @@ describe('AppStore', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       providers: [
-        UiLocaleService,
-        UiTranslateService,
         AppStore,
         { provide: ConnectionsStorageService, useValue: connectionsStorage },
         { provide: BudgetsStorageService, useValue: budgetsStorage },

@@ -1,22 +1,24 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
-import type { UiMessageKey } from '../../shared/ui-locale';
-import { UiTranslateService } from '../../shared/ui-locale';
 import { isApiHttpError, type ApiHttpError } from './api-http-error.type';
 
-const STATUS_MESSAGE_KEYS: Record<number, UiMessageKey> = {
-  401: 'http.error.unauthorized',
-  403: 'http.error.forbidden',
-  404: 'http.error.notFound',
+const HTTP_ERROR_NETWORK = $localize`:@@http.error.network:Нет соединения с сервером`;
+const HTTP_ERROR_UNAUTHORIZED = $localize`:@@http.error.unauthorized:Требуется авторизация`;
+const HTTP_ERROR_FORBIDDEN = $localize`:@@http.error.forbidden:Доступ запрещён`;
+const HTTP_ERROR_NOT_FOUND = $localize`:@@http.error.notFound:Ресурс не найден`;
+const HTTP_ERROR_SERVER = $localize`:@@http.error.server:Ошибка сервера`;
+const HTTP_ERROR_UNKNOWN = $localize`:@@http.error.unknown:Не удалось выполнить запрос`;
+export const COMMON_ERROR_LOAD = $localize`:@@common.errorLoad:Ошибка загрузки данных`;
+
+const STATUS_MESSAGES: Record<number, string> = {
+  401: HTTP_ERROR_UNAUTHORIZED,
+  403: HTTP_ERROR_FORBIDDEN,
+  404: HTTP_ERROR_NOT_FOUND,
 };
 
-export function mapHttpError(
-  error: HttpErrorResponse,
-  translate: UiTranslateService,
-): ApiHttpError {
-  const messageKey = resolveMessageKey(error);
+export function mapHttpError(error: HttpErrorResponse): ApiHttpError {
   const serverMessage = extractServerMessage(error);
-  const message = serverMessage ?? translate.t(messageKey);
+  const message = serverMessage ?? resolveHttpErrorMessage(error);
 
   return {
     kind: 'api-http',
@@ -28,30 +30,29 @@ export function mapHttpError(
 
 export function resolveErrorMessage(
   error: unknown,
-  translate: UiTranslateService,
-  fallbackKey: UiMessageKey = 'common.errorLoad',
+  fallbackMessage: string = COMMON_ERROR_LOAD,
 ): string {
   if (isApiHttpError(error)) {
     return error.message;
   }
-  return translate.t(fallbackKey);
+  return fallbackMessage;
 }
 
-function resolveMessageKey(error: HttpErrorResponse): UiMessageKey {
+function resolveHttpErrorMessage(error: HttpErrorResponse): string {
   if (error.status === 0) {
-    return 'http.error.network';
+    return HTTP_ERROR_NETWORK;
   }
 
-  const statusKey = STATUS_MESSAGE_KEYS[error.status];
-  if (statusKey) {
-    return statusKey;
+  const statusMessage = STATUS_MESSAGES[error.status];
+  if (statusMessage) {
+    return statusMessage;
   }
 
   if (error.status >= 500) {
-    return 'http.error.server';
+    return HTTP_ERROR_SERVER;
   }
 
-  return 'http.error.unknown';
+  return HTTP_ERROR_UNKNOWN;
 }
 
 function extractServerMessage(error: HttpErrorResponse): string | null {

@@ -14,7 +14,7 @@
 | HTTP | `HttpClient` + functional interceptors (auth, ошибки); RxJS только в `core/api/` |
 | Формы | Reactive Forms |
 | Стили | SCSS, без UI-библиотек |
-| i18n | Собственный `shared/ui-locale` (ru / en / zh) |
+| i18n | `@angular/localize` — `i18n` / `$localize`, runtime `loadTranslations` (ru / en / zh) |
 | Тесты | Karma, Jasmine; smoke-тесты в `src/app/smoke/` |
 | Качество | ESLint (`angular-eslint`), Prettier |
 
@@ -69,6 +69,7 @@ npm start
 src/app/
 ├── core/                    # Singleton-слой приложения
 │   ├── api/                 # HTTP-сервисы, типы ответов API, readHttpResource()
+│   ├── i18n/                # @angular/localize, каталоги en/zh, переключатель языка
 │   ├── config/              # environment.token
 │   ├── domain/              # Доменные типы (Budget, CloudConnection, …)
 │   ├── http/                # Auth/error interceptors, AuthTokenService
@@ -87,7 +88,6 @@ src/app/
 │   └── not-found/
 ├── shared/
 │   ├── sanitize/            # Валидаторы и утилиты очистки текста
-│   ├── ui-locale/           # Локализация, pipe uiT, переключатель языка
 │   └── ui-resource-status/  # Индикатор загрузки / ошибки / retry
 ├── smoke/                   # Smoke-тесты (роутинг, mock-данные, i18n)
 ├── app.config.ts            # providers: HttpClient, interceptors, router

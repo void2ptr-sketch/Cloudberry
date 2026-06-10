@@ -1,15 +1,22 @@
-<h2>{{ 'connections.title' | uiT }}</h2>
-<p class="page-lead">{{ 'connections.lead' | uiT }}</p>
+<h2 i18n="@@connections.title">Подключения к облакам</h2>
+<p class="page-lead" i18n="@@connections.lead">
+  Настройте привязку к billing-аккаунтам AWS, Azure, GCP и других провайдеров.
+</p>
 
 <div class="connections-toolbar">
   @if (!showForm()) {
-    <button type="button" class="btn btn--primary" (click)="openCreateForm()">
-      {{ 'connections.add' | uiT }}
+    <button type="button" class="btn btn--primary" (click)="openCreateForm()" i18n="@@connections.add">
+      Добавить подключение
     </button>
   }
   @if (selectedConnectionId()) {
-    <button type="button" class="btn btn--ghost btn--small" (click)="clearSelection()">
-      {{ 'connections.clearSelection' | uiT }}
+    <button
+      type="button"
+      class="btn btn--ghost btn--small"
+      (click)="clearSelection()"
+      i18n="@@connections.clearSelection"
+    >
+      Сбросить выбор
     </button>
   }
 </div>
@@ -31,9 +38,9 @@
   !showForm()
 ) {
   <div class="connections-empty">
-    <p>{{ 'connections.empty' | uiT }}</p>
-    <button type="button" class="btn btn--primary" (click)="openCreateForm()">
-      {{ 'connections.createFirst' | uiT }}
+    <p i18n="@@connections.empty">Подключений пока нет.</p>
+    <button type="button" class="btn btn--primary" (click)="openCreateForm()" i18n="@@connections.createFirst">
+      Создать первое подключение
     </button>
   </div>
 }
@@ -53,7 +60,7 @@
             <span class="connections-list__account">{{ connection.externalAccountId }}</span>
           </p>
           @if (isSelected(connection)) {
-            <span class="connections-list__badge">{{ 'connections.activeBadge' | uiT }}</span>
+            <span class="connections-list__badge" i18n="@@connections.activeBadge">Активное для фильтра</span>
           }
         </div>
         <div class="connections-list__actions">
@@ -61,22 +68,25 @@
             type="button"
             class="btn btn--ghost btn--small"
             (click)="selectConnection(connection)"
+            i18n="@@common.select"
           >
-            {{ 'common.select' | uiT }}
+            Выбрать
           </button>
           <button
             type="button"
             class="btn btn--ghost btn--small"
             (click)="openEditForm(connection)"
+            i18n="@@common.edit"
           >
-            {{ 'common.edit' | uiT }}
+            Изменить
           </button>
           <button
             type="button"
             class="btn btn--danger btn--small"
             (click)="removeConnection(connection)"
+            i18n="@@common.delete"
           >
-            {{ 'common.delete' | uiT }}
+            Удалить
           </button>
         </div>
       </li>

@@ -5,19 +5,17 @@ import { ORG_SCOPE_ID, type Budget, type BudgetInput } from '../../core/domain';
 import { AppStore } from '../../core/state';
 import type { BudgetUsageStatus } from '../../core/state/budget-usage.type';
 import { UiResourceStatusComponent } from '../../shared/ui-resource-status';
-import { UiTranslatePipe, UiTranslateService } from '../../shared/ui-locale';
 import { BudgetFormComponent } from './budget-form.component';
 
 @Component({
   selector: 'app-budgets',
   standalone: true,
-  imports: [BudgetFormComponent, DecimalPipe, UiResourceStatusComponent, UiTranslatePipe],
+  imports: [BudgetFormComponent, DecimalPipe, UiResourceStatusComponent],
   templateUrl: './budgets.component.html',
   styleUrl: './budgets.component.scss',
 })
 export class BudgetsComponent implements OnInit {
   private readonly store = inject(AppStore);
-  private readonly translate = inject(UiTranslateService);
 
   readonly budgets = this.store.budgets;
   readonly budgetsState = this.store.budgetsState;
@@ -62,9 +60,8 @@ export class BudgetsComponent implements OnInit {
   }
 
   removeBudget(budget: Budget): void {
-    const confirmed = confirm(
-      this.translate.t('budgets.confirmDelete', { name: budget.name }),
-    );
+    const name = budget.name;
+    const confirmed = confirm($localize`:@@budgets.confirmDelete:Удалить бюджет «${name}»?`);
     if (!confirmed) {
       return;
     }
@@ -86,26 +83,23 @@ export class BudgetsComponent implements OnInit {
     limitAmount: number;
     currency: string;
   }): string {
-    return this.translate.t('budgets.alert', {
-      name: alert.budgetName,
-      threshold: String(alert.threshold),
-      percent: alert.usagePercent.toFixed(1),
-      spent: alert.spentAmount.toFixed(2),
-      limit: alert.limitAmount.toFixed(2),
-      currency: alert.currency,
-    });
+    const name = alert.budgetName;
+    const threshold = String(alert.threshold);
+    const percent = alert.usagePercent.toFixed(1);
+    const spent = alert.spentAmount.toFixed(2);
+    const limit = alert.limitAmount.toFixed(2);
+    const currency = alert.currency;
+    return $localize`:@@budgets.alert:${name} — достигнут порог ${threshold}% (${percent}%: ${spent} / ${limit} ${currency})`;
   }
 
   limitLabel(amount: number, currency: string): string {
-    return this.translate.t('budgets.limit', {
-      amount: amount.toFixed(2),
-      currency,
-    });
+    const formattedAmount = amount.toFixed(2);
+    return $localize`:@@budgets.limit:Лимит: ${formattedAmount} ${currency}`;
   }
 
   scopeLabel(scopeId: string): string {
     if (scopeId === ORG_SCOPE_ID) {
-      return this.translate.t('budget.scope.org');
+      return $localize`:@@budget.scope.org:Вся организация`;
     }
     const center = this.costCenters().find((item) => item.id === scopeId);
     return center?.name ?? scopeId;

@@ -1,10 +1,15 @@
-<div class="ui-locale-switcher" role="group" [attr.aria-label]="'locale.switcherAria' | uiT">
+<div
+  class="ui-locale-switcher"
+  role="group"
+  i18n-aria-label="@@locale.switcherAria"
+  aria-label="Язык интерфейса"
+>
   @for (option of options; track option.id) {
     <button
       type="button"
       class="ui-locale-switcher__btn"
-      [class.ui-locale-switcher__btn--active]="locale() === option.id"
-      [attr.aria-pressed]="locale() === option.id"
+      [class.ui-locale-switcher__btn--active]="currentLocale() === option.id"
+      [attr.aria-pressed]="currentLocale() === option.id"
       [attr.aria-label]="option.label"
       [title]="option.label"
       (click)="selectLocale(option.id)"
