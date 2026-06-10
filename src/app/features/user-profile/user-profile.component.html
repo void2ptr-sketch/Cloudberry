@@ -16,6 +16,9 @@
     @if (form.controls.displayName.touched && form.controls.displayName.hasError('required')) {
       <span class="profile-form__error">{{ 'profile.displayNameRequired' | uiT }}</span>
     }
+    @if (form.controls.displayName.touched && form.controls.displayName.hasError('unsafeMarkup')) {
+      <span class="profile-form__error">{{ 'common.unsafeInput' | uiT }}</span>
+    }
   </label>
 
   <label class="profile-form__field">

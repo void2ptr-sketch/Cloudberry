@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import type { CloudConnection } from '../domain';
+import { sanitizeCloudConnection } from '../sanitize';
 
 const STORAGE_KEY = 'cloudberry.connections';
 
@@ -20,7 +21,9 @@ export class ConnectionsStorageService {
       if (!Array.isArray(parsed)) {
         return [];
       }
-      return parsed as CloudConnection[];
+      return parsed
+        .map((item) => sanitizeCloudConnection(item as CloudConnection))
+        .filter((item): item is CloudConnection => item !== null);
     } catch {
       return [];
     }

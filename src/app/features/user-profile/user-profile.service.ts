@@ -1,6 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 
 import { UiLocaleService, UiTranslateService, type UiLocale } from '../../shared/ui-locale';
+import { sanitizeUserProfile, sanitizeUserProfileInput } from './user-profile-sanitize';
 import { createDefaultUserProfile } from './user-profile-defaults';
 import type { UserProfile } from './user-profile.type';
 import type { UserProfileInput } from './user-profile-input.type';
@@ -24,7 +25,7 @@ export class UserProfileService {
   update(input: UserProfileInput): UserProfile {
     const updated: UserProfile = {
       ...this.profileState(),
-      ...input,
+      ...sanitizeUserProfileInput(input),
     };
     this.profileState.set(updated);
     this.persist(updated);
@@ -67,7 +68,7 @@ export class UserProfileService {
       if (!isUserProfile(parsed)) {
         return createDefaultUserProfile();
       }
-      return parsed;
+      return sanitizeUserProfile(parsed);
     } catch {
       return createDefaultUserProfile();
     }

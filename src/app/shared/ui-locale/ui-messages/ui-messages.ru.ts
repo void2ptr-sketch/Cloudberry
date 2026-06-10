@@ -12,6 +12,7 @@ export const UI_MESSAGES_RU: UiMessageCatalog = {
   'common.loading': 'Загрузка данных…',
   'common.errorLoad': 'Ошибка загрузки данных',
   'common.retry': 'Повторить',
+  'common.unsafeInput': 'Недопустимые символы или разметка в поле',
   'http.error.network': 'Нет соединения с сервером',
   'http.error.unauthorized': 'Требуется авторизация',
   'http.error.forbidden': 'Доступ запрещён',
@@ -75,6 +76,7 @@ export const UI_MESSAGES_RU: UiMessageCatalog = {
   'connection.form.accountId': 'ID аккаунта / подписки',
   'connection.form.accountIdPlaceholder': 'AWS Account ID, Azure Subscription ID, …',
   'connection.form.accountIdRequired': 'Укажите идентификатор аккаунта',
+  'connection.form.accountIdInvalid': 'Идентификатор содержит недопустимые символы',
   'connection.form.hint':
     'Учётные данные для billing export настраиваются отдельно (IAM role, service principal).',
   'budgets.title': 'Бюджеты',

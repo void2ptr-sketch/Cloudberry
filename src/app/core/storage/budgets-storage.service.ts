@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import type { Budget } from '../domain';
+import { sanitizeBudget } from '../sanitize';
 
 const STORAGE_KEY = 'cloudberry.budgets';
 
@@ -20,7 +21,9 @@ export class BudgetsStorageService {
       if (!Array.isArray(parsed)) {
         return [];
       }
-      return parsed as Budget[];
+      return parsed
+        .map((item) => sanitizeBudget(item as Budget))
+        .filter((item): item is Budget => item !== null);
     } catch {
       return [];
     }

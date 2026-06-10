@@ -12,6 +12,7 @@ export const UI_MESSAGES_EN: UiMessageCatalog = {
   'common.loading': 'Loading data…',
   'common.errorLoad': 'Failed to load data',
   'common.retry': 'Retry',
+  'common.unsafeInput': 'Invalid characters or markup in this field',
   'http.error.network': 'Unable to reach the server',
   'http.error.unauthorized': 'Authentication required',
   'http.error.forbidden': 'Access denied',
@@ -74,6 +75,7 @@ export const UI_MESSAGES_EN: UiMessageCatalog = {
   'connection.form.accountId': 'Account / subscription ID',
   'connection.form.accountIdPlaceholder': 'AWS Account ID, Azure Subscription ID, …',
   'connection.form.accountIdRequired': 'Enter an account identifier',
+  'connection.form.accountIdInvalid': 'Account identifier contains invalid characters',
   'connection.form.hint':
     'Billing export credentials are configured separately (IAM role, service principal).',
   'budgets.title': 'Budgets',

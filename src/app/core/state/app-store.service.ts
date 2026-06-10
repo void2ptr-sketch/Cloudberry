@@ -14,6 +14,7 @@ import type {
 import { createBudgetId, createConnectionId } from '../domain';
 import { BudgetsStorageService } from '../storage/budgets-storage.service';
 import { ConnectionsStorageService } from '../storage/connections-storage.service';
+import { sanitizeBudgetInput, sanitizeCloudConnectionInput } from '../sanitize';
 import { resolveErrorMessage } from '../http';
 import { UiTranslateService } from '../../shared/ui-locale';
 import { createInitialAppState } from './app-state.initial';
@@ -138,9 +139,10 @@ export class AppStore {
   }
 
   addConnection(input: CloudConnectionInput): CloudConnection {
+    const safeInput = sanitizeCloudConnectionInput(input);
     const connection: CloudConnection = {
       id: createConnectionId(),
-      ...input,
+      ...safeInput,
     };
     this.state.update((current) => ({
       ...current,
@@ -148,28 +150,30 @@ export class AppStore {
     }));
     this.persistConnections();
     if (!this.env.enableDebug) {
-      void this.connectionsApi.create(input).catch(() => undefined);
+      void this.connectionsApi.create(safeInput).catch(() => undefined);
     }
     return connection;
   }
 
   updateConnection(id: string, input: CloudConnectionInput): void {
+    const safeInput = sanitizeCloudConnectionInput(input);
     this.state.update((current) => ({
       ...current,
       connections: current.connections.map((item) =>
-        item.id === id ? { ...item, ...input } : item,
+        item.id === id ? { ...item, ...safeInput } : item,
       ),
     }));
     this.persistConnections();
     if (!this.env.enableDebug) {
-      void this.connectionsApi.update(id, input).catch(() => undefined);
+      void this.connectionsApi.update(id, safeInput).catch(() => undefined);
     }
   }
 
   addBudget(input: BudgetInput): Budget {
+    const safeInput = sanitizeBudgetInput(input);
     const budget: Budget = {
       id: createBudgetId(),
-      ...input,
+      ...safeInput,
     };
     this.state.update((current) => ({
       ...current,
@@ -177,19 +181,20 @@ export class AppStore {
     }));
     this.persistBudgets();
     if (!this.env.enableDebug) {
-      void this.budgetsApi.create(input).catch(() => undefined);
+      void this.budgetsApi.create(safeInput).catch(() => undefined);
     }
     return budget;
   }
 
   updateBudget(id: string, input: BudgetInput): void {
+    const safeInput = sanitizeBudgetInput(input);
     this.state.update((current) => ({
       ...current,
-      budgets: current.budgets.map((item) => (item.id === id ? { ...item, ...input } : item)),
+      budgets: current.budgets.map((item) => (item.id === id ? { ...item, ...safeInput } : item)),
     }));
     this.persistBudgets();
     if (!this.env.enableDebug) {
-      void this.budgetsApi.update(id, input).catch(() => undefined);
+      void this.budgetsApi.update(id, safeInput).catch(() => undefined);
     }
   }
 

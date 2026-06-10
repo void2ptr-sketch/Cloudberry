@@ -7,6 +7,8 @@ import {
   type CloudConnectionInput,
   type CloudProviderId,
 } from '../../core/domain';
+import { sanitizeCloudConnectionInput } from '../../core/sanitize';
+import { externalAccountIdValidator, noUnsafeMarkupValidator } from '../../shared/sanitize';
 import { UiTranslatePipe } from '../../shared/ui-locale';
 
 @Component({
@@ -26,11 +28,24 @@ export class ConnectionFormComponent {
   readonly providerOptions = CLOUD_PROVIDER_OPTIONS;
 
   readonly form = this.fb.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
+    name: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(80),
+        noUnsafeMarkupValidator(),
+      ],
+    ],
     provider: ['aws' as CloudProviderId, Validators.required],
     externalAccountId: [
       '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(128)],
+      [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(128),
+        externalAccountIdValidator(),
+      ],
     ],
   });
 
@@ -62,7 +77,13 @@ export class ConnectionFormComponent {
       this.form.markAllAsTouched();
       return;
     }
-    this.saved.emit(this.form.getRawValue());
+    const sanitized = sanitizeCloudConnectionInput(this.form.getRawValue());
+    if (sanitized.name.length < 2) {
+      this.form.controls.name.setErrors({ minlength: true });
+      this.form.controls.name.markAsTouched();
+      return;
+    }
+    this.saved.emit(sanitized);
   }
 
   cancel(): void {

@@ -13,6 +13,9 @@
     @if (form.controls.name.touched && form.controls.name.hasError('required')) {
       <span class="budget-form__error">{{ 'budget.form.nameRequired' | uiT }}</span>
     }
+    @if (form.controls.name.touched && form.controls.name.hasError('unsafeMarkup')) {
+      <span class="budget-form__error">{{ 'common.unsafeInput' | uiT }}</span>
+    }
   </label>
 
   <div class="budget-form__row">

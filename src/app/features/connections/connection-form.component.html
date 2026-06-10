@@ -13,6 +13,9 @@
     @if (form.controls.name.touched && form.controls.name.hasError('required')) {
       <span class="connection-form__error">{{ 'connection.form.nameRequired' | uiT }}</span>
     }
+    @if (form.controls.name.touched && form.controls.name.hasError('unsafeMarkup')) {
+      <span class="connection-form__error">{{ 'common.unsafeInput' | uiT }}</span>
+    }
   </label>
 
   <label class="connection-form__field">
@@ -36,6 +39,18 @@
       form.controls.externalAccountId.hasError('required')
     ) {
       <span class="connection-form__error">{{ 'connection.form.accountIdRequired' | uiT }}</span>
+    }
+    @if (
+      form.controls.externalAccountId.touched &&
+      form.controls.externalAccountId.hasError('unsafeMarkup')
+    ) {
+      <span class="connection-form__error">{{ 'common.unsafeInput' | uiT }}</span>
+    }
+    @if (
+      form.controls.externalAccountId.touched &&
+      form.controls.externalAccountId.hasError('accountIdFormat')
+    ) {
+      <span class="connection-form__error">{{ 'connection.form.accountIdInvalid' | uiT }}</span>
     }
   </label>
 

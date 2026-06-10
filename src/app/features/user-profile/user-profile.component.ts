@@ -8,6 +8,8 @@ import {
   UiTranslatePipe,
   type UiLocale,
 } from '../../shared/ui-locale';
+import { noUnsafeMarkupValidator } from '../../shared/sanitize';
+import { sanitizeUserProfileInput } from './user-profile-sanitize';
 import { UserProfileService } from './user-profile.service';
 import type { UserProfileInput } from './user-profile-input.type';
 
@@ -27,7 +29,15 @@ export class UserProfileComponent {
   readonly saved = signal(false);
 
   readonly form = this.fb.nonNullable.group({
-    displayName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
+    displayName: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(80),
+        noUnsafeMarkupValidator(),
+      ],
+    ],
     email: ['', [Validators.email, Validators.maxLength(120)]],
     locale: ['ru' as UiLocale, Validators.required],
     defaultCurrency: ['USD', [Validators.required, Validators.pattern(/^[A-Z]{3}$/)]],
@@ -53,7 +63,13 @@ export class UserProfileComponent {
       return;
     }
 
-    this.userProfileService.update(this.form.getRawValue() as UserProfileInput);
+    const sanitized = sanitizeUserProfileInput(this.form.getRawValue() as UserProfileInput);
+    if (sanitized.displayName.length < 2) {
+      this.form.controls.displayName.setErrors({ minlength: true });
+      this.form.controls.displayName.markAsTouched();
+      return;
+    }
+    this.userProfileService.update(sanitized);
     this.saved.set(true);
   }
 

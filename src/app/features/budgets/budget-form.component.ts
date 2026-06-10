@@ -7,7 +7,9 @@ import {
   type BudgetInput,
   type BudgetScopeOption,
 } from '../../core/domain';
+import { sanitizeBudgetInput } from '../../core/sanitize';
 import { AppStore } from '../../core/state';
+import { noUnsafeMarkupValidator } from '../../shared/sanitize';
 import { UiLocaleService, UiTranslatePipe, UiTranslateService } from '../../shared/ui-locale';
 
 @Component({
@@ -37,7 +39,15 @@ export class BudgetFormComponent {
   });
 
   readonly form = this.fb.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
+    name: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(80),
+        noUnsafeMarkupValidator(),
+      ],
+    ],
     limitAmount: [0, [Validators.required, Validators.min(1)]],
     currency: ['USD', [Validators.required, Validators.pattern(/^[A-Z]{3}$/)]],
     periodStart: ['', Validators.required],
@@ -82,7 +92,12 @@ export class BudgetFormComponent {
       return;
     }
 
-    const value = this.form.getRawValue();
+    const value = sanitizeBudgetInput(this.form.getRawValue());
+    if (value.name.length < 2) {
+      this.form.controls.name.setErrors({ minlength: true });
+      this.form.controls.name.markAsTouched();
+      return;
+    }
     if (value.periodStart > value.periodEnd) {
       this.form.controls.periodEnd.setErrors({ periodOrder: true });
       this.form.controls.periodEnd.markAsTouched();
