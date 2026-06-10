@@ -114,6 +114,14 @@ docs/                        # DOMAIN.md, MODELS.md, STATE.md
 | [docs/MODELS.md](docs/MODELS.md) | Типы данных и API-модели |
 | [docs/STATE.md](docs/STATE.md) | AppStore, signals, правила RxJS |
 
+## CI
+
+На каждый `push` и `pull_request` запускается [GitHub Actions](.github/workflows/ci.yml):
+
+1. `npm ci`
+2. `npm run build` (production)
+3. `npm run test:ci` (ChromeHeadlessCI)
+
 ## Линт и форматирование
 
 ```bash
