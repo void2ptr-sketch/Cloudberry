@@ -47,6 +47,7 @@ export const MESSAGES_RU: Record<string, string> = {
   'profile.theme.prod': 'PROD — серая',
   'profile.theme.dev': 'DEV — оранжевая',
   'profile.theme.test': 'TEST — зелёная',
+  'profile.theme.lt': 'LT — тёмно-синяя',
   'profile.defaultCurrency': 'Валюта по умолчанию',
   'profile.currencyRequired': 'Укажите валюту',
   'profile.currencyInvalid': 'Три заглавные буквы (ISO 4217)',

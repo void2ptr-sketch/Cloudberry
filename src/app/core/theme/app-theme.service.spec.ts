@@ -27,4 +27,11 @@ describe('AppThemeService', () => {
     expect(document.body.classList.contains('theme-prod')).toBeTrue();
     expect(document.body.classList.contains('theme-test')).toBeFalse();
   });
+
+  it('applies LT dark theme class', () => {
+    const service = TestBed.inject(AppThemeService);
+    service.apply('lt');
+
+    expect(document.body.classList.contains('theme-lt')).toBeTrue();
+  });
 });

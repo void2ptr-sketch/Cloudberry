@@ -13,3 +13,17 @@
     )
   );
 }
+
+@function dark-theme($primary, $accent) {
+  @return mat.define-dark-theme(
+    (
+      color: (
+        primary: $primary,
+        accent: $accent,
+        warn: mat.define-palette(mat.$red-palette),
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    )
+  );
+}

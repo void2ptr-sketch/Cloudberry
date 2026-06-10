@@ -46,6 +46,7 @@ export const MESSAGES_ZH: Record<string, string> = {
   'profile.theme.prod': 'PROD — 灰色',
   'profile.theme.dev': 'DEV — 橙色',
   'profile.theme.test': 'TEST — 绿色',
+  'profile.theme.lt': 'LT — 深蓝暗色',
   'profile.defaultCurrency': '默认货币',
   'profile.currencyRequired': '请输入货币代码',
   'profile.currencyInvalid': '三个大写字母（ISO 4217）',

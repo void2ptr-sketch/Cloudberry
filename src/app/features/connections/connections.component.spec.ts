@@ -1,7 +1,10 @@
+import { loadTranslations } from '@angular/localize';
 import { provideRouter } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 
 import { BillingApiService } from '../../core/api/billing-api.service';
+import { buildTranslationMap } from '../../core/i18n/build-translation-map';
+import { MESSAGES_RU } from '../../core/i18n/messages/messages.ru';
 import { BudgetsApiService } from '../../core/api/budgets-api.service';
 import { ConnectionsApiService } from '../../core/api/connections-api.service';
 import { APP_ENVIRONMENT } from '../../core/config/environment.token';
@@ -10,6 +13,7 @@ import { ConnectionsComponent } from './connections.component';
 
 describe('ConnectionsComponent', () => {
   beforeEach(async () => {
+    loadTranslations(buildTranslationMap(MESSAGES_RU));
     localStorage.clear();
     await TestBed.configureTestingModule({
       imports: [ConnectionsComponent],

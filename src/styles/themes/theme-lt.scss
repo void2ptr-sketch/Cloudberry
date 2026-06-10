@@ -1,0 +1,56 @@
+@use '@angular/material' as mat;
+@use 'theme-build' as build;
+
+$primary: mat.define-palette(mat.$blue-palette, 700);
+$accent: mat.define-palette(mat.$light-blue-palette, A200);
+$theme: build.dark-theme($primary, $accent);
+
+@mixin all-components() {
+  @include mat.all-component-themes($theme);
+}
+
+@mixin component-colors() {
+  @include mat.all-component-colors($theme);
+}
+
+@mixin shell() {
+  body.theme-lt {
+    color-scheme: dark;
+
+    --app-text-primary: #{rgba(255, 255, 255, 0.87)};
+    --app-text-secondary: #{rgba(255, 255, 255, 0.65)};
+    --app-surface-bg: #0a1628;
+    --app-footer-bg: #071018;
+    --app-border-color: #{rgba(255, 255, 255, 0.12)};
+    --shell-header-hover-bg: #{rgba(255, 255, 255, 0.08)};
+    --shell-header-active-bg: #{rgba(255, 255, 255, 0.14)};
+    --shell-header-border-color: #{rgba(255, 255, 255, 0.28)};
+    --shell-header-active-border-color: #{rgba(255, 255, 255, 0.45)};
+
+    color: var(--app-text-primary);
+    background: var(--app-surface-bg);
+
+    .shell__header .shell__toolbar {
+      background-color: #0d47a1;
+      color: #e3f2fd;
+    }
+
+    .shell__footer {
+      background: var(--app-footer-bg);
+      border-top-color: var(--app-border-color);
+    }
+
+    .shell__footer-meta {
+      opacity: 0.75;
+    }
+
+    .shell__nav-link--active {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .shell__env-badge {
+      --mdc-chip-label-text-color: #bbdefb;
+      --mdc-chip-elevated-container-color: #1565c0;
+    }
+  }
+}

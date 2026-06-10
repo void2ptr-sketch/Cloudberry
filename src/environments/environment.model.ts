@@ -1,4 +1,4 @@
-export type EnvironmentName = 'dev' | 'test' | 'prod';
+export type EnvironmentName = 'dev' | 'test' | 'prod' | 'lt';
 
 export type Environment = {
   production: boolean;

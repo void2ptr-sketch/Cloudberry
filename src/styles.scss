@@ -14,8 +14,8 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
-  color: rgba(0, 0, 0, 0.87);
-  background: #fafafa;
+  color: var(--app-text-primary, rgba(0, 0, 0, 0.87));
+  background: var(--app-surface-bg, #fafafa);
 }
 
 h2 {
@@ -26,7 +26,7 @@ h2 {
 
 .page-lead {
   margin: 0 0 1.5rem;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--app-text-secondary, rgba(0, 0, 0, 0.6));
   line-height: 1.5;
 }
 

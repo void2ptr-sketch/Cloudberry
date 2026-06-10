@@ -26,4 +26,10 @@ export const APP_THEME_OPTIONS: AppThemeOption[] = [
       return $localize`:@@profile.theme.test:TEST — зелёная`;
     },
   },
+  {
+    id: 'lt',
+    get label() {
+      return $localize`:@@profile.theme.lt:LT — тёмно-синяя`;
+    },
+  },
 ];

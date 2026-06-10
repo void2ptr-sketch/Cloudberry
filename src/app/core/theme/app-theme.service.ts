@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 
 import type { AppTheme } from './app-theme.type';
 
-const THEME_BODY_CLASSES = ['theme-prod', 'theme-dev', 'theme-test'] as const;
+const THEME_BODY_CLASSES = ['theme-prod', 'theme-dev', 'theme-test', 'theme-lt'] as const;
 
 @Injectable({ providedIn: 'root' })
 export class AppThemeService {
@@ -23,5 +23,5 @@ export class AppThemeService {
 }
 
 export function isAppTheme(value: unknown): value is AppTheme {
-  return value === 'prod' || value === 'dev' || value === 'test';
+  return value === 'prod' || value === 'dev' || value === 'test' || value === 'lt';
 }
