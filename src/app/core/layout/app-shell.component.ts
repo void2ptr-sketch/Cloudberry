@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatListModule } from '@angular/material/list';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
@@ -18,7 +17,6 @@ import { AppRoutePath } from '../routing/app-route-paths';
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-    MatSidenavModule,
     MatToolbarModule,
     MatListModule,
     MatChipsModule,

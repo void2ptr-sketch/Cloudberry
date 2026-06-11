@@ -15,8 +15,7 @@
           <span class="shell__tagline" i18n="@@shell.tagline">Cloud accounting for clouds</span>
         </span>
       </a>
-      <span class="spacer"></span>
-      <app-locale-switcher />
+      <app-locale-switcher class="shell__locale" />
       <a
         class="shell__profile"
         [routerLink]="profileLink"
@@ -28,31 +27,24 @@
     </mat-toolbar>
   </header>
 
-  <mat-sidenav-container class="shell__body">
-    <mat-sidenav mode="side" opened class="shell__sidenav">
-      <mat-nav-list
-        i18n-aria-label="@@shell.navAria"
-        aria-label="Основная навигация"
-      >
-        @for (item of navItems; track item.path) {
-          <a
-            mat-list-item
-            [routerLink]="['/', item.path]"
-            routerLinkActive="shell__nav-link--active"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            {{ item.label }}
-          </a>
-        }
-      </mat-nav-list>
-    </mat-sidenav>
+  <nav class="shell__sidenav" i18n-aria-label="@@shell.navAria" aria-label="Основная навигация">
+    <mat-nav-list>
+      @for (item of navItems; track item.path) {
+        <a
+          mat-list-item
+          [routerLink]="['/', item.path]"
+          routerLinkActive="shell__nav-link--active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          {{ item.label }}
+        </a>
+      }
+    </mat-nav-list>
+  </nav>
 
-    <mat-sidenav-content class="shell__main">
-      <main class="shell__content">
-        <router-outlet />
-      </main>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+  <main class="shell__content">
+    <router-outlet />
+  </main>
 
   <footer class="shell__footer">
     <p class="shell__footer-copy">

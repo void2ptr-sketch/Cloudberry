@@ -1,10 +1,107 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title i18n="@@reports.title">Отчёты</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <p class="page-lead" i18n="@@reports.lead">
-      Сводки по провайдерам, тегам и сервисам за выбранный период.
-    </p>
-  </mat-card-content>
-</mat-card>
+<h2 i18n="@@reports.title">Отчёты</h2>
+<p class="page-lead" i18n="@@reports.lead">
+  Сводки по провайдерам, тегам и сервисам за выбранный период.
+</p>
+
+<app-resource-status [state]="billingState()" (retry)="retryBillingLoad()" />
+
+@if (billingState().status !== 'loading' && billingState().status !== 'error') {
+  <form class="reports-filters" [formGroup]="periodForm">
+    <app-iso-date-field
+      class="reports-filters__field"
+      formControlName="periodStart"
+      i18n-label="@@reports.filterPeriodStart"
+      label="Начало периода"
+      (dateSelected)="applyPeriodFilter()"
+    />
+
+    <app-iso-date-field
+      class="reports-filters__field"
+      formControlName="periodEnd"
+      i18n-label="@@reports.filterPeriodEnd"
+      label="Конец периода"
+      [min]="periodForm.controls.periodStart.value"
+      (dateSelected)="applyPeriodFilter()"
+    >
+      @if (
+        periodForm.controls.periodEnd.touched &&
+        periodForm.controls.periodEnd.hasError('periodOrder')
+      ) {
+        <mat-error i18n="@@reports.periodOrder">Конец периода не может быть раньше начала</mat-error>
+      }
+    </app-iso-date-field>
+  </form>
+
+  <mat-card class="reports-card">
+    <mat-tab-group class="reports-tabs" mat-stretch-tabs="false" animationDuration="0ms">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span i18n="@@reports.tabProviders">По провайдерам</span>
+        </ng-template>
+
+        <div class="reports-tab">
+          @if (providerRows().length === 0) {
+            <p class="reports-tab__empty" i18n="@@reports.empty">Нет данных за период.</p>
+          } @else {
+            <mat-list>
+              @for (row of providerRows(); track row.key) {
+                <mat-list-item>
+                  <span matListItemTitle>{{ row.label }}</span>
+                  <span matListItemMeta class="reports-tab__amount">
+                    {{ row.amount | number: '1.2-2' }} {{ currency() }}
+                  </span>
+                </mat-list-item>
+              }
+            </mat-list>
+          }
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span i18n="@@reports.tabTags">По тегам</span>
+        </ng-template>
+
+        <div class="reports-tab">
+          @if (tagRows().length === 0) {
+            <p class="reports-tab__empty" i18n="@@reports.empty">Нет данных за период.</p>
+          } @else {
+            <mat-list>
+              @for (row of tagRows(); track row.key) {
+                <mat-list-item>
+                  <span matListItemTitle>{{ row.label }}</span>
+                  <span matListItemMeta class="reports-tab__amount">
+                    {{ row.amount | number: '1.2-2' }} {{ currency() }}
+                  </span>
+                </mat-list-item>
+              }
+            </mat-list>
+          }
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span i18n="@@reports.tabServices">По сервисам</span>
+        </ng-template>
+
+        <div class="reports-tab">
+          @if (serviceRows().length === 0) {
+            <p class="reports-tab__empty" i18n="@@reports.empty">Нет данных за период.</p>
+          } @else {
+            <mat-list>
+              @for (row of serviceRows(); track row.key) {
+                <mat-list-item>
+                  <span matListItemTitle>{{ row.label }}</span>
+                  <span matListItemMeta class="reports-tab__amount">
+                    {{ row.amount | number: '1.2-2' }} {{ currency() }}
+                  </span>
+                </mat-list-item>
+              }
+            </mat-list>
+          }
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+}
