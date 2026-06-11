@@ -17,7 +17,6 @@ export const CLOUD_PROVIDER_OPTIONS: CloudProviderOption[] = [
   { id: 'hetzner', label: 'Hetzner Cloud' },
   { id: 'openstack', label: 'OpenStack' },
   { id: 'cloudflare', label: 'Cloudflare' },
-  { id: 'other', label: 'Другой провайдер' },
 ];
 
 export const CLOUD_PROVIDER_LABELS: Record<CloudProviderId, string> = {
@@ -32,5 +31,5 @@ export const CLOUD_PROVIDER_LABELS: Record<CloudProviderId, string> = {
   hetzner: 'Hetzner',
   openstack: 'OpenStack',
   cloudflare: 'Cloudflare',
-  other: 'Другой',
+  other: 'Other',
 };

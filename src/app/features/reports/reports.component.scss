@@ -17,6 +17,11 @@
 
 .reports-tab {
   padding: 1rem 0 0.5rem;
+
+  app-pagination {
+    display: block;
+    margin-top: 0.5rem;
+  }
 }
 
 .reports-tab__empty {

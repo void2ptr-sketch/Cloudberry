@@ -44,7 +44,7 @@
             <p class="reports-tab__empty" i18n="@@reports.empty">Нет данных за период.</p>
           } @else {
             <mat-list>
-              @for (row of providerRows(); track row.key) {
+              @for (row of paginatedProviderRows(); track row.key) {
                 <mat-list-item>
                   <span matListItemTitle>{{ row.label }}</span>
                   <span matListItemMeta class="reports-tab__amount">
@@ -53,6 +53,14 @@
                 </mat-list-item>
               }
             </mat-list>
+
+            <app-pagination
+              [length]="providerRows().length"
+              [pageIndex]="providerPageIndex()"
+              [pageSize]="providerPageSize()"
+              [pageSizeOptions]="providerPageSizeOptions"
+              (pageChange)="onProviderPageChange($event)"
+            />
           }
         </div>
       </mat-tab>
@@ -67,7 +75,7 @@
             <p class="reports-tab__empty" i18n="@@reports.empty">Нет данных за период.</p>
           } @else {
             <mat-list>
-              @for (row of tagRows(); track row.key) {
+              @for (row of paginatedTagRows(); track row.key) {
                 <mat-list-item>
                   <span matListItemTitle>{{ row.label }}</span>
                   <span matListItemMeta class="reports-tab__amount">
@@ -76,6 +84,14 @@
                 </mat-list-item>
               }
             </mat-list>
+
+            <app-pagination
+              [length]="tagRows().length"
+              [pageIndex]="tagPageIndex()"
+              [pageSize]="tagPageSize()"
+              [pageSizeOptions]="tagPageSizeOptions"
+              (pageChange)="onTagPageChange($event)"
+            />
           }
         </div>
       </mat-tab>
@@ -90,7 +106,7 @@
             <p class="reports-tab__empty" i18n="@@reports.empty">Нет данных за период.</p>
           } @else {
             <mat-list>
-              @for (row of serviceRows(); track row.key) {
+              @for (row of paginatedServiceRows(); track row.key) {
                 <mat-list-item>
                   <span matListItemTitle>{{ row.label }}</span>
                   <span matListItemMeta class="reports-tab__amount">
@@ -99,6 +115,14 @@
                 </mat-list-item>
               }
             </mat-list>
+
+            <app-pagination
+              [length]="serviceRows().length"
+              [pageIndex]="servicePageIndex()"
+              [pageSize]="servicePageSize()"
+              [pageSizeOptions]="servicePageSizeOptions"
+              (pageChange)="onServicePageChange($event)"
+            />
           }
         </div>
       </mat-tab>

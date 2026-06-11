@@ -10,6 +10,7 @@ import { CLOUD_PROVIDER_LABELS } from '../../core/domain';
 import { AppStore } from '../../core/state';
 import type { ReportingPeriod } from '../../core/state/app-state.model';
 import { UiIsoDateFieldComponent } from '../../shared/iso-date-field';
+import { createPaginationState, UiPaginationComponent } from '../../shared/pagination';
 import { UiResourceStatusComponent } from '../../shared/ui-resource-status';
 import {
   buildProviderReport,
@@ -28,6 +29,7 @@ import {
     MatListModule,
     MatTabsModule,
     UiIsoDateFieldComponent,
+    UiPaginationComponent,
     UiResourceStatusComponent,
   ],
   templateUrl: './reports.component.html',
@@ -36,6 +38,18 @@ import {
 export class ReportsComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly store = inject(AppStore);
+  private readonly providersPagination = createPaginationState({
+    initialPageSize: 5,
+    pageSizeOptions: [5, 10, 25],
+  });
+  private readonly tagsPagination = createPaginationState({
+    initialPageSize: 5,
+    pageSizeOptions: [5, 10, 25],
+  });
+  private readonly servicesPagination = createPaginationState({
+    initialPageSize: 5,
+    pageSizeOptions: [5, 10, 25],
+  });
 
   readonly periodForm = this.fb.nonNullable.group({
     periodStart: ['', Validators.required],
@@ -59,6 +73,30 @@ export class ReportsComponent implements OnInit {
   readonly tagRows = computed(() =>
     buildTagsReport(this.costCenters(), this.periodRecords(), this.untaggedLabel()),
   );
+
+  readonly paginatedProviderRows = this.providersPagination.createSlice(this.providerRows);
+  readonly providerPageIndex = this.providersPagination.pageIndex;
+  readonly providerPageSize = this.providersPagination.pageSize;
+  readonly providerPageSizeOptions = this.providersPagination.pageSizeOptions;
+  readonly onProviderPageChange = this.providersPagination.onPageChange;
+
+  readonly paginatedTagRows = this.tagsPagination.createSlice(this.tagRows);
+  readonly tagPageIndex = this.tagsPagination.pageIndex;
+  readonly tagPageSize = this.tagsPagination.pageSize;
+  readonly tagPageSizeOptions = this.tagsPagination.pageSizeOptions;
+  readonly onTagPageChange = this.tagsPagination.onPageChange;
+
+  readonly paginatedServiceRows = this.servicesPagination.createSlice(this.serviceRows);
+  readonly servicePageIndex = this.servicesPagination.pageIndex;
+  readonly servicePageSize = this.servicesPagination.pageSize;
+  readonly servicePageSizeOptions = this.servicesPagination.pageSizeOptions;
+  readonly onServicePageChange = this.servicesPagination.onPageChange;
+
+  constructor() {
+    this.providersPagination.bindItemCount(computed(() => this.providerRows().length));
+    this.tagsPagination.bindItemCount(computed(() => this.tagRows().length));
+    this.servicesPagination.bindItemCount(computed(() => this.serviceRows().length));
+  }
 
   ngOnInit(): void {
     this.syncPeriodForm(this.reportingPeriod());
