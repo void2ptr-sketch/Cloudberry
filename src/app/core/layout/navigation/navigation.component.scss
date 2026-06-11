@@ -1,0 +1,21 @@
+:host {
+  display: contents;
+}
+
+.shell__sidenav {
+  grid-area: sidenav;
+  padding-top: 0.5rem;
+  border-right: 1px solid var(--app-border-color, rgba(0, 0, 0, 0.12));
+}
+
+.shell__nav-link--active {
+  background: rgba(0, 0, 0, 0.08);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .shell__sidenav {
+    border-right: none;
+    border-bottom: 1px solid var(--app-border-color, rgba(0, 0, 0, 0.12));
+  }
+}

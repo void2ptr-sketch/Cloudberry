@@ -1,0 +1,27 @@
+<header class="shell__header">
+  <mat-toolbar color="primary" class="shell__toolbar">
+    <a class="shell__brand" [routerLink]="homeLink">
+      <img
+        class="shell__brand-logo"
+        src="assets/cloudberry-logo.png"
+        width="40"
+        height="40"
+        i18n-alt="@@shell.brandLogoAlt"
+        alt="Cloudberry"
+      />
+      <span class="shell__brand-text">
+        <span class="shell__brand-name">Cloudberry</span>
+        <span class="shell__tagline" i18n="@@shell.tagline">Cloud accounting for clouds</span>
+      </span>
+    </a>
+    <app-locale-switcher class="shell__locale" />
+    <a
+      class="shell__profile"
+      [routerLink]="profileLink"
+      routerLinkActive="shell__profile--active"
+    >
+      <span class="shell__profile-label">{{ displayName() }}</span>
+      <span class="shell__profile-hint" i18n="@@shell.profile">Профиль</span>
+    </a>
+  </mat-toolbar>
+</header>

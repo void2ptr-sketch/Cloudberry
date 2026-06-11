@@ -1,40 +1,9 @@
-.shell {
-  --shell-sidenav-width: 11rem;
-
-  display: grid;
-  grid-template-columns: var(--shell-sidenav-width) minmax(0, 1fr);
-  grid-template-rows: auto 1fr auto;
-  grid-template-areas:
-    'header header'
-    'sidenav main'
-    'footer footer';
-  min-height: 100vh;
+:host {
+  display: contents;
 }
 
 .shell__header {
   grid-area: header;
-}
-
-.shell__sidenav {
-  grid-area: sidenav;
-  padding-top: 0.5rem;
-  border-right: 1px solid var(--app-border-color, rgba(0, 0, 0, 0.12));
-}
-
-.shell__content {
-  grid-area: main;
-  min-width: 0;
-  min-height: 0;
-  padding: 1rem 1.5rem 1.5rem;
-}
-
-.shell__footer {
-  grid-area: footer;
-  display: grid;
-  gap: 0.25rem;
-  padding: 1rem 1.5rem 1.5rem;
-  border-top: 1px solid var(--app-border-color, rgba(0, 0, 0, 0.12));
-  background: var(--app-footer-bg, #fafafa);
 }
 
 .shell__toolbar {
@@ -123,47 +92,7 @@
   opacity: 0.75;
 }
 
-.shell__footer-copy {
-  margin: 0;
-  display: grid;
-  grid-auto-flow: column;
-  align-items: center;
-  justify-content: start;
-  gap: 0.5rem;
-  font-size: 0.8125rem;
-}
-
-.shell__footer-meta {
-  margin: 0;
-  font-size: 0.75rem;
-  opacity: 0.65;
-}
-
-.shell__env-badge {
-  height: 1.25rem;
-  font-size: 0.6875rem;
-}
-
-.shell__nav-link--active {
-  background: rgba(0, 0, 0, 0.08);
-  font-weight: 500;
-}
-
 @media (max-width: 768px) {
-  .shell {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      'header'
-      'sidenav'
-      'main'
-      'footer';
-  }
-
-  .shell__sidenav {
-    border-right: none;
-    border-bottom: 1px solid var(--app-border-color, rgba(0, 0, 0, 0.12));
-  }
-
   .shell__toolbar {
     grid-template-columns: 1fr auto;
     grid-template-areas:

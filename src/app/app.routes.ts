@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 
-import { AppShellComponent } from './core/layout/app-shell.component';
+import { MainLayoutComponent } from './core/layout/main-layout/main-layout.component';
 import { AppRoutePath } from './core/routing/app-route-paths';
 
 export const routes: Routes = [
   {
     path: '',
-    component: AppShellComponent,
+    component: MainLayoutComponent,
     children: [
       {
         path: '',

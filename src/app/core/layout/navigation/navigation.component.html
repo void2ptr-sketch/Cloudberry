@@ -1,0 +1,14 @@
+<nav class="shell__sidenav" i18n-aria-label="@@shell.navAria" aria-label="Основная навигация">
+  <mat-nav-list>
+    @for (item of navItems; track item.path) {
+      <a
+        mat-list-item
+        [routerLink]="['/', item.path]"
+        routerLinkActive="shell__nav-link--active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        {{ item.label }}
+      </a>
+    }
+  </mat-nav-list>
+</nav>
