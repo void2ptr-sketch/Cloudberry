@@ -78,7 +78,7 @@ export const MESSAGES_ZH: Record<string, string> = {
   'dashboard.connectionsEmpty': '暂无连接。',
   'dashboard.connectionsAdd': '添加云连接',
   'connections.title': '云连接',
-  'connections.lead': '关联 AWS、Azure、GCP 等提供商的计费账户。',
+  'connections.lead': '关联 AWS、Azure、GCP、Oracle、IBM、阿里云等提供商的计费账户。',
   'connections.add': '添加连接',
   'connections.clearSelection': '清除选择',
   'connections.empty': '暂无连接。',

@@ -80,7 +80,7 @@ export const MESSAGES_RU: Record<string, string> = {
   'dashboard.connectionsAdd': 'Добавить подключение к облаку',
   'connections.title': 'Подключения к облакам',
   'connections.lead':
-    'Настройте привязку к billing-аккаунтам AWS, Azure, GCP и других провайдеров.',
+    'Настройте привязку к billing-аккаунтам AWS, Azure, GCP, Oracle, IBM, Alibaba и других провайдеров.',
   'connections.add': 'Добавить подключение',
   'connections.clearSelection': 'Сбросить выбор',
   'connections.empty': 'Подключений пока нет.',

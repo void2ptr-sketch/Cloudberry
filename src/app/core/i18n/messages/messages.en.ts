@@ -79,7 +79,8 @@ export const MESSAGES_EN: Record<string, string> = {
   'dashboard.connectionsEmpty': 'No connections yet.',
   'dashboard.connectionsAdd': 'Add a cloud connection',
   'connections.title': 'Cloud connections',
-  'connections.lead': 'Link billing accounts for AWS, Azure, GCP, and other providers.',
+  'connections.lead':
+    'Link billing accounts for AWS, Azure, GCP, Oracle, IBM, Alibaba, and other providers.',
   'connections.add': 'Add connection',
   'connections.clearSelection': 'Clear selection',
   'connections.empty': 'No connections yet.',
