@@ -3,7 +3,6 @@ import {
   createReadyResources,
   errorResourceState,
   loadingResourceState,
-  readyResourceState,
 } from './resource-state';
 
 describe('resource-state', () => {

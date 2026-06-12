@@ -54,7 +54,7 @@ module.exports = defineConfig([
   },
   {
     files: ['src/**/*.ts'],
-    ignores: ['src/app/core/api/**'],
+    ignores: ['src/app/core/api/**', 'src/app/core/http/**'],
     rules: {
       'no-restricted-imports': ['error', rxjsRestrictedImports],
     },

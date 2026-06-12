@@ -12,6 +12,7 @@ export function sanitizeText(value: string, options: SanitizeTextOptions): strin
   let result = value.trim();
   result = result.replace(/<[^>]*>/g, '');
   result = result.replace(/\0/g, '');
+  // eslint-disable-next-line no-control-regex -- remove C0/C1 control characters from user input
   result = result.replace(/[\u0000-\u001F\u007F]/g, '');
   result = result.replace(/\s+/g, ' ');
 

@@ -5,10 +5,7 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
-import {
-  MatDatepickerInputEvent,
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -83,7 +80,7 @@ export class UiIsoDateFieldComponent implements ControlValueAccessor {
     this.dateControl.enable({ emitEvent: false });
   }
 
-  onDateChange(_event: MatDatepickerInputEvent<Date>): void {
+  onDateChange(): void {
     this.onTouched();
     this.dateSelected.emit();
   }
