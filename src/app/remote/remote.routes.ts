@@ -17,7 +17,7 @@ export const REMOTE_ROUTES: Routes = [
       },
       {
         path: AppRoutePath.dashboard,
-        title: $localize`:@@route.dashboard.title:Обзор · Cloudberry`,
+        title: 'Обзор · Cloudberry',
         loadComponent: () =>
           import('../features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
       },
@@ -43,7 +43,7 @@ export const REMOTE_ROUTES: Routes = [
       },
       {
         path: AppRoutePath.costs,
-        title: $localize`:@@route.costs.title:Расходы · Cloudberry`,
+        title: 'Расходы · Cloudberry',
         loadComponent: () =>
           import('../features/costs/costs.component').then((m) => m.CostsComponent),
       },

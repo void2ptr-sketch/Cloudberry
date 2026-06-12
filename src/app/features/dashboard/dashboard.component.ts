@@ -39,8 +39,8 @@ export class DashboardComponent implements OnInit {
   readonly budgetUsageStatuses = this.store.budgetUsageStatuses;
   readonly activeBudgetAlerts = this.store.activeBudgetAlerts;
   readonly billingState = this.store.billingState;
-  readonly connectionsPath = ['/', AppRoutePath.connections];
-  readonly budgetsPath = ['/', AppRoutePath.budgets];
+  readonly connectionsPath = [AppRoutePath.connections];
+  readonly budgetsPath = [AppRoutePath.budgets];
   readonly providerLabels = CLOUD_PROVIDER_LABELS;
 
   ngOnInit(): void {

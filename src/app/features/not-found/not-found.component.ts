@@ -12,5 +12,5 @@ import { AppRoutePath } from '../../core/routing/app-route-paths';
     styleUrl: './not-found.component.scss'
 })
 export class NotFoundComponent {
-  readonly dashboardPath = ['/', AppRoutePath.dashboard];
+  readonly dashboardPath = [AppRoutePath.dashboard];
 }
