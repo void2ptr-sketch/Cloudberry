@@ -6,11 +6,10 @@ import { AppLocaleService } from '../app-locale.service';
 import type { AppLocale } from '../app-locale.type';
 
 @Component({
-  selector: 'app-locale-switcher',
-  standalone: true,
-  imports: [MatButtonToggleModule],
-  templateUrl: './locale-switcher.component.html',
-  styleUrl: './locale-switcher.component.scss',
+    selector: 'app-locale-switcher',
+    imports: [MatButtonToggleModule],
+    templateUrl: './locale-switcher.component.html',
+    styleUrl: './locale-switcher.component.scss'
 })
 export class LocaleSwitcherComponent {
   private readonly appLocale = inject(AppLocaleService);

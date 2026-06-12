@@ -4,11 +4,10 @@ import { MatChipsModule } from '@angular/material/chips';
 import { APP_ENVIRONMENT } from '../../config/environment.token';
 
 @Component({
-  selector: 'app-footer',
-  standalone: true,
-  imports: [MatChipsModule],
-  templateUrl: './footer.component.html',
-  styleUrl: './footer.component.scss',
+    selector: 'app-footer',
+    imports: [MatChipsModule],
+    templateUrl: './footer.component.html',
+    styleUrl: './footer.component.scss'
 })
 export class FooterComponent {
   private readonly env = inject(APP_ENVIRONMENT);

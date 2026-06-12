@@ -6,11 +6,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import type { ResourceState } from '../../core/state/resource-state.type';
 
 @Component({
-  selector: 'app-resource-status',
-  standalone: true,
-  imports: [MatButtonModule, MatCardModule, MatProgressSpinnerModule],
-  templateUrl: './ui-resource-status.component.html',
-  styleUrl: './ui-resource-status.component.scss',
+    selector: 'app-resource-status',
+    imports: [MatButtonModule, MatCardModule, MatProgressSpinnerModule],
+    templateUrl: './ui-resource-status.component.html',
+    styleUrl: './ui-resource-status.component.scss'
 })
 export class UiResourceStatusComponent {
   readonly state = input.required<ResourceState>();

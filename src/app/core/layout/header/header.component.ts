@@ -7,11 +7,10 @@ import { UserProfileService } from '../../../features/user-profile/user-profile.
 import { AppRoutePath } from '../../routing/app-route-paths';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [RouterLink, RouterLinkActive, MatToolbarModule, LocaleSwitcherComponent],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
+    selector: 'app-header',
+    imports: [RouterLink, RouterLinkActive, MatToolbarModule, LocaleSwitcherComponent],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
   private readonly userProfileService = inject(UserProfileService);

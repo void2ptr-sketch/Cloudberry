@@ -15,21 +15,20 @@ import { UiResourceStatusComponent } from '../../shared/ui-resource-status';
 import { BudgetFormComponent } from './budget-form.component';
 
 @Component({
-  selector: 'app-budgets',
-  standalone: true,
-  imports: [
-    BudgetFormComponent,
-    DecimalPipe,
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatListModule,
-    MatProgressBarModule,
-    UiPaginationComponent,
-    UiResourceStatusComponent,
-  ],
-  templateUrl: './budgets.component.html',
-  styleUrl: './budgets.component.scss',
+    selector: 'app-budgets',
+    imports: [
+        BudgetFormComponent,
+        DecimalPipe,
+        MatButtonModule,
+        MatCardModule,
+        MatChipsModule,
+        MatListModule,
+        MatProgressBarModule,
+        UiPaginationComponent,
+        UiResourceStatusComponent,
+    ],
+    templateUrl: './budgets.component.html',
+    styleUrl: './budgets.component.scss'
 })
 export class BudgetsComponent implements OnInit {
   private readonly store = inject(AppStore);

@@ -14,18 +14,17 @@ import { UiResourceStatusComponent } from '../../shared/ui-resource-status';
 import { ConnectionFormComponent } from './connection-form.component';
 
 @Component({
-  selector: 'app-connections',
-  standalone: true,
-  imports: [
-    ConnectionFormComponent,
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    UiPaginationComponent,
-    UiResourceStatusComponent,
-  ],
-  templateUrl: './connections.component.html',
-  styleUrl: './connections.component.scss',
+    selector: 'app-connections',
+    imports: [
+        ConnectionFormComponent,
+        MatButtonModule,
+        MatCardModule,
+        MatChipsModule,
+        UiPaginationComponent,
+        UiResourceStatusComponent,
+    ],
+    templateUrl: './connections.component.html',
+    styleUrl: './connections.component.scss'
 })
 export class ConnectionsComponent implements OnInit {
   private readonly store = inject(AppStore);

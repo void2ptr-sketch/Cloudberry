@@ -1,9 +1,10 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { APP_ENVIRONMENT } from '../config/environment.token';
 import type { BudgetInput } from '../domain';
 import { BudgetsApiService } from './budgets-api.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('BudgetsApiService', () => {
   let service: BudgetsApiService;
@@ -21,15 +22,17 @@ describe('BudgetsApiService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
+    imports: [],
+    providers: [
         BudgetsApiService,
         {
-          provide: APP_ENVIRONMENT,
-          useValue: { production: false, name: 'test', apiUrl, enableDebug: false },
+            provide: APP_ENVIRONMENT,
+            useValue: { production: false, name: 'test', apiUrl, enableDebug: false },
         },
-      ],
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
     service = TestBed.inject(BudgetsApiService);
     httpMock = TestBed.inject(HttpTestingController);
   });

@@ -15,20 +15,19 @@ import type { BudgetUsageStatus } from '../../core/state/budget-usage.type';
 import { UiResourceStatusComponent } from '../../shared/ui-resource-status';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [
-    DecimalPipe,
-    RouterLink,
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatListModule,
-    MatProgressBarModule,
-    UiResourceStatusComponent,
-  ],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
+    selector: 'app-dashboard',
+    imports: [
+        DecimalPipe,
+        RouterLink,
+        MatButtonModule,
+        MatCardModule,
+        MatChipsModule,
+        MatListModule,
+        MatProgressBarModule,
+        UiResourceStatusComponent,
+    ],
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
   private readonly store = inject(AppStore);

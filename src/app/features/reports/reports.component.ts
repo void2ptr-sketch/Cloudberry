@@ -19,21 +19,20 @@ import {
 } from './reports-summary';
 
 @Component({
-  selector: 'app-reports',
-  standalone: true,
-  imports: [
-    DecimalPipe,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatListModule,
-    MatTabsModule,
-    UiIsoDateFieldComponent,
-    UiPaginationComponent,
-    UiResourceStatusComponent,
-  ],
-  templateUrl: './reports.component.html',
-  styleUrl: './reports.component.scss',
+    selector: 'app-reports',
+    imports: [
+        DecimalPipe,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatListModule,
+        MatTabsModule,
+        UiIsoDateFieldComponent,
+        UiPaginationComponent,
+        UiResourceStatusComponent,
+    ],
+    templateUrl: './reports.component.html',
+    styleUrl: './reports.component.scss'
 })
 export class ReportsComponent implements OnInit {
   private readonly fb = inject(FormBuilder);

@@ -6,10 +6,9 @@ import { HeaderComponent } from '../header/header.component';
 import { NavigationComponent } from '../navigation/navigation.component';
 
 @Component({
-  selector: 'app-main-layout',
-  standalone: true,
-  imports: [RouterOutlet, HeaderComponent, NavigationComponent, FooterComponent],
-  templateUrl: './main-layout.component.html',
-  styleUrl: './main-layout.component.scss',
+    selector: 'app-main-layout',
+    imports: [RouterOutlet, HeaderComponent, NavigationComponent, FooterComponent],
+    templateUrl: './main-layout.component.html',
+    styleUrl: './main-layout.component.scss'
 })
 export class MainLayoutComponent {}

@@ -18,19 +18,18 @@ import { UiIsoDateFieldComponent } from '../../shared/iso-date-field';
 import { noUnsafeMarkupValidator } from '../../shared/sanitize';
 
 @Component({
-  selector: 'app-budget-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    UiIsoDateFieldComponent,
-  ],
-  templateUrl: './budget-form.component.html',
-  styleUrl: './budget-form.component.scss',
+    selector: 'app-budget-form',
+    imports: [
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        UiIsoDateFieldComponent,
+    ],
+    templateUrl: './budget-form.component.html',
+    styleUrl: './budget-form.component.scss'
 })
 export class BudgetFormComponent {
   private readonly fb = inject(FormBuilder);

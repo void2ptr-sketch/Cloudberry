@@ -15,22 +15,21 @@ import { createPaginationState, UiPaginationComponent } from '../../shared/pagin
 import { UiResourceStatusComponent } from '../../shared/ui-resource-status';
 
 @Component({
-  selector: 'app-costs',
-  standalone: true,
-  imports: [
-    DecimalPipe,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatListModule,
-    MatSelectModule,
-    UiIsoDateFieldComponent,
-    UiPaginationComponent,
-    UiResourceStatusComponent,
-  ],
-  templateUrl: './costs.component.html',
-  styleUrl: './costs.component.scss',
+    selector: 'app-costs',
+    imports: [
+        DecimalPipe,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatListModule,
+        MatSelectModule,
+        UiIsoDateFieldComponent,
+        UiPaginationComponent,
+        UiResourceStatusComponent,
+    ],
+    templateUrl: './costs.component.html',
+    styleUrl: './costs.component.scss'
 })
 export class CostsComponent implements OnInit {
   private readonly fb = inject(FormBuilder);

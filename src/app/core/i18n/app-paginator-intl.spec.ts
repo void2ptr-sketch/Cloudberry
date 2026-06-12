@@ -4,9 +4,9 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 
 import { AppPaginatorIntl } from './app-paginator-intl';
 import { buildTranslationMap } from './build-translation-map';
-import { MESSAGES_EN } from './messages/messages.en';
-import { MESSAGES_RU } from './messages/messages.ru';
-import { MESSAGES_ZH } from './messages/messages.zh';
+import { MESSAGES_EN } from '../../../locale/messages.en';
+import { MESSAGES_RU } from '../../../locale/messages.ru';
+import { MESSAGES_ZH } from '../../../locale/messages.zh';
 
 describe('AppPaginatorIntl', () => {
   function createIntl(): AppPaginatorIntl {

@@ -16,18 +16,17 @@ import { sanitizeCloudConnectionInput } from '../../core/sanitize';
 import { externalAccountIdValidator, noUnsafeMarkupValidator } from '../../shared/sanitize';
 
 @Component({
-  selector: 'app-connection-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-  ],
-  templateUrl: './connection-form.component.html',
-  styleUrl: './connection-form.component.scss',
+    selector: 'app-connection-form',
+    imports: [
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+    ],
+    templateUrl: './connection-form.component.html',
+    styleUrl: './connection-form.component.scss'
 })
 export class ConnectionFormComponent {
   private readonly fb = inject(FormBuilder);

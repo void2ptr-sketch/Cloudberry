@@ -2,11 +2,10 @@ import { Component, input, output } from '@angular/core';
 import { MatPaginatorModule, type PageEvent } from '@angular/material/paginator';
 
 @Component({
-  selector: 'app-pagination',
-  standalone: true,
-  imports: [MatPaginatorModule],
-  templateUrl: './ui-pagination.component.html',
-  styleUrl: './ui-pagination.component.scss',
+    selector: 'app-pagination',
+    imports: [MatPaginatorModule],
+    templateUrl: './ui-pagination.component.html',
+    styleUrl: './ui-pagination.component.scss'
 })
 export class UiPaginationComponent {
   readonly length = input.required<number>();

@@ -4,9 +4,9 @@ import { buildTranslationMap } from './build-translation-map';
 import { applyDocumentLang } from './document-lang';
 import { readStoredLocale } from './app-locale-storage';
 import type { AppLocale } from './app-locale.type';
-import { MESSAGES_EN } from './messages/messages.en';
-import { MESSAGES_RU } from './messages/messages.ru';
-import { MESSAGES_ZH } from './messages/messages.zh';
+import { MESSAGES_EN } from '../../../locale/messages.en';
+import { MESSAGES_RU } from '../../../locale/messages.ru';
+import { MESSAGES_ZH } from '../../../locale/messages.zh';
 
 const LOCALE_TRANSLATIONS: Record<Exclude<AppLocale, 'ru'>, Record<string, string>> = {
   en: buildTranslationMap(MESSAGES_EN),

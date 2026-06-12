@@ -16,24 +16,23 @@ import { MatInputModule } from '@angular/material/input';
 import { formatIsoDate, parseIsoDate } from '../date/iso-date';
 
 @Component({
-  selector: 'app-iso-date-field',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-  ],
-  templateUrl: './ui-iso-date-field.component.html',
-  styleUrl: './ui-iso-date-field.component.scss',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => UiIsoDateFieldComponent),
-      multi: true,
-    },
-  ],
+    selector: 'app-iso-date-field',
+    imports: [
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+    ],
+    templateUrl: './ui-iso-date-field.component.html',
+    styleUrl: './ui-iso-date-field.component.scss',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => UiIsoDateFieldComponent),
+            multi: true,
+        },
+    ]
 })
 export class UiIsoDateFieldComponent implements ControlValueAccessor {
   readonly label = input.required<string>();

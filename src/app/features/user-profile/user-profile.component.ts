@@ -15,18 +15,17 @@ import { UserProfileService } from './user-profile.service';
 import type { UserProfileInput } from './user-profile-input.type';
 
 @Component({
-  selector: 'app-user-profile',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-  ],
-  templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.scss',
+    selector: 'app-user-profile',
+    imports: [
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+    ],
+    templateUrl: './user-profile.component.html',
+    styleUrl: './user-profile.component.scss'
 })
 export class UserProfileComponent {
   private readonly fb = inject(FormBuilder);
